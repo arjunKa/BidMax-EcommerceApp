@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header and Flex Container Example</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400&display=swap" rel="stylesheet">
+    <title>Welcome</title>
+    <style>
+        
+        /* CSS Reset */
+        body, h1, p, form, button, input {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        form {
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box; /* Include padding and border in the width */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        header {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            font-size: 24px;
+            font-family: 'Jockey One', sans-serif;
+            padding: 10px;
+        }
+
+        header h2{
+            position: absolute;
+            top: 0px;
+            right: 0%;
+        }
+
+
+        .flex-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .left, .right {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #2B67F6;
+        }
+
+        .left h1, .right label, .right input[type="submit"] {
+            color: white;
+        }
+
+        .left h1, h2 {
+            font-size: 30px;
+            font-family: 'Epilogue';
+        }
+
+        .right label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #000000;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #333333;
+        }
+
+        .back-button {
+            background-color: #000000;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <form action="SigninServlet" method="post">
+        <header>
+            <h1>BEZOS</h1>
+            <button onclick="window.location.href='Welcome.html'" class="back-button">BACK</button>
+            <h2>REGISTRATION</h2>
+        </header>
+        <div class="flex-container">
+            <div class="left">
+                <h1>New Account Information</h1>
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Enter your Last name" required>
+
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="Enter your email" required>
+
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="Enter your address" required>
+
+                <label for="pcode">Postal Code</label>
+                <input type="text" id="pcode" name="pcode" placeholder="Enter your postal code" required>
+
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" placeholder="Enter your City" required>
+
+                <label for="country">Country</label>
+                <input type="text" id="country" name="country" placeholder="Enter your Country" required>
+            </div>
+            <div class="right">
+                <label for="username">Create A Username*</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                
+                <label for="password">Create a Password*</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+                <label for="confirmPassword">Confirm a Password*</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+
+                <input type="submit" value="Sign In">
+            </div>
+        </div>
+    </form>
+</body>
+</html>
