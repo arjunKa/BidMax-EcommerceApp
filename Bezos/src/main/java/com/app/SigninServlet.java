@@ -43,50 +43,25 @@ public class SigninServlet extends HttpServlet {
         }
     }
     
-    private String getParameterWithDefault(HttpServletRequest request, String paramName, String defaultValue) {
-        String value = request.getParameter(paramName);
-        return (value != null && !value.isEmpty()) ? value : defaultValue;
-    }
-    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // JDBC URL, username, and password of SQLite server
-        // ...
+         
 
-        // Retrieve user input from the signup form
-    	String firstName = getParameterWithDefault(request, "firstName", "");
-    	System.out.println("First Name: " + firstName);
-
-    	String lastName = getParameterWithDefault(request, "lastName", "");
-    	System.out.println("Last Name: " + lastName);
-
-    	String email = getParameterWithDefault(request, "email", "");
-    	System.out.println("Email: " + email);
-
-    	String address = getParameterWithDefault(request, "address", "");
-    	System.out.println("Address: " + address);
-
-    	String postalCode = getParameterWithDefault(request, "pcode", "");
-    	System.out.println("Postal Code: " + postalCode);
-
-    	String city = getParameterWithDefault(request, "city", "");
-    	System.out.println("City: " + city);
-
-    	String country = getParameterWithDefault(request, "country", "");
-    	System.out.println("Country: " + country);
-
-    	String username = getParameterWithDefault(request, "username", "");
-    	System.out.println("Username: " + username);
-
-    	String password = getParameterWithDefault(request, "password", "");
-    	System.out.println("Password: " + password);
-
-    	String confirmPassword = getParameterWithDefault(request, "confirmPassword", "");
-    	System.out.println("Confirm Password: " + confirmPassword);
+        // Retrieve user input data from the signup form
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        String postalCode = request.getParameter("pcode");
+        String city = request.getParameter("city");
+        String country = request.getParameter("country");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
 
         // Check if password and confirm password match
         if (!password.equals(confirmPassword)) {
-            // Passwords do not match, print out a message to the response
+            // Display Passwords do not match
             PrintWriter out = response.getWriter();
             out.println("<html><body><h2>Passwords don't match. Please try again.</h2></body></html>");
             return;
@@ -96,14 +71,14 @@ public class SigninServlet extends HttpServlet {
             // Load the JDBC driver
             Class.forName("org.sqlite.JDBC");
 
-            // Establish a connection
+            // connection
             try (Connection connection = DriverManager.getConnection(JDBC_URL)) {
                 // Create the 'users' table if it doesn't exist
                 createUsersTable(connection);
 
                 // Check if the username already exists
                 if (isUsernameExists(connection, username)) {
-                    // Username already exists, print out a message to the response
+                    // Display Username already exists
                     PrintWriter out = response.getWriter();
                     out.println("<html><body><h2>Username already exists. Please use another username.</h2></body></html>");
                     return;
@@ -111,7 +86,7 @@ public class SigninServlet extends HttpServlet {
 
                 // Check if the email already exists
                 if (isEmailExists(connection, email)) {
-                    // Email already exists, print out a message to the response
+                    // Display Email already exists
                     PrintWriter out = response.getWriter();
                     out.println("<html><body><h2>Email is already associated with an Account. Please Login into the account associated with this email or use another email.</h2></body></html>");
                     return;
@@ -141,10 +116,11 @@ public class SigninServlet extends HttpServlet {
             // Handle exceptions (log, redirect, etc.)
         }
 
-        // Redirect to a success page or login page
+        // Redirect to login page
         response.sendRedirect("Login.html");
     }
 
+    // if count > 0 of a certain username, return false
     private boolean isUsernameExists(Connection connection, String username) throws SQLException {
         String checkUsernameSQL = "SELECT COUNT(*) FROM users WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(checkUsernameSQL)) {
@@ -159,6 +135,7 @@ public class SigninServlet extends HttpServlet {
         return false;
     }
     
+    // if count > 0 of a certain email, return false
     private boolean isEmailExists(Connection connection, String email) throws SQLException {
         String checkEmailSQL = "SELECT COUNT(*) FROM users WHERE email = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(checkEmailSQL)) {
@@ -174,4 +151,3 @@ public class SigninServlet extends HttpServlet {
     }
 
 }
-
