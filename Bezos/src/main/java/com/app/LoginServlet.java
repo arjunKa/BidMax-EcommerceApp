@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Retrieve user input from the login form
+        // Retrieve user input params from the login form
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -34,15 +34,15 @@ public class LoginServlet extends HttpServlet {
             // Load the JDBC driver
             Class.forName("org.sqlite.JDBC");
 
-            // Establish a connection
+            //connection
             try (Connection connection = DriverManager.getConnection(JDBC_URL)) {
-                // Check if the provided username and password exist in the 'users' table
+                // Check if the provided username and password exists in the 'users' table
                 if (isLoginValid(connection, username, password)) {
-                    // Login successful, display the success message
+                    // Display Login successful
                     PrintWriter out = response.getWriter();
                     out.println("<html><body><h2>Login Successful!</h2></body></html>");
                 } else {
-                    // Username or password is incorrect, display an error message
+                    // Display Username or password is incorrect
                     PrintWriter out = response.getWriter();
                     out.println("<html><body><h2>The username or password is incorrect. If you do not have an account, please sign up first!</h2></body></html>");
                 }
