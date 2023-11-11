@@ -18,7 +18,7 @@ public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // JDBC URL, username, and password of SQLite database
-    private static final String JDBC_URL = "jdbc:sqlite:/Users/kakshilpatel/Desktop/accounts.db";
+    //private static final String JDBC_URL = "jdbc:sqlite:C:/Users/arjun/Documents/GitHub/BezosProject/accounts.db";
 
     public LoginServlet() {
         super();
@@ -56,6 +56,7 @@ public class LoginServlet extends HttpServlet {
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
             out.print("Login successful!");
+            response.sendRedirect("Search.html");
 
             // You can add code here to perform further actions after a successful login.
         } else {
@@ -65,7 +66,7 @@ public class LoginServlet extends HttpServlet {
     
     
     private void createUsersTable() {
-        try (Connection conn = DriverManager.getConnection(JDBC_URL);
+        try (Connection conn = DatabaseConnection.connect();
              Statement statement = conn.createStatement()) {
             String createTableSQL = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)";
             statement.executeUpdate(createTableSQL);
@@ -76,7 +77,7 @@ public class LoginServlet extends HttpServlet {
 	
     private boolean validateUser(String userName, String password) {
         try {
-            Connection conn = DriverManager.getConnection(JDBC_URL);
+        	Connection conn = DatabaseConnection.connect();
             String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
