@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.app.DatabaseConnection;
+
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
