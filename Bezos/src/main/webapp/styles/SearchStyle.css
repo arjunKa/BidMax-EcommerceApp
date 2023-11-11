@@ -63,7 +63,7 @@ header {
 	padding: 20px;
 	border: 1px solid #ccc;
 	background-color: #2B67F6;
-	
+
 	display: flex;
 	flex-direction: column;
 
@@ -99,8 +99,7 @@ label {
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
-	background-color: white;
-	color: black;
+
 
 }
 
@@ -108,6 +107,8 @@ tr,
 td,
 th {
 	padding: 10px;
+	background-color: white;
+	color: black;
 
 }
 
@@ -116,8 +117,7 @@ th {
 	align-items: center;
 	/* Center align form elements horizontally */
 	justify-content: center;
-	background-color: white;
-	color: black;
+
 
 
 

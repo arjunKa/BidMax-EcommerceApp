@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
-	
+
 	<welcome-file-list>
 		<welcome-file>Welcome.html</welcome-file>
 		<welcome-file>Login.html</welcome-file>
@@ -14,7 +14,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<welcome-file>default.html</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 		<welcome-file>default.htm</welcome-file>
-	  </welcome-file-list>
+	</welcome-file-list>
 	<!-- Jersey Servlet configurations -->
 	<servlet>
 		<servlet-name>Jersey REST Service</servlet-name>
@@ -55,9 +55,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<display-name>SigninServlet</display-name>
 		<servlet-name>SigninServlet</servlet-name>
 		<servlet-class>com.app.SigninServlet</servlet-class>
-	  </servlet>
-	  <servlet-mapping>
+	</servlet>
+	<servlet-mapping>
 		<servlet-name>SigninServlet</servlet-name>
 		<url-pattern>/SigninServlet</url-pattern>
-	  </servlet-mapping>
+	</servlet-mapping>
 </web-app>
