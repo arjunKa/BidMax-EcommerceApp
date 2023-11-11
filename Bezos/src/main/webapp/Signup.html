@@ -121,12 +121,13 @@
     </style>
 </head>
 <body>
-    <form action="SigninServlet" method="post">
-        <header>
+	<header>
             <h1>BEZOS</h1>
             <button onclick="window.location.href='Welcome.html'" class="back-button">BACK</button>
             <h2>REGISTRATION</h2>
-        </header>
+     </header>
+    <form action="SigninServlet" method="post" autocomplete="off">
+        
         <div class="flex-container">
             <div class="left">
                 <h1>New Account Information</h1>
@@ -161,7 +162,7 @@
                 <label for="confirmPassword">Confirm a Password*</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
 
-                <input type="submit" value="Sign In">
+                <input type="submit" value="Sign Up">
             </div>
         </div>
     </form>
