@@ -8,7 +8,6 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="stylesheet" href="styles/SearchStyle.css">
-	<title>Welcome</title>
 
 </head>
 
@@ -68,6 +67,18 @@
 
 			xhttp.send();
 		}
+	</script>
+
+	<script>
+		// Define your function to be executed on page load
+		function onPageLoad() {
+			console.log("Page loaded! Your function is executed.");
+			addRow();
+			// Add your JavaScript logic here
+		}
+
+		// Attach the function to the window.onload event
+		window.onload = onPageLoad;
 	</script>
 
 </body>
