@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bezos - Search Page</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="stylesheet" href="styles/MainStyle.css">
+	<title>Welcome</title>
+
+</head>
+
+<body>
+	<header>
+		<h1>BEZOS</h1>
+		<button class="back-button" onclick="window.location.href='Welcome.html'">Logout</button>
+	</header>
+
+	<div class="flex-container">
+
+		<h1>Main Page</h1>
+
+	</div>
+
+	<div class="main">
+
+		<a href="Search.html">
+			<div class="blackButton">
+				<p>Search</p>
+			</div>
+		</a>
+
+
+	</div>
+
+
+
+
+	<script>
+		function addRow() {
+			var inputValue = document.getElementById("search").value;
+			// Perform an AJAX request to the server to add a row
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 200) {
+					// Update the table with the received HTML content
+					document.getElementById("myTable").innerHTML = this.responseText;
+				}
+			};
+			xhttp.open("GET", "SearchServlet?search=" + inputValue, true);
+
+			xhttp.send();
+		}
+	</script>
+
+</body>
+
+</html>
