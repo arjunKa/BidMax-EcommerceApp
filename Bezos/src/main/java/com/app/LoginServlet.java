@@ -51,6 +51,8 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
             // Handle exceptions (log, redirect, etc.)
         }
+        response.sendRedirect("Search.html");
+
     }
 
     private boolean isLoginValid(Connection connection, String username, String password) throws SQLException {
@@ -68,4 +70,3 @@ public class LoginServlet extends HttpServlet {
         return false;
     }
 }
-
