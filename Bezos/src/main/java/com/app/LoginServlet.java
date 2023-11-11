@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
             // Handle exceptions (log, redirect, etc.)
         }
-        response.sendRedirect("Search.html");
+        
 
     }
 
