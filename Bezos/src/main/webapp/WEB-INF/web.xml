@@ -60,4 +60,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SigninServlet</servlet-name>
 		<url-pattern>/SigninServlet</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>NewItemServlet</display-name>
+		<servlet-name>NewItemServlet</servlet-name>
+		<servlet-class>com.app.NewItemServlet</servlet-class>
+	</servlet>
+		<servlet-mapping>
+		<servlet-name>NewItemServlet</servlet-name>
+		<url-pattern>/NewItemServlet</url-pattern>
+	</servlet-mapping>
 </web-app>
