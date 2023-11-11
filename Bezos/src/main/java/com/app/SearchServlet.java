@@ -51,7 +51,6 @@ public class SearchServlet extends HttpServlet {
 		createItemsTable();
 		makeList(searchText);
 
-
 		PrintWriter out = response.getWriter();
 
 		// Generate the HTML for the new row
@@ -72,9 +71,9 @@ public class SearchServlet extends HttpServlet {
 
 	private void createItemsTable() {
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
-			String createTableSQL = "CREATE TABLE IF NOT EXISTS items "
-					+ "(id INT AUTO_INCREMENT PRIMARY KEY, name TEXT, price DECIMAL(6,2) NOT NULL,"
-					+ " type TEXT NOT NULL, endTime DATETIME)";
+			String createTableSQL = "CREATE TABLE IF NOT EXISTS items ("
+					+ "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "name TEXT,"
+					+ " price DECIMAL(10,2)," + " type TEXT," + " endtime DATETIME);";
 			statement.executeUpdate(createTableSQL);
 
 		} catch (SQLException e) {

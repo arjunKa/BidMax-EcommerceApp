@@ -25,35 +25,25 @@
 	</div>
 
 	<div class="main">
-
 		<a href="Search.html">
 			<div class="blackButton">
 				<p>Search</p>
 			</div>
 		</a>
-
-
+		<a href="NewItem.html">
+			<div class="blackButton">
+				<p>Add Item for Sale</p>
+			</div>
+		</a>
+		<a href="NewItem.html">
+			<div class="blackButton">
+				<p>Account Balance</p>
+			</div>
+		</a>
 	</div>
 
 
 
-
-	<script>
-		function addRow() {
-			var inputValue = document.getElementById("search").value;
-			// Perform an AJAX request to the server to add a row
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function () {
-				if (this.readyState == 4 && this.status == 200) {
-					// Update the table with the received HTML content
-					document.getElementById("myTable").innerHTML = this.responseText;
-				}
-			};
-			xhttp.open("GET", "SearchServlet?search=" + inputValue, true);
-
-			xhttp.send();
-		}
-	</script>
 
 </body>
 
