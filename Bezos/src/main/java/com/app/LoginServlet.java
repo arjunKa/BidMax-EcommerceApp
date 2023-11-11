@@ -18,7 +18,7 @@ import java.sql.Statement;
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private static final String JDBC_URL = "jdbc:sqlite:/Users/kakshilpatel/Desktop/register.db";
+    //private static final String JDBC_URL = "jdbc:sqlite:/Users/kakshilpatel/Desktop/register.db";
 
     public LoginServlet() {
         super();
@@ -35,12 +35,13 @@ public class LoginServlet extends HttpServlet {
             Class.forName("org.sqlite.JDBC");
 
             //connection
-            try (Connection connection = DriverManager.getConnection(JDBC_URL)) {
+            try (Connection connection = DatabaseConnection.connect()) {
                 // Check if the provided username and password exists in the 'users' table
                 if (isLoginValid(connection, username, password)) {
                     // Display Login successful
                     PrintWriter out = response.getWriter();
                     out.println("<html><body><h2>Login Successful!</h2></body></html>");
+                    response.sendRedirect("Main.html");
                 } else {
                     // Display Username or password is incorrect
                     PrintWriter out = response.getWriter();
