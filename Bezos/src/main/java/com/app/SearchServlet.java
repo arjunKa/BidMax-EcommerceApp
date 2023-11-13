@@ -75,7 +75,7 @@ public class SearchServlet extends HttpServlet {
 			String createTableSQL = "CREATE TABLE IF NOT EXISTS items ("
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "name TEXT," + "price DECIMAL(10,2),"
 					+ "type TEXT," + "endtime DATETIME," + "description TEXT,"
-					+ "shipping DECIMAL(10,2)), sold BIT DEFAULT 0;"; // Added
+					+ "shipping DECIMAL(10,2), sold BIT DEFAULT 0);"; // Added
 			// description
 			// and shipping
 			// columns

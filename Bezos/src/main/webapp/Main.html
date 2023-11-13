@@ -2,49 +2,83 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Bezos - Search Page</title>
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="stylesheet" href="styles/MainStyle.css">
-	<title>Welcome</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bezos - Search Page</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="styles/MainStyle.css">
+    <title>Welcome</title>
+    <script>
+        // Fetch the username from the server using AJAX
+        function fetchUsername() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Update the username display element
+                    document.getElementById("usernameDisplay").innerText = "Welcome, " + xhr.responseText;
+                }
+            };
+            xhr.open("GET", "GetUsernameServlet", true);
+            xhr.send();
+        }
 
+        // Function to log out and clear session storage
+        function logout() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Redirect to the login page after logout
+                    window.location.href = 'Welcome.html';
+                }
+            };
+            xhr.open("GET", "LogoutServlet", true);
+            xhr.send();
+        }
+
+        // Call the function when the page loads
+        window.onload = function () {
+            fetchUsername();
+            // Add an event listener for the logout button
+            document.getElementById("logoutButton").addEventListener("click", logout);
+        };
+        
+    </script>
 </head>
 
 <body>
-	<header>
-		<h1>BEZOS</h1>
-		<button class="back-button" onclick="window.location.href='Welcome.html'">Logout</button>
-	</header>
+    <header>
+        <h1>BEZOS</h1>
+        <!-- Add an element to display the username -->
+        <p id="usernameDisplay"></p>
+        <button id="logoutButton" class="back-button" onclick="window.location.href='Welcome.html'">Logout</button>
+    </header>
+    
+    
 
-	<div class="flex-container">
+    <div class="flex-container">
+        <h1>Main Page</h1>
+    </div>
 
-		<h1>Main Page</h1>
-
-	</div>
-
-	<div class="main">
-		<a href="Search.html">
-			<div class="blackButton">
-				<p>Search</p>
-			</div>
-		</a>
-		<a href="NewItem.html">
-			<div class="blackButton">
-				<p>Add Item for Sale</p>
-			</div>
-		</a>
-		<a href="NewItem.html">
-			<div class="blackButton">
-				<p>Account Balance</p>
-			</div>
-		</a>
-	</div>
-
-
-
-
+    <div class="main">
+        <a href="Search.html">
+            <div class="blackButton">
+                <p>Search</p>
+            </div>
+        </a>
+        <a href="NewItem.html">
+            <div class="blackButton">
+                <p>Add Item for Sale</p>
+            </div>
+        </a>
+        <a href="NewItem.html">
+            <div class="blackButton">
+                <p>Account Balance</p>
+            </div>
+        </a>
+    </div>
 </body>
 
 </html>
+
+
