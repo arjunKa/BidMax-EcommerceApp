@@ -19,8 +19,6 @@ import java.sql.Statement;
 public class SigninServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
-    private static final String JDBC_URL = "jdbc:sqlite:/Users/kakshilpatel/Desktop/register.db";
-
     public SigninServlet() {
         super();
     }
@@ -72,7 +70,7 @@ public class SigninServlet extends HttpServlet {
             Class.forName("org.sqlite.JDBC");
 
             // connection
-            try (Connection connection = DriverManager.getConnection(JDBC_URL)) {
+            try (Connection connection = DatabaseConnection.connect()) {
                 // Create the 'users' table if it doesn't exist
                 createUsersTable(connection);
 

@@ -1,34 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
-  <display-name>Bezos</display-name>
-  <welcome-file-list>
-    <welcome-file>Welcome.html</welcome-file>
-    <welcome-file>Login.html</welcome-file>
-    <welcome-file>Signup.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-  </welcome-file-list>
-  <servlet>
-    <description></description>
-    <display-name>LoginServlet</display-name>
-    <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>com.app.LoginServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LoginServlet</servlet-name>
-    <url-pattern>/LoginServlet</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>SigninServlet</display-name>
-    <servlet-name>SigninServlet</servlet-name>
-    <servlet-class>com.app.SigninServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SigninServlet</servlet-name>
-    <url-pattern>/SigninServlet</url-pattern>
-  </servlet-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<welcome-file-list>
+		<welcome-file>Welcome.html</welcome-file>
+		<welcome-file>Login.html</welcome-file>
+		<welcome-file>Signup.html</welcome-file>
+		<welcome-file>Search.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+	</welcome-file-list>
+	<!-- Jersey Servlet configurations -->
+	<servlet>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>com.app</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<description></description>
+		<display-name>LoginServlet</display-name>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>com.app.LoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/LoginServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>SearchServlet</display-name>
+		<servlet-name>SearchServlet</servlet-name>
+		<servlet-class>com.app.SearchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchServlet</servlet-name>
+		<url-pattern>/SearchServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>SigninServlet</display-name>
+		<servlet-name>SigninServlet</servlet-name>
+		<servlet-class>com.app.SigninServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SigninServlet</servlet-name>
+		<url-pattern>/SigninServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>NewItemServlet</display-name>
+		<servlet-name>NewItemServlet</servlet-name>
+		<servlet-class>com.app.NewItemServlet</servlet-class>
+	</servlet>
+		<servlet-mapping>
+		<servlet-name>NewItemServlet</servlet-name>
+		<url-pattern>/NewItemServlet</url-pattern>
+	</servlet-mapping>
 </web-app>
