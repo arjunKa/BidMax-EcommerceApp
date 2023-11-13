@@ -18,6 +18,15 @@
         .item-details {
             margin-top: 20px;
         }
+
+        #payNowButton {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -31,6 +40,7 @@
         <p><strong>Remaining Time:</strong> <span id="remainingTime"></span></p>
         <p><strong>Description:</strong> <span id="description"></span></p>
         <p><strong>Shipping Price:</strong> <span id="shippingPrice"></span></p>
+        <button id="payNowButton" onclick="handlePayment()">Pay Now</button>
     </div>
 
     <script>
@@ -48,7 +58,7 @@
 
         // Fetch additional details from the server
         fetchDetails(getQueryParam("itemName"));
-        
+
         function fetchDetails(itemName) {
             // Perform an AJAX request to the server to get additional details
             var xhttp = new XMLHttpRequest();
@@ -63,8 +73,12 @@
             xhttp.open("GET", "getDetails?itemName=" + itemName, true);
             xhttp.send();
         }
+
+        function handlePayment() {
+            // Implement your payment logic here
+            alert("Payment logic goes here!");
+        }
     </script>
 </body>
 
 </html>
-
