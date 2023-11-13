@@ -80,7 +80,7 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     // Update the username display element
-                    document.getElementById("usernameDisplay").innerText = "User Id:, " + xhr.responseText;
+                    document.getElementById("usernameDisplay").innerText = "User Id: " + xhr.responseText;
                 }
             };
             xhr.open("GET", "GetUsernameServlet", true);
