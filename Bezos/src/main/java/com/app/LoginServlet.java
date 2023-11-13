@@ -5,15 +5,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -32,10 +30,14 @@ public class LoginServlet extends HttpServlet {
             // Load the JDBC driver
             Class.forName("org.sqlite.JDBC");
 
-            //connection
+            // connection
             try (Connection connection = DatabaseConnection.connect()) {
-                // Check if the provided username and password exists in the 'users' table
+                // Check if the provided username and password exist in the 'users' table
                 if (isLoginValid(connection, username, password)) {
+                    // Create a session and store user information
+                    HttpSession session = request.getSession();
+                    session.setAttribute("username", username);
+
                     // Display Login successful
                     PrintWriter out = response.getWriter();
                     out.println("<html><body><h2>Login Successful!</h2></body></html>");
@@ -50,8 +52,6 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
             // Handle exceptions (log, redirect, etc.)
         }
-        
-
     }
 
     private boolean isLoginValid(Connection connection, String username, String password) throws SQLException {
@@ -69,3 +69,5 @@ public class LoginServlet extends HttpServlet {
         return false;
     }
 }
+
+
