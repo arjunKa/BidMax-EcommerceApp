@@ -13,12 +13,14 @@ public class Item {
 	private double price;
 	// @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
 	private Timestamp date;
+	private String description;
+    private int shipping;
 
 	public Item() {
 		super();
 	}
 
-	public Item(int id, String name, double price, String type, Timestamp date) {
+	public Item(int id, String name, double price, String type, Timestamp date, String description, int shipping) {
 		setId(id);
 		setName(name);
 		setPrice(price);
@@ -55,6 +57,15 @@ public class Item {
 	public Timestamp getDate() {
 		return date;
 	}
+	
+	public String getDescription() {
+		return description;
+
+	}
+	
+	public int getShipping() {
+		return shipping;
+	}
 
 	// Setters
 	public void setId(int id) {
@@ -75,6 +86,16 @@ public class Item {
 
 	public void setDate(Timestamp date) {
 		this.date = date;
+
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+
+	}
+	
+	public void setShipping(int shipping) {
+		this.shipping = shipping;
 
 	}
 }

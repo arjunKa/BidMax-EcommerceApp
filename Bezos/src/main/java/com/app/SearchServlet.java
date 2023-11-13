@@ -54,70 +54,73 @@ public class SearchServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		// Generate the HTML for the new row
-		out.println("			<tr>\r\n" + "				<th>Item Name</th>\r\n"
-				+ "				<th>Current Price</th>\r\n" + "				<th>Auction Type</th>\r\n"
-				+ "				<th>Remaining Time</th>\r\n" + "				<th>Select</th>\r\n"
-				+ "			</tr>");
-		for (Item item : items) {
-			String newRow = "<tr><td>" + item.getName() + "</td><td>" + item.getCost() + "</td><td>" + item.getType()
-					+ "</td><td>" + item.getDate().toString()
-					+ "</td><td><input type=\"radio\" id=\"select_" + item.getId()+ "\" name=\"item_select\" value=\"" + item.getId()
-					+ "\" " + "onclick=\"setSelectedRowData(" + item.getId() + ")\" " + "></td></tr>";
+		out.println("            <tr>\r\n" + "                <th>Item Name</th>\r\n"
+                + "                <th>Current Price</th>\r\n" + "                <th>Auction Type</th>\r\n"
+                + "                <th>Remaining Time</th>\r\n" + "                <th>Description</th>\r\n"
+                + "                <th>Shipping</th>\r\n" + "                <th>Select</th>\r\n"
+                + "            </tr>");
+        for (Item item : items) {
+            String newRow = "<tr><td>" + item.getName() + "</td><td>" + item.getCost() + "</td><td>" + item.getType()
+                    + "</td><td>" + item.getDate().toString() + "</td><td>" + item.getDescription() + "</td><td>"
+                    + item.getShipping() + "</td><td><input type=\"radio\"\" onclick=\"setSelectedRowData(\"" + item.getId() + "\")\" id=\"select\" name=\"item_select\" value=\"\"></td></tr>";
 
-			out.println(newRow);
-
-		}
+            out.println(newRow);
+        }
 
 	}
 
 	private void createItemsTable() {
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
-			String createTableSQL = "CREATE TABLE IF NOT EXISTS items ("
-					+ "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "name TEXT," + " price DECIMAL(10,2),"
-					+ " type TEXT," + " endtime DATETIME);";
-			statement.executeUpdate(createTableSQL);
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS items ("
+                    + "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "name TEXT,"
+                    + "price DECIMAL(10,2)," + "type TEXT," + "endtime DATETIME,"
+                    + "description TEXT," + "shipping INTEGER);"; // Added description and shipping columns
+            statement.executeUpdate(createTableSQL);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	}
 
 	private void makeList(String searchText) {
+	    try {
+	        Connection conn = DatabaseConnection.connect();
+	        String sql;
+	        PreparedStatement preparedStatement;
+	        if (searchText == null || searchText.trim().isEmpty()) {
+	            sql = "SELECT * FROM items";
+	            preparedStatement = conn.prepareStatement(sql);
+	        } else {
+	            System.out.println("good");
+	            sql = "SELECT * FROM items WHERE name LIKE ?";
+	            preparedStatement = conn.prepareStatement(sql);
+	            preparedStatement.setString(1, "%" + searchText + "%");
+	        }
 
-		try {
-			Connection conn = DatabaseConnection.connect();
-			String sql;
-			PreparedStatement preparedStatement;
-			if (searchText == null || searchText.isBlank()) {
-				sql = "SELECT * FROM items";
+	        createItemsTable();
 
-				preparedStatement = conn.prepareStatement(sql);
-			} else {
-				System.out.println("good");
-				sql = "SELECT * FROM items WHERE name LIKE ?";
-				preparedStatement = conn.prepareStatement(sql);
-				preparedStatement.setString(1, "%" + searchText + "%");
-			}
+	        ResultSet rows = preparedStatement.executeQuery();
 
-			createItemsTable();
+	        items = new ArrayList<>();
 
-			ResultSet rows = preparedStatement.executeQuery();
+	        while (rows.next()) {
+	            items.add(new Item(
+	                    rows.getInt("id"),
+	                    rows.getString("name"),
+	                    rows.getDouble("price"),
+	                    rows.getString("type"),
+	                    rows.getTimestamp("endtime"),
+	                    rows.getString("description"),
+	                    rows.getInt("shipping")
+	            ));
+	        }
 
-			items = new ArrayList<Item>();
+	        preparedStatement.close();
+	        conn.close();
 
-			while (rows.next()) {
-
-				items.add(new Item(rows.getInt(1), rows.getString(2), rows.getDouble(3), rows.getString(4),
-						rows.getTimestamp(5)));
-
-			}
-
-			preparedStatement.close();
-			conn.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-
-		}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 }

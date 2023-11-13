@@ -9,7 +9,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<welcome-file>Welcome.html</welcome-file>
 		<welcome-file>Login.html</welcome-file>
 		<welcome-file>Signup.html</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>Search.jsp</welcome-file>
 		<welcome-file>index.htm</welcome-file>
 		<welcome-file>default.html</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
