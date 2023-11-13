@@ -62,8 +62,8 @@ public class SearchServlet extends HttpServlet {
 		for (Item item : items) {
 			String newRow = "<tr><td>" + item.getName() + "</td><td>" + item.getCost() + "</td><td>" + item.getType()
 					+ "</td><td>" + item.getDate().toString() + "</td><td>" + item.getDescription() + "</td><td>"
-					+ item.getShipping() + "</td><td><input type=\"radio\" onclick=\"setSelectedRowData("
-					+ item.getId() + ")\" id=\"select\" name=\"item_select\" value=\"\"></td></tr>";
+					+ item.getShipping() + "</td><td><input type=\"radio\" onclick=\"setSelectedRowData(" + item.getId()
+					+ ")\" id=\"select\" name=\"item_select\" value=\"\"></td></tr>";
 
 			out.println(newRow);
 		}
@@ -74,10 +74,11 @@ public class SearchServlet extends HttpServlet {
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
 			String createTableSQL = "CREATE TABLE IF NOT EXISTS items ("
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "name TEXT," + "price DECIMAL(10,2),"
-					+ "type TEXT," + "endtime DATETIME," + "description TEXT," + "shipping DECIMAL(10,2));"; // Added
-																										// description
-																										// and shipping
-																										// columns
+					+ "type TEXT," + "endtime DATETIME," + "description TEXT,"
+					+ "shipping DECIMAL(10,2)), sold BIT DEFAULT 0;"; // Added
+			// description
+			// and shipping
+			// columns
 			statement.executeUpdate(createTableSQL);
 
 		} catch (SQLException e) {
