@@ -7,34 +7,38 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Item {
 
-	private int id;
-	private String name;
-	private String type;
-	private double price;
+	private int id=0;
+	private String name="";
+	private String type="";
+	private double price=0;
 	// @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
 	private Timestamp date;
-	private String description;
-    private int shipping;
+	private String description="";
+    private double shipping=0;
 
 	public Item() {
 		super();
 	}
 
-	public Item(int id, String name, double price, String type, Timestamp date, String description, int shipping) {
+	public Item(int id, String name, double price, String type, Timestamp date, String description, double shipping) {
 		setId(id);
 		setName(name);
 		setPrice(price);
 		setType(type);
 		setDate(date);
+		setDescription(description);
+		setShipping(shipping);
 
 	}
 
-	public Item(String name, double price, String type, Timestamp date) {
+	public Item(String name, double price, String type, Timestamp date, String description, double shipping) {
 		setName(name);
 		setPrice(price);
 		setType(type);
 		setDate(date);
 		setId(0);
+		setDescription(description);
+		setShipping(shipping);
 	}
 
 	// Getters
@@ -63,7 +67,7 @@ public class Item {
 
 	}
 	
-	public int getShipping() {
+	public double getShipping() {
 		return shipping;
 	}
 
@@ -94,7 +98,7 @@ public class Item {
 
 	}
 	
-	public void setShipping(int shipping) {
+	public void setShipping(double shipping) {
 		this.shipping = shipping;
 
 	}

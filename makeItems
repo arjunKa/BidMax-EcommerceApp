@@ -3,5 +3,8 @@ CREATE TABLE items (
     name TEXT,
     price DECIMAL(10,2),
     type TEXT,
-    endtime DATETIME);
+    endtime DATETIME,
+    description TEXT,
+    shipping DECIMAL(10,2)
+);
     -- Add other columns as needed

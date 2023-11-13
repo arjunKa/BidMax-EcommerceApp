@@ -54,11 +54,13 @@ public class NewItemServlet extends HttpServlet {
 			String price = request.getParameter("price");
 			String type = request.getParameter("auctionType");
 			String endDate = request.getParameter("endTime");
+			double shipping = Double.valueOf(request.getParameter("shipping"));
+			String desc = request.getParameter("description");
 			double price_val = Double.valueOf(price);
 			System.out.println(endDate);
 			
 			Connection conn = DatabaseConnection.connect();
-			String sql = "INSERT INTO items (name, price, type, endTime) VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO items (name, price, type, endTime, description, shipping) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setString(1, itemName);
 			preparedStatement.setDouble(2, price_val);
@@ -78,7 +80,8 @@ public class NewItemServlet extends HttpServlet {
 	        Timestamp sqlTimestamp = new Timestamp(parsedDate.getTime());
 	        preparedStatement.setTimestamp(4, sqlTimestamp);
 			
-
+	        preparedStatement.setString(5, desc);
+	        preparedStatement.setDouble(6, shipping);
 			int rowsAffected = preparedStatement.executeUpdate();
 			preparedStatement.close();
 			conn.close();

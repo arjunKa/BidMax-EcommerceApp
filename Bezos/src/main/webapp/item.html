@@ -2,69 +2,70 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item Details</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Item Details</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 20px;
+		}
 
-        h1 {
-            color: #333;
-        }
+		h1 {
+			color: #333;
+		}
 
-        .item-details {
-            margin-top: 20px;
-        }
-    </style>
+		.item-details {
+			margin-top: 20px;
+		}
+	</style>
 </head>
 
 <body>
-    <h1>Item Details</h1>
+	<h1>Item Details</h1>
 
-    <div class="item-details">
-        <p><strong>Item Name:</strong> <span id="itemName"></span></p>
-        <p><strong>Current Price:</strong> <span id="currentPrice"></span></p>
-        <p><strong>Auction Type:</strong> <span id="auctionType"></span></p>
-        <p><strong>Remaining Time:</strong> <span id="remainingTime"></span></p>
-        <p><strong>Description:</strong> <span id="description"></span></p>
-        <p><strong>Shipping Price:</strong> <span id="shippingPrice"></span></p>
-    </div>
+	<div class="item-details">
+		<p><strong>Item Name:</strong> <span id="itemName"></span></p>
+		<p><strong>Current Price:</strong> <span id="currentPrice"></span></p>
+		<p><strong>Auction Type:</strong> <span id="auctionType"></span></p>
+		<p><strong>Remaining Time:</strong> <span id="remainingTime"></span></p>
+		<p><strong>Description:</strong> <span id="description"></span></p>
+		<p><strong>Shipping Price:</strong> <span id="shippingPrice"></span></p>
+	</div>
 
-    <script>
-        // Function to get query parameters from the URL
-        function getQueryParam(param) {
-            var urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
+	<script>
+		// Function to get query parameters from the URL
+		function getQueryParam(param) {
+			var urlParams = new URLSearchParams(window.location.search);
+			return urlParams.get(param);
+		}
 
-        // Set item details from query parameters
-        document.getElementById("itemName").innerText = getQueryParam("itemName");
-        document.getElementById("currentPrice").innerText = getQueryParam("currentPrice");
-        document.getElementById("auctionType").innerText = getQueryParam("auctionType");
-        document.getElementById("remainingTime").innerText = getQueryParam("remainingTime");
+		// Set item details from query parameters
+		document.getElementById("itemName").innerText = getQueryParam("itemName");
+		document.getElementById("currentPrice").innerText = getQueryParam("currentPrice");
+		document.getElementById("auctionType").innerText = getQueryParam("auctionType");
+		document.getElementById("remainingTime").innerText = getQueryParam("remainingTime");
+		document.getElementById("description").innerText = getQueryParam("description");
+		document.getElementById("shippingPrice").innerText = "$" + getQueryParam("shipping");
 
-        // Fetch additional details from the server
-        fetchDetails(getQueryParam("itemName"));
-        
-        function fetchDetails(itemName) {
-            // Perform an AJAX request to the server to get additional details
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Update the HTML content with the received details
-                    var details = JSON.parse(this.responseText);
-                    document.getElementById("description").innerText = details.description;
-                    document.getElementById("shippingPrice").innerText = details.shippingPrice;
-                }
-            };
-            xhttp.open("GET", "getDetails?itemName=" + itemName, true);
-            xhttp.send();
-        }
-    </script>
+		// Fetch additional details from the server
+		fetchDetails(getQueryParam("itemName"));
+
+		function fetchDetails(itemName) {
+			// Perform an AJAX request to the server to get additional details
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 200) {
+					// Update the HTML content with the received details
+					var details = JSON.parse(this.responseText);
+					document.getElementById("description").innerText = details.description;
+					document.getElementById("shippingPrice").innerText = details.shippingPrice;
+				}
+			};
+			xhttp.open("GET", "getDetails?itemName=" + itemName, true);
+			xhttp.send();
+		}
+	</script>
 </body>
 
 </html>
-

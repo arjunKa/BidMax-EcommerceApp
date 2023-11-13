@@ -66,18 +66,19 @@ public class ItemServlet extends HttpServlet {
 			while (rows.next()) {
 
 				item = new Item(rows.getInt(1), rows.getString(2), rows.getDouble(3), rows.getString(4),
-						rows.getTimestamp(5));
+						rows.getTimestamp(5), rows.getString(6), rows.getInt(7));
 
 			}
 			System.out.println(item.getCost());
 			preparedStatement.close();
 			conn.close();
 
-			request.setAttribute("item", item);
-
-			RequestDispatcher view = request.getRequestDispatcher("/ItemPage.jsp");
-			view.forward(request, response);
-			System.out.println(view + " " + request.getAttribute("item"));
+//			request.setAttribute("item", item);
+//
+//			RequestDispatcher view = request.getRequestDispatcher("/ItemPage.jsp");
+//			view.forward(request, response);
+			response.sendRedirect("item.html?itemId=" + id);
+			//System.out.println(view + " " + request.getAttribute("item"));
 			return;
 
 		} catch (SQLException e) {
