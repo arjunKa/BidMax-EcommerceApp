@@ -70,4 +70,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>NewItemServlet</servlet-name>
 		<url-pattern>/NewItemServlet</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>ItemServlet</display-name>
+		<servlet-name>ItemServlet</servlet-name>
+		<servlet-class>com.app.ItemServlet</servlet-class>
+	</servlet>
+		<servlet-mapping>
+		<servlet-name>ItemServlet</servlet-name>
+		<url-pattern>/ItemServlet</url-pattern>
+	</servlet-mapping>
 </web-app>

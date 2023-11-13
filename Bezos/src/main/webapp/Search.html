@@ -47,7 +47,10 @@
 			</table>
 
 		</div>
+		<button onclick="sendSelectedRowData()">Bid</button>
 	</div>
+
+	
 
 
 
@@ -79,6 +82,25 @@
 
 		// Attach the function to the window.onload event
 		window.onload = onPageLoad;
+	</script>
+
+	<script>
+		var selectedRowData = null;
+
+		function setSelectedRowData(id) {
+			console.log(id)
+			selectedRowData = id;
+		}
+
+		function sendSelectedRowData() {
+			//var inputValue = document.getElementById("itemId").value;
+			// Perform an AJAX request to the server to add a row
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "ItemServlet?Item_id=" + selectedRowData, true);
+			xhttp.send();
+			
+			
+		}
 	</script>
 
 </body>

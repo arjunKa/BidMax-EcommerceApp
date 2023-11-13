@@ -61,7 +61,8 @@ public class SearchServlet extends HttpServlet {
 		for (Item item : items) {
 			String newRow = "<tr><td>" + item.getName() + "</td><td>" + item.getCost() + "</td><td>" + item.getType()
 					+ "</td><td>" + item.getDate().toString()
-					+ "</td><td><input type=\"radio\" id=\"select\" name=\"item_select\" value=\"\"></td></tr>";
+					+ "</td><td><input type=\"radio\" id=\"select_" + item.getId()+ "\" name=\"item_select\" value=\"" + item.getId()
+					+ "\" " + "onclick=\"setSelectedRowData(" + item.getId() + ")\" " + "></td></tr>";
 
 			out.println(newRow);
 
@@ -72,8 +73,8 @@ public class SearchServlet extends HttpServlet {
 	private void createItemsTable() {
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
 			String createTableSQL = "CREATE TABLE IF NOT EXISTS items ("
-					+ "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "name TEXT,"
-					+ " price DECIMAL(10,2)," + " type TEXT," + " endtime DATETIME);";
+					+ "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "name TEXT," + " price DECIMAL(10,2),"
+					+ " type TEXT," + " endtime DATETIME);";
 			statement.executeUpdate(createTableSQL);
 
 		} catch (SQLException e) {
