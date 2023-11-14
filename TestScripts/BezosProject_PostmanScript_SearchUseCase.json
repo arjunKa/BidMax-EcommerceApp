@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/Bezos/Search.html",
+			"name": "Adding auction item to store",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -37,7 +37,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/Bezos/api/search",
+			"name": "Searching auction item by id",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -64,6 +64,52 @@
 						"Bezos",
 						"api",
 						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Selecting Auction Item",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Bezos/item.html?itemName=Item%203&currentPrice=22.3&auctionType=Dutch&remainingTime=2021-12-11%2007%3A20%3A00.0&description=Item%20description&shipping=23.0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"item.html"
+					],
+					"query": [
+						{
+							"key": "itemName",
+							"value": "Item%203"
+						},
+						{
+							"key": "currentPrice",
+							"value": "22.3"
+						},
+						{
+							"key": "auctionType",
+							"value": "Dutch"
+						},
+						{
+							"key": "remainingTime",
+							"value": "2021-12-11%2007%3A20%3A00.0"
+						},
+						{
+							"key": "description",
+							"value": "Item%20description"
+						},
+						{
+							"key": "shipping",
+							"value": "23.0"
+						}
 					]
 				}
 			},
