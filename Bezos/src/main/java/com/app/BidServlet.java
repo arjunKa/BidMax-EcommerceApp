@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -23,15 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@WebServlet("/SearchServlet")
-public class SearchServlet extends HttpServlet {
+public class BidServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	// JDBC URL, username, and password of SQLite database
 
 	private static List<Item> items;
-	private ItemDAO itemDAO = new ItemDAO();
 
-	public SearchServlet() {
+	public BidServlet() {
 		super();
 	}
 
@@ -42,6 +42,86 @@ public class SearchServlet extends HttpServlet {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+		String type = request.getParameter("auctionTypeHidden").strip();
+
+		if (type.equals("forward")) {
+			forwardAuction(request, response, session);
+		} else {
+			
+			PrintWriter out = response.getWriter();
+			out.println("<html><body><h2>You bought the item .</h2></body></html>");
+			return;
+
+		}
+
+	}
+
+	private void forwardAuction(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+
+		String price = "";
+		double amount = 0.0;
+
+		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
+
+			String sql = "INSERT into bids ( username, item_id, bid_amount) VALUES ( ?, ?, ?)";
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			String item_id = request.getParameter("Item_id").strip();
+			price = request.getParameter("amount");
+
+			preparedStatement.setString(1, session.getAttribute("username").toString());
+			preparedStatement.setInt(2, Integer.parseInt(item_id));
+
+			amount = Double.parseDouble(request.getParameter("amount"));
+			preparedStatement.setDouble(3, amount);
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		PrintWriter out = response.getWriter();
+		out.println("<html><body><h2>You bid " + amount + " .</h2></body></html>");
+		return;
+	}
+
+	private void dutchAuction(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+
+		String price = "";
+		double amount = 0.0;
+
+		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
+
+			String sql = "INSERT into bids ( username, item_id, bid_amount) VALUES ( ?, ?, ?)";
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			String item_id = request.getParameter("Item_id").strip();
+			price = request.getParameter("amount");
+
+			preparedStatement.setString(1, session.getAttribute("username").toString());
+			preparedStatement.setInt(2, Integer.parseInt(item_id));
+
+			amount = Double.parseDouble(request.getParameter("amount"));
+			preparedStatement.setDouble(3, amount);
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		PrintWriter out = response.getWriter();
+		out.println("<html><body><h2>You bought for " + amount + " .</h2></body></html>");
+		return;
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -62,11 +142,10 @@ public class SearchServlet extends HttpServlet {
 		for (Item item : items) {
 			String newRow = "<tr><td>" + item.getName() + "</td><td>" + item.getCost() + "</td><td>" + item.getType()
 					+ "</td><td>" + item.getDate().toString() + "</td><td>" + item.getDescription() + "</td><td>"
-					+ item.getShipping() + "</td><td><input type=\"radio\" " 
-					+ " id=\"select\" name=\"item_select\" value=\"" + item.getId() + "\"></td></tr>";
+					+ item.getShipping() + "</td><td><input type=\"radio\" onclick=\"setSelectedRowData(" + item.getId()
+					+ ")\" id=\"select\" name=\"item_select\" value=\"\"></td></tr>";
 
 			out.println(newRow);
-			System.out.println(item.getId());
 		}
 
 	}

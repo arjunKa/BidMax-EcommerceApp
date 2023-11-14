@@ -103,4 +103,14 @@
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/LogoutServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BidServlet</display-name>
+    <servlet-name>BidServlet</servlet-name>
+    <servlet-class>com.app.BidServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BidServlet</servlet-name>
+    <url-pattern>/BidServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

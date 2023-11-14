@@ -42,8 +42,8 @@
 					<th>Current Price</th>
 					<th>Auction Type</th>
 					<th>Remaining Time</th>
-					<th>Select</th>
 					<th>Shipping</th>
+					<th>Select</th>
 				</tr>
 
 			</table>
@@ -126,6 +126,8 @@
 	            var remainingTime = selectedRow.cells[3].innerText;
 	            var description = selectedRow.cells[4].innerText;
 	            var shipping = selectedRow.cells[5].innerText;
+	            var id = selectedRow.cells[6].querySelector('input[type="radio"]').value;
+	            console.log(id);
 	
 	            // Redirect to item.html with the selected row's information
 	            window.location.href = "item.html?itemName=" + encodeURIComponent(itemName) +
@@ -133,7 +135,8 @@
 	                "&auctionType=" + encodeURIComponent(auctionType) +
 	                "&remainingTime=" + encodeURIComponent(remainingTime) +
 	                "&description=" + encodeURIComponent(description) +
-	                "&shipping=" + encodeURIComponent(shipping);
+	                "&shipping=" + encodeURIComponent(shipping)+
+	                "&id=" + encodeURIComponent(id);
 	        } else {
 	            alert("Please select a row before clicking BID.");
 	        }

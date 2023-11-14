@@ -10,6 +10,10 @@
 </head>
 
 <script>
+	function getQueryParam(param) {
+		var urlParams = new URLSearchParams(window.location.search);
+		return urlParams.get(param);
+	}
 	// Fetch the username from the server using AJAX
 	function fetchUsername() {
 		var xhr = new XMLHttpRequest();
@@ -24,7 +28,14 @@
 	}
 
 	window.onload = function () {
+		toggleNumberInput();
+		var elem = document.getElementById("itemId");
+		elem.value = getQueryParam("id");
+		var elem = document.getElementById("auctionTypeHidden");
+		elem.value = getQueryParam("auctionType");
+		console.log(elem.value);
 		fetchUsername();
+
 	};
 
 </script>
@@ -49,7 +60,14 @@
 			<p><strong>Remaining Time:</strong> <span id="remainingTime"></span></p>
 			<p><strong>Description:</strong> <span id="description"></span></p>
 			<p><strong>Shipping Price:</strong> <span id="shippingPrice"></span></p>
-			<button id="payNowButton" onclick="handlePayment()">Pay Now</button>
+
+			<form action="BidServlet" method="post" autocomplete="off">
+				<label for="numberInput">Bid Amount:</label>
+				<input type="number" id="numberInput" name="amount" pattern="^\d*(\.\d{0,2})?$" step="any" min="0">
+				<input type="hidden" id="itemId" name="Item_id" value="">
+				<input type="hidden" id="auctionTypeHidden" name="auctionTypeHidden" value="">
+				<input type="submit" value="Bid">
+			</form>
 
 		</div>
 	</div>
@@ -89,7 +107,42 @@
 
 		function handlePayment() {
 			// Implement your payment logic here
-			alert("Payment logic goes here!");
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+
+				//xhttp.open("POST", "BidServlet?itemId=" + itemName, true);
+				//xhttp.send();
+				//alert("Payment logic goes here!");
+			}
+		}
+
+		// Function to hide or show the number input based on the session value
+		function toggleNumberInput() {
+			// Assuming you have a session variable named 'showNumberInput'
+			var showNumberInput = getQueryParam("auctionType");
+
+			// Get the number input element
+			var numberInput = document.getElementById('numberInput');
+
+			// Toggle visibility based on the session value
+			numberInput.style.display = showNumberInput === 'forward' ? 'block' : 'none';
+		}
+
+		// Function to be called when the form is submitted
+		function onSubmit() {
+			// Get the form element
+			var form = document.getElementById('myForm');
+
+			// If the number input is hidden, set its value to the default value
+			var numberInput = document.getElementById('numberInput');
+			if (numberInput.style.display === 'none') {
+				numberInput.value = 42; // Set your default value here
+			}
+
+			// Your additional form submission logic can go here
+
+			// For example, submitting the form
+			form.submit();
 		}
 	</script>
 </body>
