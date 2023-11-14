@@ -143,6 +143,9 @@
 
 			// For example, submitting the form
 			form.submit();
+			var xhr = new XMLHttpRequest();
+		    	xhr.open("GET", "AuctionEndedServlet", true);
+		    	xhr.send();
 		}
 	</script>
 </body>
