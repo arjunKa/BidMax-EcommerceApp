@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "ce57171b-e720-4df4-acaa-6e8279c7dfad",
+		"name": "BezosProject_PostmanScripts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30703258"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/Bezos/Search.html",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"Game Console\", \"price\":22.30, \"type\":\"Dutch\", \"date\": \"2021-12-11T12:20\", \"shipping\": 23, \"description\":\"Item description\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/Bezos/api/search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "1",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.MediaType;
 public class SearchController {
 	
 	private static List<Item> items;
-	private ItemDAO itemDAO = new ItemDAO();
+	private static ItemDAO itemDAO = new ItemDAO();
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -24,15 +24,26 @@ public class SearchController {
 		
 	}
 	
+	@GET
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Item getItem(String id) {
+		
+		return itemDAO.read(Integer.parseInt(id));
+		
+	}
+	
 	private void addItem(Item item) {
 		try {
 			Connection conn = DatabaseConnection.connect();
-			String sql = "INSERT INTO items (name, price, type, endTime) VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO items (name, price, type, endTime, description, shipping) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setString(1, item.getName());
 			preparedStatement.setDouble(2, item.getCost());
 			preparedStatement.setString(3, item.getType());
 			preparedStatement.setTimestamp(4, item.getDate());
+			preparedStatement.setString(5, item.getDescription());
+			preparedStatement.setDouble(6, item.getShipping());
 
 			int rowsAffected = preparedStatement.executeUpdate();
 			preparedStatement.close();
