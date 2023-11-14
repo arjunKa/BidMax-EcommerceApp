@@ -89,6 +89,7 @@ public class BidServlet extends HttpServlet {
 		}
 
 		PrintWriter out = response.getWriter();
+		
 		out.println("<html><body><h2>You bid " + amount + " .</h2></body></html>");
 		return;
 	}
