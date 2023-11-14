@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bezos - Search Page</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="stylesheet" href="styles/SearchStyle.css">
+
+</head>
+
+<body>
+	<header>
+		<h1>BEZOS</h1>
+		<button onclick="window.location.href='Main.html'" class="back-button">BACK</button>
+	</header>
+
+	<div class="flex-container">
+
+		<h1>Search</h1>
+
+		<form>
+			<label for="search">Search</label>
+			<input type="text" id="search" name="search" placeholder="Enter Search">
+
+			<button type="button" onclick="addRow()">Search</button>
+		</form>
+
+
+	</div>
+
+	<div class="main">
+
+
+		<div class="tableContainer">
+			<table id="myTable">
+				<tr>
+					<th>Item Name</th>
+					<th>Description</th>
+					<th>Current Price</th>
+					<th>Auction Type</th>
+					<th>Remaining Time</th>
+					<th>Shipping</th>
+					<th>Select</th>
+				</tr>
+
+			</table>
+			<button class="bid-button" onclick="bid()">BID</button>
+		</div>
+	</div>
+
+
+
+
+	<script>
+		function addRow() {
+			var inputValue = document.getElementById("search").value;
+			// Perform an AJAX request to the server to add a row
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 200) {
+					// Update the table with the received HTML content
+					document.getElementById("myTable").innerHTML = this.responseText;
+				}
+			};
+			xhttp.open("GET", "SearchServlet?search=" + inputValue, true);
+
+			xhttp.send();
+		}
+	</script>
+
+	<script>
+		// Define your function to be executed on page load
+		function onPageLoad() {
+			console.log("Page loaded! Your function is executed.");
+			addRow();
+			// Add your JavaScript logic here
+		}
+
+		// Attach the function to the window.onload event
+		window.onload = onPageLoad;
+	</script>
+
+	<script>
+		var selectedRowData = null;
+
+		function setSelectedRowData(id) {
+			console.log(id)
+			selectedRowData = id;
+		}
+
+		function sendSelectedRowData() {
+			//var inputValue = document.getElementById("itemId").value;
+			// Perform an AJAX request to the server to add a row
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "ItemServlet?Item_id=" + selectedRowData, true);
+			xhttp.send();
+			
+			
+		}
+		
+		function bid() {
+	        var table = document.getElementById("myTable");
+	        var rows = table.getElementsByTagName("tr");
+	        var selectedRow;
+	
+	        // Loop through rows to find the selected row
+	        for (var i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+	            var row = rows[i];
+	            var cells = row.getElementsByTagName("td");
+	            var selectCheckbox = cells[cells.length - 1].getElementsByTagName("input")[0];
+	
+	            if (selectCheckbox.checked) {
+	                selectedRow = row;
+	                break;
+	            }
+	        }
+	
+	        if (selectedRow) {
+	            // Get the data from the selected row
+	            var itemName = selectedRow.cells[0].innerText;
+	            var currentPrice = selectedRow.cells[1].innerText;
+	            var auctionType = selectedRow.cells[2].innerText;
+	            var remainingTime = selectedRow.cells[3].innerText;
+	            var description = selectedRow.cells[4].innerText;
+	            var shipping = selectedRow.cells[5].innerText;
+	            var id = selectedRow.cells[6].querySelector('input[type="radio"]').value;
+	            console.log(id);
+	
+	            // Redirect to item.html with the selected row's information
+	            window.location.href = "item.html?itemName=" + encodeURIComponent(itemName) +
+	                "&currentPrice=" + encodeURIComponent(currentPrice) +
+	                "&auctionType=" + encodeURIComponent(auctionType) +
+	                "&remainingTime=" + encodeURIComponent(remainingTime) +
+	                "&description=" + encodeURIComponent(description) +
+	                "&shipping=" + encodeURIComponent(shipping)+
+	                "&id=" + encodeURIComponent(id);
+	        } else {
+	            alert("Please select a row before clicking BID.");
+	        }
+    	}
+	</script>
+
+</body>
+
+</html>

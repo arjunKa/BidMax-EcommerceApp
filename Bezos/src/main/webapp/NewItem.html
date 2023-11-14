@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Add new item</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400&display=swap" rel="stylesheet">
+	<style>
+		/* CSS Reset */
+		body,
+		h1,
+		p,
+		form,
+		button,
+		input {
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
+
+		form {
+			width: 100%;
+			margin: 0;
+			box-sizing: border-box;
+			/* Include padding and border in the width */
+			min-width: 100%;
+			min-height: 100%;
+		}
+
+		body {
+			font-family: Arial, sans-serif;
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
+			margin: 0;
+		}
+
+		header {
+			background-color: #ffffff;
+			color: rgb(0, 0, 0);
+			text-align: center;
+			font-size: 24px;
+			font-family: 'Jockey One', sans-serif;
+			padding: 10px;
+		}
+
+		header h2 {
+			position: absolute;
+			top: 0px;
+			right: 0%;
+		}
+
+
+		.flex-container {
+			display: flex;
+			flex: 1;
+			min-height: 100vh;
+		}
+
+		.left,
+		.right {
+			flex: 1;
+			padding: 20px;
+			border: 1px solid #ccc;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			background-color: #2B67F6;
+		}
+
+		.left h1,
+		.right label,
+		.right input[type="submit"] {
+			color: white;
+		}
+
+		.left h1,
+		h2 {
+			font-size: 30px;
+			font-family: 'Epilogue';
+		}
+
+		.right label {
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
+
+		form {
+			width: 100%;
+			max-width: 600px;
+			margin: 0 auto;
+		}
+
+		input[type="text"],
+		input[type="number"],
+		select {
+			width: 100%;
+			padding: 10px;
+			margin: 8px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		input[type="submit"] {
+			background-color: #000000;
+			color: white;
+			padding: 10px 15px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			margin-top: 15px;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #333333;
+		}
+
+		.back-button {
+			background-color: #000000;
+			color: white;
+			padding: 10px 15px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			position: absolute;
+			top: 10px;
+			left: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1>BEZOS</h1>
+		<button onclick="window.location.href='Main.html'" class="back-button">BACK</button>
+		<h2>New Item for Auction</h2>
+	</header>
+	<form action="NewItemServlet" method="post" autocomplete="off">
+
+		<div class="flex-container">
+			<div class="left">
+				<h1>New Item Information</h1>
+				<label for="itemName">Item Name</label>
+				<input type="text" id="itemName" name="itemName" placeholder="Enter item name" required>
+
+				<label for="price">Price</label>
+				<input type="number" id="price" name="price" pattern="^\d*(\.\d{0,2})?$" step="any" min="0"
+					placeholder="Enter item price" required>
+
+				<label for="endTime">Choose End Date/Time for auction:</label>
+
+				<input type="datetime-local" id="endTime" name="endTime" value="2023-11-20T19:30" min="2018-06-07T00:00"
+					max="2034-06-14T00:00" />
+
+				<label for="auctionType">Action Type</label>
+				<select name="auctionType" id="auctionType" required>
+					<option value="forward">Forward</option>
+					<option value="dutch">Dutch</option>
+				</select>
+
+				<label for="description">Description</label>
+				<input type="text" id="description" name="description" placeholder="Enter item description" required>
+
+				<label for="shipping">Shipping Price</label>
+				<input type="number" id="shipping" name="shipping" pattern="^\d*(\.\d{0,2})?$" step="any" min="0"
+					placeholder="Enter shipping price" required>
+
+
+			</div>
+			<div class="right">
+
+				<input type="submit" value="Auction Item">
+			</div>
+
+		</div>
+	</form>
+</body>
+
+</html>
