@@ -93,7 +93,9 @@
 
 		function handlePayment() {
 			// Implement your payment logic here
-			alert("Payment logic goes here!");
+			var xhr = new XMLHttpRequest();
+		    	xhr.open("GET", "AuctionEndedServlet", true);
+		    	xhr.send();
 		}
 	</script>
 </body>
