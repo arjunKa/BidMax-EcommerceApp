@@ -113,4 +113,25 @@
     <servlet-name>BidServlet</servlet-name>
     <url-pattern>/BidServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+		<description></description>
+		<display-name>PaymentProcessingServlet</display-name>
+		<servlet-name>PaymentProcessingServlet</servlet-name>
+		<servlet-class>com.app.PaymentProcessingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PaymentProcessingServlet</servlet-name>
+		<url-pattern>/PaymentProcessingServlet</url-pattern>
+		</servlet-mapping>
+		<servlet>
+		<description></description>
+		<display-name>AuctionEndedServlet</display-name>
+		<servlet-name>AuctionEndedServlet</servlet-name>
+		<servlet-class>com.app.AuctionEndedServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AuctionEndedServlet</servlet-name>
+		<url-pattern>/AuctionEndedServlet</url-pattern>
+		</servlet-mapping>
+
 </web-app>
