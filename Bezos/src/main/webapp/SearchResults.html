@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Auction Platform</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  html, body {
+    height: 100%;
+    background-color: #ecf0f1;
+  }
+
+  .navbar {
+    background-color: rgb(0, 0, 255);
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar a, .navbar div {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  .logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100% - 50px); /* Adjusted based on navbar height */
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+
+  th, td {
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: rgb(0, 0, 255);
+    color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: #dfe6e9;
+  }
+
+  .footer {
+    padding: 1rem;
+    background-color: rgb(0, 0, 255);
+    text-align: center;
+  }
+
+  .button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3498db;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    outline: none;
+  }
+
+  .button:hover {
+    background-color: #2980b9;
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="#logout">Logout</a>
+  <div class="logo">BEZOS</div>
+  <a href="#account">Account</a>
+</div>
+
+<div class="main-content">
+  <table>
+    <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Current Price</th>
+        <th>Auction Type</th>
+        <th>Remaining Time</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bicycle</td>
+        <td>$20</td>
+        <td>Dutch</td>
+        <td>1h:50m:32s</td>
+        <td><input type="radio" name="select"></td>
+      </tr>
+      <tr>
+        <td>Car</td>
+        <td>$23</td>
+        <td>Forward</td>
+        <td>1h:50m:32s</td>
+        <td><input type="radio" name="select"></td>
+      </tr>
+      <tr>
+        <td>Rope</td>
+        <td>$20</td>
+        <td>Dutch</td>
+        <td>1h:30m:02s</td>
+        <td><input type="radio" name="select" checked></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="footer">
+    <button class="button">BID</button>
+  </div>
+</div>
+
+</body>
+</html>

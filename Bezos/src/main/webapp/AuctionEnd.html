@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Summary</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #0000ff; /* Adjusted for consistency with hex code */
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .payment-summary {
+    background: #ffffff;
+    border-radius: 10px;
+    width: auto;
+    min-width: 300px;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+  }
+  .payment-summary-header {
+    background-color: #000000; /* Hex code for consistency */
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 22px;
+    text-align: center;
+    margin: -20px -20px 20px -20px;
+  }
+  .payment-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  .payment-summary-table td,
+  .payment-summary-table th {
+    border: 1px solid #000;
+    padding: 8px;
+  }
+  .payment-summary-table th {
+    background-color: #fff;
+    color: #000;
+    width: 50%;
+    text-align: left;
+  }
+  .payment-summary-table td {
+    text-align: right;
+  }
+  .checkbox-column {
+    width: 25%;
+    text-align: center; /* Center align the checkbox */
+  }
+  .checkbox-cell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .pay-now-button {
+    background-color: #000;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+</style>
+</head>
+<body>
+
+<div class="payment-summary">
+  <div class="payment-summary-header">
+    BEZOS <br>
+    BIDDING ENDED!
+  </div>
+  
+  <table class="payment-summary-table">
+    <tr>
+      <th>Item Description</th>
+      <td colspan="2">Car</td>
+    </tr>
+    <tr>
+      <th>Shipping price</th>
+      <td colspan="2">$23</td>
+    </tr>
+    <tr>
+      <th>Expedited shipping add:</th>
+      <td>$5</td>
+      <td class="checkbox-column">
+        <div class="checkbox-cell">
+          <input type="checkbox" name="expedited-shipping" checked>
+        </div>
+      </td>
+    </tr>
+  </table>
+  
+  <button class="pay-now-button">Pay Now</button>
+</div>
+
+</body>
+</html>
