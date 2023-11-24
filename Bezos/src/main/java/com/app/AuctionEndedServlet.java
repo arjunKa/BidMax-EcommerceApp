@@ -42,26 +42,26 @@ public class AuctionEndedServlet extends HttpServlet {
         int itemId = 0;
         String itemDescription = null;
         String winningUsername=null;
-        double shippingCost = 0.0;
+        double Price = 0.0;
         double expeditedCost =0.0;
 
         
         
         
-//        HttpSession session = request.getSession(); for testing
-//        session.setAttribute("username", "yr" );
-//        
+       //HttpSession session = request.getSession(); 
+     // session.setAttribute("username", "yr" );
+       
         
         try {
             Class.forName("org.sqlite.JDBC");
 
             try (Connection connection = DatabaseConnection.connect()) {
-            	HttpSession  session = request.getSession(false); // Retrieve the existing session
+            	HttpSession session = request.getSession(false); // Retrieve the existing session
                 if (session != null) {
                     username = (String) session.getAttribute("username");
                     if (username != null) {
                         // Query to get the bids by the logged-in user
-                        String userBidsQuery = "SELECT item_id, amount_bid FROM bids WHERE username = ?";
+                        String userBidsQuery = "SELECT item_id, bid_amount FROM bids WHERE username = ?";
                         try (PreparedStatement userBidsStmt = connection.prepareStatement(userBidsQuery)) {
                             userBidsStmt.setString(1, username);
                             ResultSet userBidsRs = userBidsStmt.executeQuery();
@@ -69,10 +69,10 @@ public class AuctionEndedServlet extends HttpServlet {
                             // Process the bids made by the user
                             while (userBidsRs.next()) {
                                 itemId = userBidsRs.getInt("item_id");
-                                double amountBid = userBidsRs.getDouble("amount_bid");
+                                double amountBid = userBidsRs.getDouble("bid_amount");
 
                                 // Query to find the highest bid for the item
-                                String highestBidQuery = "SELECT username, MAX(amount_bid) AS highest_bid FROM bids WHERE item_id = ? GROUP BY item_id";
+                                String highestBidQuery = "SELECT username, MAX(bid_amount) AS highest_bid FROM bids WHERE item_id = ? GROUP BY item_id";
                                 try (PreparedStatement highestBidStmt = connection.prepareStatement(highestBidQuery)) {
                                     highestBidStmt.setInt(1, itemId);
                                     ResultSet highestBidRs = highestBidStmt.executeQuery();
@@ -90,7 +90,7 @@ public class AuctionEndedServlet extends HttpServlet {
 
                         
                         
-                        String itemDescriptionQuery = "SELECT description FROM items WHERE item_id = ?";
+                        String itemDescriptionQuery = "SELECT description FROM items WHERE id = ?";
                         try (PreparedStatement itemDescriptionStmt = connection.prepareStatement(itemDescriptionQuery)) {
                             itemDescriptionStmt.setInt(1, itemId);
                             try (ResultSet itemDescriptionRs = itemDescriptionStmt.executeQuery()) {
@@ -102,27 +102,42 @@ public class AuctionEndedServlet extends HttpServlet {
                         }
                         
                         
-                        String shippingCostQuery = "SELECT shipping FROM items WHERE item_id = ?";
+                        String shippingCostQuery = "SELECT shipping FROM items WHERE id = ?";
                       
 
                         try (PreparedStatement shippingCostStmt = connection.prepareStatement(shippingCostQuery)) {
                             shippingCostStmt.setInt(1, itemId);
                             try (ResultSet shippingCostRs = shippingCostStmt.executeQuery()) {
                                 if (shippingCostRs.next()) {
-                                    shippingCost = shippingCostRs.getDouble("shipping");
+                                    Price = shippingCostRs.getDouble("shipping");
                                 }
                             }
                         } 
-                        String expeditedShippingCostQuery = "SELECT expedited_shipping FROM items WHERE item_id = ?";
-                      
+                        
+                        
+                        String expeditedShippingCostQuery = "SELECT price FROM items WHERE id = ?";
+                        
                         try (PreparedStatement expeditedShippingCostStmt = connection.prepareStatement(expeditedShippingCostQuery)) {
                             expeditedShippingCostStmt.setInt(1, itemId);
                             try (ResultSet expeditedShippingCostRs = expeditedShippingCostStmt.executeQuery()) {
                                 if (expeditedShippingCostRs.next()) {
-                                	expeditedCost = expeditedShippingCostRs.getDouble("expedited_shipping");
+                                	expeditedCost = expeditedShippingCostRs.getDouble("price");
                                 } 
                             }
                         }
+                        
+                        
+                        
+//                        String expeditedShippingCostQuery = "SELECT expedited_shipping FROM items WHERE item_id = ?";
+//                      
+//                        try (PreparedStatement expeditedShippingCostStmt = connection.prepareStatement(expeditedShippingCostQuery)) {
+//                            expeditedShippingCostStmt.setInt(1, itemId);
+//                            try (ResultSet expeditedShippingCostRs = expeditedShippingCostStmt.executeQuery()) {
+//                                if (expeditedShippingCostRs.next()) {
+//                                	expeditedCost = expeditedShippingCostRs.getDouble("expedited_shipping");
+//                                } 
+//                            }
+//                        }
                         
                         
                         // Set session attributes for the winner
@@ -133,7 +148,7 @@ public class AuctionEndedServlet extends HttpServlet {
                             session.setAttribute("itemDescription", itemDescription);
                             session.setAttribute("isWinner", isWinner);
                             session.setAttribute("winningUsername", winningUsername);
-                            session.setAttribute("shippingCost", shippingCost);
+                            session.setAttribute("shippingCost", Price);
                             session.setAttribute("expeditedCost", expeditedCost);
                             
                             // Redirect to a receipt or confirmation page if the user is the winner
