@@ -186,9 +186,6 @@ public class PaymentProcessingServlet extends HttpServlet {
     }
 
     
-    // Rest of the methods unchanged, assuming they are implemented correctly
-    // ...
-
     // Utility method to redirect to the error page with a message
     private void redirectToErrorPage(HttpServletResponse response, String message) throws IOException {
         String encodedMessage = URLEncoder.encode(message, "UTF-8");
