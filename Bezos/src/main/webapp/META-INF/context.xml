@@ -5,7 +5,11 @@
 <Resource name="jdbc/Bezos"
 factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
 type="javax.sql.DataSource" driverClassName="org.sqlite.JDBC"
+<<<<<<< Updated upstream
 url="jdbc:sqlite:C:/Users/arjun/Documents/GitHub/BezosProject/register_1.db"/>
+=======
+url="jdbc:sqlite:C:\Users\Arjun\Documents\Github\EcommerceClass\BezosProject\register.db"/>
+>>>>>>> Stashed changes
 <ResourceLink global="jdbc/Bezos" name="jdbc/Bezos"
 type="javax.sql.DataSource" />
 </Context>
