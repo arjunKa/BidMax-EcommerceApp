@@ -111,7 +111,7 @@ public class PaymentProcessingServlet extends HttpServlet {
     
 
     private String getShippingTime(Connection connection, int itemId) throws SQLException {
-        String sql = "SELECT shipping_time FROM items WHERE item_id = ?";
+        String sql = "SELECT shipping_time FROM items WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, itemId);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -172,12 +172,12 @@ public class PaymentProcessingServlet extends HttpServlet {
         double totalCost = winningPrice; // Start with the winning price
         if (expeditedShipping) {
             // Get the expedited shipping cost from the items table
-            String sql = "SELECT expedited_shipping FROM items WHERE item_id = ?";
+            String sql = "SELECT shipping FROM items WHERE id = ?";
             try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
                 pstmt.setInt(1, itemId); // Set int instead of String
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (rs.next()) {
-                        totalCost += rs.getDouble("expedited_shipping"); // Add the expedited shipping cost
+                        totalCost += rs.getDouble("shipping"); // Add the expedited shipping cost
                     }
                 }
             }
@@ -186,9 +186,6 @@ public class PaymentProcessingServlet extends HttpServlet {
     }
 
     
-    // Rest of the methods unchanged, assuming they are implemented correctly
-    // ...
-
     // Utility method to redirect to the error page with a message
     private void redirectToErrorPage(HttpServletResponse response, String message) throws IOException {
         String encodedMessage = URLEncoder.encode(message, "UTF-8");

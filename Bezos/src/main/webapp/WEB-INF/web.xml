@@ -133,5 +133,4 @@
 		<servlet-name>AuctionEndedServlet</servlet-name>
 		<url-pattern>/AuctionEndedServlet</url-pattern>
 		</servlet-mapping>
-
 </web-app>

@@ -1,5 +1,6 @@
 package com.app;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -56,7 +57,10 @@ public class BidServlet extends HttpServlet {
 			
 			PrintWriter out = response.getWriter();
 			out.println("<html><body><h2>You bought the item .</h2></body></html>");
-			return;
+			RequestDispatcher dispatcher = request.getRequestDispatcher("AuctionEndedServlet");
+		    dispatcher.forward(request, response);
+			
+		    return;
 
 		}
 
@@ -87,10 +91,11 @@ public class BidServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		PrintWriter out = response.getWriter();
-		out.println("<html><body><h2>You bid " + amount + " .</h2></body></html>");
-		return;
+		RequestDispatcher dispatcher = request.getRequestDispatcher("AuctionEndedServlet");
+	    dispatcher.forward(request, response);
+		
+	    return;
+		
 	}
 
 	private void dutchAuction(HttpServletRequest request, HttpServletResponse response, HttpSession session)
@@ -121,7 +126,11 @@ public class BidServlet extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 		out.println("<html><body><h2>You bought for " + amount + " .</h2></body></html>");
-		return;
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("AuctionEndedServlet");
+	    dispatcher.forward(request, response);
+		
+	    return;
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
