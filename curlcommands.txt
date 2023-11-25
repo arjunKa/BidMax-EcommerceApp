@@ -1,0 +1,9 @@
+SIGNUP TEST CASES
+Successful Signup: curl -X POST -d "firstName=John&lastName=Doe&email=john.doe@example.com&address=123%20Main%20St&pcode=12345&city=ExampleCity&country=ExampleCountry&username=john_doe&password=pass123&confirmPassword=pass123" http://localhost:8080/Bezos/SigninServlet
+Password and Confirm don’t match: curl -X POST -d "firstName=John&lastName=Doe&email=john.doe@example.com&address=123%20Main%20St&pcode=12345&city=ExampleCity&country=ExampleCountry&username=john_doe&password=pass123&confirmPassword=pass456" http://localhost:8080/Bezos/SigninServlet
+Username already exists: curl -X POST -d "firstName=John&lastName=Doe&email=john.doe3@example.com&address=123%20Main%20St&pcode=12345&city=ExampleCity&country=ExampleCountry&username=john_doe&password=pass123&confirmPassword=pass123" http://localhost:8080/Bezos/SigninServlet
+Email already exists: curl -X POST -d curl -X POST -d "firstName=John&lastName=Doe&email=john.doe@example.com&address=123%20Main%20St&pcode=12345&city=ExampleCity&country=ExampleCountry&username=john_doe2&password=pass123&confirmPassword=pass123" http://localhost:8080/Bezos/SigninServlet
+
+LOGIN TEST CASES
+Successful login: curl -X POST -d "username=john_doe&password=pass123" http://localhost:8080/Bezos/LoginServlet
+Incorrect Username or passport: curl -X POST -d "username=invalid_username&password=wrong_password" http://localhost:8080/Bezos/LoginServlet

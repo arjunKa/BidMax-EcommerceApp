@@ -132,7 +132,7 @@
 <body>
     <header>
         <h1>BEZOS</h1>
-        <button onclick="window.location.href='Main.html'" class="back-button">BACK</button>
+        <button onclick="window.location.href='Receipt.jsp'" class="back-button">BACK</button>
     </header>
     
     <div class="container">
@@ -168,7 +168,7 @@
     <p>The Item will be shipped in <%= shippingTime %> days.</p>
 
 
-    <button type="button" class="submit-btn" onclick="window.location.href='MainPage.jsp'">Back to Main Page</button>
+    <button type="button" class="submit-btn" onclick="window.location.href='Main.html'">Back to Main Page</button>
 
 </div>
 
