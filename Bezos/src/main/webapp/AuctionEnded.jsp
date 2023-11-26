@@ -96,7 +96,7 @@
 <body>
     <header>
         <h1>BEZOS</h1>
-        <button onclick="window.location.href='Main.html'" class="back-button">BACK</button>
+        <button onclick="window.location.href='item.html'" class="back-button">BACK</button>
     </header>
     <div class="container">
         <h2>BIDDING ENDED!</h2>
@@ -109,8 +109,8 @@
                 </tr>
                 <tr>
                     <td> <%= session.getAttribute("itemDescription") %> </td>
-                    <td><%= session.getAttribute("shippingCost") %> </td>
-                    <td><%= session.getAttribute("expeditedCost") %> <input type="checkbox" name="expedited" id="expedited"></td>
+                    <td><%= session.getAttribute("expeditedCost") %> </td>
+                    <td><%= session.getAttribute("shippingCost") %> <input type="checkbox" name="expedited" id="expedited"></td>
                 </tr>
                 <!-- Add more items as needed -->
             </table>
