@@ -1,6 +1,8 @@
 package com.app;
 
-	public class User {
+import jakarta.servlet.http.HttpServletResponse;
+
+public class User {
 	    private int id;
 	    private String firstName;
 	    private String lastName;
@@ -10,6 +12,7 @@ package com.app;
 	    private String city;
 	    private String country;
 	    private String username;
+	    private String password;
 	    
 
 	    public User(int id, String firstName, String lastName, String email, String address, String postalCode, String city, String country, String username) {
@@ -24,8 +27,18 @@ package com.app;
 	        this.username = username;
 	        
 	    }
+	    
+	    public User(String username, String password) {
+	    	this.username = username;
+	    	this.password = password;
+	    	
+	    }
 
-	    // Getters
+	    public User() {
+			// TODO Auto-generated constructor stub
+		}
+
+		// Getters
 	    public int getId() {
 	        return id;
 	    }
@@ -61,7 +74,10 @@ package com.app;
 	    public String getUsername() {
 	        return username;
 	    }
-
+		public String getPassword() {
+			// TODO Auto-generated method stub
+			return password;
+		}
 	  
 
 	    // Setters
@@ -100,6 +116,8 @@ package com.app;
 	    public void setUsername(String username) {
 	        this.username = username;
 	    }
+
+
 
 	   
 	}

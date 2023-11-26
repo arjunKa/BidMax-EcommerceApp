@@ -14,60 +14,37 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	UserDAO userDAO = new UserDAO();
 
-    public LoginServlet() {
-        super();
-    }
+	public LoginServlet() {
+		super();
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.sendRedirect("Login.html");
+		
+	}
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Retrieve user input params from the login form
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 
-        try {
-            // Load the JDBC driver
-            Class.forName("org.sqlite.JDBC");
+		User user = userDAO.login(username, password);
 
-            // connection
-            try (Connection connection = DatabaseConnection.connect()) {
-                // Check if the provided username and password exist in the 'users' table
-                if (isLoginValid(connection, username, password)) {
-                    // Create a session and store user information
-                    HttpSession session = request.getSession();
-                    session.setAttribute("username", username);
+		if (user == null) {
+			PrintWriter out = response.getWriter();
+			out.println("<html><body><h2>The username or password is incorrect. "
+					+ "If you do not have an account, please sign up first!</h2></body></html>");
+		} else {
+			HttpSession session = request.getSession();
+            session.setAttribute("username", username);
 
-                    // Display Login successful
-                    PrintWriter out = response.getWriter();
-                    out.println("<html><body><h2>Login Successful!</h2></body></html>");
-                    response.sendRedirect("Main.html");
-                } else {
-                    // Display Username or password is incorrect
-                    PrintWriter out = response.getWriter();
-                    out.println("<html><body><h2>The username or password is incorrect. If you do not have an account, please sign up first!</h2></body></html>");
-                }
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-            // Handle exceptions (log, redirect, etc.)
-        }
-    }
+			response.sendRedirect("Main.html");
+		}
 
-    private boolean isLoginValid(Connection connection, String username, String password) throws SQLException {
-        String checkLoginSQL = "SELECT COUNT(*) FROM users WHERE username = ? AND password = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(checkLoginSQL)) {
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    int count = resultSet.getInt(1);
-                    return count > 0;
-                }
-            }
-        }
-        return false;
-    }
+	}
+
 }
-
-
