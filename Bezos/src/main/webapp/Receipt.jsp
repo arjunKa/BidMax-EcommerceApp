@@ -127,7 +127,7 @@
 <body>
     <header>
         <h1>BEZOS</h1>
-        <button onclick="window.location.href='AuctionEnded.jsp'" class="back-button">BACK</button>
+        <button onclick="window.history.back();" class="back-button">BACK</button>
     </header>
     <form action="shipping.jsp" method="post">
     
