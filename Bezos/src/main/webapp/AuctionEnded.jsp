@@ -96,7 +96,7 @@
 <body>
     <header>
         <h1>BEZOS</h1>
-        <button onclick="window.location.href='item.html'" class="back-button">BACK</button>
+        <button onclick="window.location.href='Main.html'" class="back-button">BACK</button>
     </header>
     <div class="container">
         <h2>BIDDING ENDED!</h2>
@@ -124,29 +124,37 @@
         </form>
     </div>
     <script type="text/javascript">
-    
-   
-        
-        var currentUser = <%= session.getAttribute("username") %>;
-        var winningBidder = <%= session.getAttribute("winningUsername")%>;
-        
-        window.onload = function() {
-            var payButton = document.getElementById('payButton');
-            var errorMsg = document.getElementById('errorMsg');
-            var form = document.querySelector('form');
-
-            form.onsubmit = function(event) {
-                if (currentUser !== winningBidder) {
-                    // Prevent form submission
-                    event.preventDefault();
-                    // Disable the pay button
-                    payButton.disabled = true;
-                    payButton.innerText = 'Not Allowed';
-                    // Display the error message
-                    errorMsg.style.display = 'block';
-                }
-            };
-        };
+	    var currentUser = '<%= session.getAttribute("username") %>';
+	    var winningBidder = '<%= session.getAttribute("winningUsername") %>';
+	    var itemDescription = '<%= session.getAttribute("itemDescription") %>';
+	
+	    window.onload = function () {
+	        var payButton = document.getElementById('payButton');
+	        var errorMsg = document.getElementById('errorMsg');
+	        var form = document.querySelector('form');
+	
+	        form.onsubmit = function (event) {
+	            if (currentUser !== winningBidder || itemDescription === null || itemDescription.trim() === '') {
+	                // Prevent form submission
+	                event.preventDefault();
+	                // Disable the pay button
+	                payButton.disabled = true;
+	                payButton.innerText = 'Not Allowed';
+	                
+	                // Display the appropriate error message
+	                if (itemDescription === null || itemDescription.trim() === '') {
+	                    errorMsg.innerText = 'Auction has ended. You have not selected any item. You cannot pay. Please go back to the home page.';
+	                } else {
+	                    errorMsg.innerText = 'You are not allowed to make this payment.';
+	                }
+	
+	                errorMsg.style.display = 'block';
+	            }
+	        };
+	    };
     </script>
+
+    
+    
 </body>
 </html>
