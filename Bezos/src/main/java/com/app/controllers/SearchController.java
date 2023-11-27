@@ -1,10 +1,14 @@
-package com.app;
+package com.app.controllers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+
+import com.app.DatabaseConnection;
+import com.app.Objects.Item;
+import com.app.Objects.ItemDAO;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -41,7 +45,7 @@ public class SearchController {
 			preparedStatement.setString(1, item.getName());
 			preparedStatement.setDouble(2, item.getCost());
 			preparedStatement.setString(3, item.getType());
-			preparedStatement.setTimestamp(4, item.getDate());
+			preparedStatement.setString(4, item.getDate());
 			preparedStatement.setString(5, item.getDescription());
 			preparedStatement.setDouble(6, item.getShipping());
 

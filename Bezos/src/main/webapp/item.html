@@ -5,40 +5,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="styles/ItemStyle.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<title>Item Details</title>
 
 </head>
 
-<script>
-	function getQueryParam(param) {
-		var urlParams = new URLSearchParams(window.location.search);
-		return urlParams.get(param);
-	}
-	// Fetch the username from the server using AJAX
-	function fetchUsername() {
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState == 4 && xhr.status == 200) {
-				// Update the username display element
-				document.getElementById("usernameDisplay").innerText = "User Id: " + xhr.responseText;
-			}
-		};
-		xhr.open("GET", "GetUsernameServlet", true);
-		xhr.send();
-	}
-
-	window.onload = function () {
-		toggleNumberInput();
-		var elem = document.getElementById("itemId");
-		elem.value = getQueryParam("id");
-		var elem = document.getElementById("auctionTypeHidden");
-		elem.value = getQueryParam("auctionType");
-		console.log(elem.value);
-		fetchUsername();
-
-	};
-
-</script>
 
 <body>
 
@@ -60,11 +31,13 @@
 			<p><strong>Remaining Time:</strong> <span id="remainingTime"></span></p>
 			<p><strong>Description:</strong> <span id="description"></span></p>
 			<p><strong>Shipping Price:</strong> <span id="shippingPrice"></span></p>
+			<p><strong>Seller:</strong> <span id="seller"></span></p>
+			<p><strong>Current Bidder:</strong> <span id="currentBidder">None</span></p>
 
-			<form action="BidServlet" method="post" autocomplete="off">
+			<form action="ItemServlet" method="post" autocomplete="off">
 				<label for="numberInput">Bid Amount:</label>
 				<input type="number" id="numberInput" name="amount" pattern="^\d*(\.\d{0,2})?$" step="any" min="0">
-				<input type="hidden" id="itemId" name="Item_id" value="">
+				<input type="hidden" id="itemId" name="itemId" value="">
 				<input type="hidden" id="auctionTypeHidden" name="auctionTypeHidden" value="">
 				<input type="submit" value="Bid">
 			</form>
@@ -72,82 +45,89 @@
 		</div>
 	</div>
 
-	<script>
-		// Function to get query parameters from the URL
-		function getQueryParam(param) {
-			var urlParams = new URLSearchParams(window.location.search);
-			return urlParams.get(param);
-		}
 
-		// Set item details from query parameters
-		document.getElementById("itemName").innerText = getQueryParam("itemName");
-		document.getElementById("currentPrice").innerText = getQueryParam("currentPrice");
-		document.getElementById("auctionType").innerText = getQueryParam("auctionType");
-		document.getElementById("remainingTime").innerText = getQueryParam("remainingTime");
-		document.getElementById("shippingPrice").innerText = getQueryParam("shipping");
-		document.getElementById("description").innerText = getQueryParam("description");
-
-		// Fetch additional details from the server
-		fetchDetails(getQueryParam("itemName"));
-
-		function fetchDetails(itemName) {
-			// Perform an AJAX request to the server to get additional details
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function () {
-				if (this.readyState == 4 && this.status == 200) {
-					// Update the HTML content with the received details
-					var details = JSON.parse(this.responseText);
-					document.getElementById("description").innerText = details.description;
-					document.getElementById("shippingPrice").innerText = details.shippingPrice;
-				}
-			};
-			xhttp.open("GET", "getDetails?itemName=" + itemName, true);
-			xhttp.send();
-		}
-
-		function handlePayment() {
-			// Implement your payment logic here
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function () {
-
-				//xhttp.open("POST", "BidServlet?itemId=" + itemName, true);
-				//xhttp.send();
-				//alert("Payment logic goes here!");
-			}
-		}
-
-		// Function to hide or show the number input based on the session value
-		function toggleNumberInput() {
-			// Assuming you have a session variable named 'showNumberInput'
-			var showNumberInput = getQueryParam("auctionType");
-
-			// Get the number input element
-			var numberInput = document.getElementById('numberInput');
-
-			// Toggle visibility based on the session value
-			numberInput.style.display = showNumberInput === 'forward' ? 'block' : 'none';
-		}
-
-		// Function to be called when the form is submitted
-		function onSubmit() {
-			// Get the form element
-			var form = document.getElementById('myForm');
-
-			// If the number input is hidden, set its value to the default value
-			var numberInput = document.getElementById('numberInput');
-			if (numberInput.style.display === 'none') {
-				numberInput.value = 42; // Set your default value here
-			}
-
-			// Your additional form submission logic can go here
-
-			// For example, submitting the form
-			form.submit();
-			var xhr = new XMLHttpRequest();
-		    	xhr.open("GET", "AuctionEndedServlet", true);
-		    	xhr.send();
-		}
-	</script>
 </body>
+
+<script>
+	function getQueryParam(param) {
+		var urlParams = new URLSearchParams(window.location.search);
+		return urlParams.get(param);
+	}
+	// Fetch the username from the server using AJAX
+	function fetchUsername() {
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				// Update the username display element
+				document.getElementById("usernameDisplay").innerText = "User Id: " + xhr.responseText;
+			}
+		};
+		xhr.open("GET", "GetUsernameServlet", true);
+		xhr.send();
+	}
+
+	window.onload = function () {
+		fetchUsername();
+	};
+
+</script>
+
+<script>
+
+	$(document).ready(function () {
+		itemId = getQueryParam("itemId");
+		console.log(itemId);
+		var showNumberInput;
+		$.ajax({
+			url: "http://localhost:8080/Bezos/api/item/" + itemId,
+			type: 'GET',
+			success: function (item) {
+
+				document.getElementById("itemName").innerText = item.name;
+				document.getElementById("currentPrice").innerText = item.cost;
+				document.getElementById("auctionType").innerText = item.type;
+
+				document.getElementById("auctionTypeHidden").value = item.type;
+				document.getElementById("itemId").value = item.id;
+				showNumberInput = item.type;
+				document.getElementById("description").innerText = item.description;
+				document.getElementById("shippingPrice").innerText = item.shipping;
+				document.getElementById("remainingTime").innerText = item.remainingTime;
+				document.getElementById("seller").innerText = item.sellerUsername;
+				if (item.bidderUsername != null) {
+					document.getElementById("currentBidder").innerText = item.bidderUsername;
+				}
+
+
+				var numberInput = document.getElementById('numberInput');
+				numberInput.style.display = showNumberInput.toLowerCase() === 'forward' ? 'block' : 'none';
+			},
+			error: function (error) {
+				console.log(error);
+			}
+		});
+	});
+</script>
+
+<script>
+	// Function to update remaining time
+	function updateRemainingTime() {
+		// Get all elements with the id starting with "remainingTime"
+		var remainingTimeElements = document.querySelectorAll('[id^="remainingTime"]');
+
+		remainingTimeElements.forEach(function (element) {
+			var remainingTime = parseInt(element.innerText, 10);
+
+			// Update the remaining time
+			if (remainingTime > 0) {
+				element.innerText = remainingTime - 1;
+			}
+		});
+	}
+
+	// Set up an interval to update every second (1000 milliseconds)
+	var intervalId = setInterval(updateRemainingTime, 1000);
+
+</script>
 
 </html>

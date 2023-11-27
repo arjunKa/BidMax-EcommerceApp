@@ -20,7 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.app.DatabaseConnection;
+import com.app.Objects.User;
 
 import java.io.IOException;
 

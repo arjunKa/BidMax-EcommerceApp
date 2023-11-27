@@ -19,8 +19,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.app.Objects.Item;
+import com.app.Objects.ItemDAO;
 
 //@WebServlet("/SearchServlet")
 public class SearchServlet extends HttpServlet {
@@ -61,8 +65,8 @@ public class SearchServlet extends HttpServlet {
 				+ "            </tr>");
 		for (Item item : items) {
 			String newRow = "<tr><td>" + item.getName() + "</td><td>" + item.getCost() + "</td><td>" + item.getType()
-					+ "</td><td>" + item.getDate().toString() + "</td><td>" + item.getDescription() + "</td><td>"
-					+ item.getShipping() + "</td><td><input type=\"radio\" " 
+					+ "</td><td id=\"remainingTime\">" + item.getRemainingTime() + "</td><td>" + item.getDescription() + "</td><td>"
+					+ item.getShipping() + "</td><td><input type=\"radio\" "
 					+ " id=\"select\" name=\"item_select\" value=\"" + item.getId() + "\"></td></tr>";
 
 			out.println(newRow);
@@ -109,9 +113,11 @@ public class SearchServlet extends HttpServlet {
 			items = new ArrayList<>();
 
 			while (rows.next()) {
+
 				items.add(new Item(rows.getInt("id"), rows.getString("name"), rows.getDouble("price"),
-						rows.getString("type"), rows.getTimestamp("endtime"), rows.getString("description"),
-						rows.getDouble("shipping")));
+						rows.getString("type"),
+						rows.getString("created_at"),
+						rows.getString("description"), rows.getDouble("shipping")));
 			}
 
 			preparedStatement.close();

@@ -1,111 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Payment Summary</title>
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    background-color: #0000ff; /* Adjusted for consistency with hex code */
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-  }
-  .payment-summary {
-    background: #ffffff;
-    border-radius: 10px;
-    width: auto;
-    min-width: 300px;
-    padding: 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: 18px;
-  }
-  .payment-summary-header {
-    background-color: #000000; /* Hex code for consistency */
-    color: white;
-    border-radius: 10px;
-    padding: 20px;
-    font-size: 22px;
-    text-align: center;
-    margin: -20px -20px 20px -20px;
-  }
-  .payment-summary-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  .payment-summary-table td,
-  .payment-summary-table th {
-    border: 1px solid #000;
-    padding: 8px;
-  }
-  .payment-summary-table th {
-    background-color: #fff;
-    color: #000;
-    width: 50%;
-    text-align: left;
-  }
-  .payment-summary-table td {
-    text-align: right;
-  }
-  .checkbox-column {
-    width: 25%;
-    text-align: center; /* Center align the checkbox */
-  }
-  .checkbox-cell {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-  }
-  .pay-now-button {
-    background-color: #000;
-    color: white;
-    padding: 10px 30px;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 18px;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-  }
-</style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bezos - Auction Ended</title>
+	<link rel="stylesheet" href="styles/AuctionEndStyle.css">
+	<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
+
 <body>
 
-<div class="payment-summary">
-  <div class="payment-summary-header">
-    BEZOS <br>
-    BIDDING ENDED!
-  </div>
-  
-  <table class="payment-summary-table">
-    <tr>
-      <th>Item Description</th>
-      <td colspan="2">Car</td>
-    </tr>
-    <tr>
-      <th>Shipping price</th>
-      <td colspan="2">$23</td>
-    </tr>
-    <tr>
-      <th>Expedited shipping add:</th>
-      <td>$5</td>
-      <td class="checkbox-column">
-        <div class="checkbox-cell">
-          <input type="checkbox" name="expedited-shipping" checked>
-        </div>
-      </td>
-    </tr>
-  </table>
-  
-  <button class="pay-now-button">Pay Now</button>
-</div>
+	<header>
+		<h1>BEZOS</h1>
+		<button onclick="window.location.href='item.html'" class="back-button">BACK</button>
+	</header>
+	<div class="container">
+		<h2>BIDDING ENDED!</h2>
+		<form action="PaymentProcessingServlet" method="post" id="paymentForm">
+			<table id="itemTable">
+				<tr>
+					<th>Item Name</th>
+					<th>Price</th>
+					<th>Item Description</th>
+					<th>Shipping price</th>
+					<th>Expedited shipping add</th>
+				</tr>
+
+				<!-- Add more items as needed -->
+			</table>
+			<div class="info-box">
+				<p>
+					Winning Price: <span id="currentPrice"></span>
+				</p>
+				<p>
+					Highest bidder: <span id="bidder"></span>
+				</p>
+
+			</div>
+			<button type="submit" class="pay-button" id="payButton">Pay
+				Now</button>
+			<p id="errorMsg" style="color: red; display: none;">You are not
+				allowed to make this payment.</p>
+
+		</form>
+	</div>
+
+
+	<script type="text/javascript">
+
+		function getQueryParam(param) {
+			var urlParams = new URLSearchParams(window.location.search);
+			return urlParams.get(param);
+		}
+	</script>
+
+	<script>
+		var out;
+		function fetchUsername() {
+			var xhr = new XMLHttpRequest();
+			
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					// Update the username display element
+					out = xhr.responseText;
+				}
+			};
+			xhr.open("GET", "GetUsernameServlet", true);
+			xhr.send();
+			
+		}
+	</script>
+	
+	<script type="text/javascript">
+		$(document).ready(function () {
+			fetchUsername();
+			itemId = getQueryParam('itemId');
+			console.log("id" + itemId);
+			$.ajax({
+				url: "http://localhost:8080/Bezos/api/item/" + itemId,
+				type: 'GET',
+				success: function (item) {
+
+					document.getElementById("currentPrice").innerText = item.cost;
+					document.getElementById("bidder").innerText = item.bidderUsername;
+
+					var table = $("#itemTable");
+
+					var row = $("<tr></tr>");
+					row.append($("<td></td>").text(item.name));
+					row.append($("<td></td>").text(item.cost));
+					row.append($("<td></td>").text(item.description));
+					row.append($("<td></td>").text(item.shipping));
+					row.append($("<td></td>").text(item.shipping));
+					table.append(row);
+					console.log(item.bidderUsername);
+					if (item.bidderUsername != out) {
+						console.log(fetchUsername());
+						var payButton = document.getElementById('payButton');
+						var errorMsg = document.getElementById('errorMsg');
+						var form = document.querySelector('form');
+
+						payButton.disabled = true;
+						payButton.innerText = 'Not Allowed';
+						// Display the error message
+						errorMsg.style.display = 'block';
+
+					}
+
+
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+
+			//check if user is the winner
+
+
+		});
+	</script>
+
+
 
 </body>
+
 </html>

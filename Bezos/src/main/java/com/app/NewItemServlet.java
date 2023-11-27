@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -23,8 +24,13 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.app.Objects.Item;
+import com.app.Objects.ItemDAO;
 
 public class NewItemServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -46,53 +52,22 @@ public class NewItemServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-		try {
-			String itemName = request.getParameter("itemName");
-			String price = request.getParameter("price");
-			String type = request.getParameter("auctionType");
-			String endDate = request.getParameter("endTime");
-			double shipping = Double.valueOf(request.getParameter("shipping"));
-			String desc = request.getParameter("description");
-			double price_val = Double.valueOf(price);
-			System.out.println(endDate);
-			
-			Connection conn = DatabaseConnection.connect();
-			String sql = "INSERT INTO items (name, price, type, endTime, description, shipping) VALUES (?, ?, ?, ?, ?, ?)";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setString(1, itemName);
-			preparedStatement.setDouble(2, price_val);
-			preparedStatement.setString(3, type);
-	        Date parsedDate;
-	        try {
-	            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-	            parsedDate = formatter.parse(endDate);
-	            
-	        } catch (ParseException e) {
-	            e.printStackTrace();
-	            System.out.println("Error parsing datetime value.");
-	            return;
-	        }
 
-	        // Convert the java.util.Date to java.sql.Timestamp
-	        Timestamp sqlTimestamp = new Timestamp(parsedDate.getTime());
-	        preparedStatement.setTimestamp(4, sqlTimestamp);
-			
-	        preparedStatement.setString(5, desc);
-	        preparedStatement.setDouble(6, shipping);
-			int rowsAffected = preparedStatement.executeUpdate();
-			preparedStatement.close();
-			conn.close();
-			response.sendRedirect("Search.html");
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			
-		}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String username = session.getAttribute("username").toString();
+		
+		String itemName = request.getParameter("itemName");
+		String price = request.getParameter("price");
+		String type = request.getParameter("auctionType");
+		double shipping = Double.valueOf(request.getParameter("shipping"));
+		String desc = request.getParameter("description");
+		double price_val = Double.valueOf(price);
+		
+		Item item = new Item(0, itemName, "", "", price_val, type, "", desc, shipping);
+		itemDAO.create(item, username);
+		response.sendRedirect("Search.html");
 	}
-
-
 
 }

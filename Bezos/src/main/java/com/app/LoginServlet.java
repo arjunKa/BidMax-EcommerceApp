@@ -13,6 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.app.Objects.User;
+import com.app.Objects.UserDAO;
+
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	UserDAO userDAO = new UserDAO();

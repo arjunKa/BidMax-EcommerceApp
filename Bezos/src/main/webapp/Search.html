@@ -95,53 +95,65 @@
 			//var inputValue = document.getElementById("itemId").value;
 			// Perform an AJAX request to the server to add a row
 			var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", "ItemServlet?Item_id=" + selectedRowData, true);
+			xhttp.open("GET", "ItemServlet?itemId=" + selectedRowData, true);
 			xhttp.send();
-			
-			
 		}
-		
+
 		function bid() {
-	        var table = document.getElementById("myTable");
-	        var rows = table.getElementsByTagName("tr");
-	        var selectedRow;
-	
-	        // Loop through rows to find the selected row
-	        for (var i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
-	            var row = rows[i];
-	            var cells = row.getElementsByTagName("td");
-	            var selectCheckbox = cells[cells.length - 1].getElementsByTagName("input")[0];
-	
-	            if (selectCheckbox.checked) {
-	                selectedRow = row;
-	                break;
-	            }
-	        }
-	
-	        if (selectedRow) {
-	            // Get the data from the selected row
-	            var itemName = selectedRow.cells[0].innerText;
-	            var currentPrice = selectedRow.cells[1].innerText;
-	            var auctionType = selectedRow.cells[2].innerText;
-	            var remainingTime = selectedRow.cells[3].innerText;
-	            var description = selectedRow.cells[4].innerText;
-	            var shipping = selectedRow.cells[5].innerText;
-	            var id = selectedRow.cells[6].querySelector('input[type="radio"]').value;
-	            console.log(id);
-	
-	            // Redirect to item.html with the selected row's information
-	            window.location.href = "item.html?itemName=" + encodeURIComponent(itemName) +
-	                "&currentPrice=" + encodeURIComponent(currentPrice) +
-	                "&auctionType=" + encodeURIComponent(auctionType) +
-	                "&remainingTime=" + encodeURIComponent(remainingTime) +
-	                "&description=" + encodeURIComponent(description) +
-	                "&shipping=" + encodeURIComponent(shipping)+
-	                "&id=" + encodeURIComponent(id);
-	        } else {
-	            alert("Please select a row before clicking BID.");
-	        }
-    	}
+			var table = document.getElementById("myTable");
+			var rows = table.getElementsByTagName("tr");
+			var selectedRow;
+
+			// Loop through rows to find the selected row
+			for (var i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+				var row = rows[i];
+				var cells = row.getElementsByTagName("td");
+				var selectCheckbox = cells[cells.length - 1].getElementsByTagName("input")[0];
+
+				if (selectCheckbox.checked) {
+					selectedRow = row;
+					break;
+				}
+			}
+
+			if (selectedRow) {
+				// Get the data from the selected row
+				var id = selectedRow.cells[6].querySelector('input[type="radio"]').value;
+				console.log(id);
+				window.location.href = 'http://localhost:8080/Bezos/ItemServlet?' + "itemId=" + id;
+				//var xhttp = new XMLHttpRequest();
+				//xhttp.open("GET", "ItemServlet?itemId=" + id, true);
+				//xhttp.send();
+
+				// Redirect to item.html with the selected row's information
+				//window.location.href = "item.html?id=" + encodeURIComponent(id);
+			} else {
+				alert("Please select a row before clicking BID.");
+			}
+		}
 	</script>
+
+	<script>
+		// Function to update remaining time
+		function updateRemainingTime() {
+			// Get all elements with the id starting with "remainingTime"
+			var remainingTimeElements = document.querySelectorAll('[id^="remainingTime"]');
+
+			remainingTimeElements.forEach(function (element) {
+				var remainingTime = parseInt(element.innerText, 10);
+
+				// Update the remaining time
+				if (remainingTime > 0) {
+					element.innerText = remainingTime - 1;
+				}
+			});
+		}
+
+		// Set up an interval to update every second (1000 milliseconds)
+		var intervalId = setInterval(updateRemainingTime, 1000);
+
+	</script>
+
 
 </body>
 
