@@ -55,95 +55,24 @@
 
 
 	<script>
-			// ...
+		// ...
 
-function addRow() {
-    var inputValue = document.getElementById("search").value;
-    // Perform an AJAX request to the server to add a row
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            // Update the table with the received HTML content
-            document.getElementById("myTable").innerHTML = this.responseText;
+		function addRow() {
+			var inputValue = document.getElementById("search").value;
+			// Perform an AJAX request to the server to add a row
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 200) {
+					// Update the table with the received HTML content
+					document.getElementById("myTable").innerHTML = this.responseText;
 
-            // Start the countdown timer for each item
-            startCountdown();
-        }
-    };
-    xhttp.open("GET", "SearchServlet?search=" + inputValue, true);
-    xhttp.send();
-}
-
-function startCountdown() {
-    setInterval(updateForwardRemainingTime, 1000);
-    setInterval(updateDutchValue, 1000);
-}
-
-
-function updateForwardRemainingTime() {
-    var table = document.getElementById("myTable");
-    var rows = table.getElementsByTagName("tr");
-    
-    var allRowsExpired = true;
-
-
-     for (var i = 1; i < rows.length; i++) {  
-        var row = rows[i];
-        var auctionType = row.cells[2];
-        var remainingTimeCell = row.cells[3];
-        var selectBox = row.cells[6].querySelector('input[type="radio"]');
-
-         if (auctionType.innerText.trim().toLowerCase() === "forward") {
-            var remainingTime = parseFloat(remainingTimeCell.innerText);
-
-            remainingTime *= 0.95;
-
-            remainingTimeCell.innerText = remainingTime.toFixed(2);
-
-            if (remainingTime <= 0.05) {
-                remainingTime = 0;
-
-                selectBox.checked = false;
-                selectBox.disabled = true;
-            }else {
-                // If at least one row has not expired, set allRowsExpired to false
-                allRowsExpired = false;
-            }
-        } 
-    }
-    if (allRowsExpired) {
-        window.location.href = "AuctionEnded.jsp";
-    }
-}
-
-
-function updateDutchValue() {
-    var table = document.getElementById("myTable");
-    var rows = table.getElementsByTagName("tr");
-
-    for (var i = 1; i < rows.length; i++) { 
-        var row = rows[i];
-        var auctionType = row.cells[2];
-        var currentPriceCell = row.cells[1];
-        var selectBox = row.cells[6].querySelector('input[type="radio"]');
-
-        if (auctionType.innerText.trim().toLowerCase() === "dutch") {
-            row.cells[3].innerText = "Now";
-
-            var currentPrice = parseFloat(currentPriceCell.innerText);
-
-            currentPrice *= 0.90;
-
-            if (currentPrice <= 0.05) {
-                currentPrice = 0;
-
-                selectBox.checked = false;
-                selectBox.disabled = true;
-            }
-            currentPriceCell.innerText = currentPrice.toFixed(2);
-        }
-    }
-}
+					// Start the countdown timer for each item
+					startCountdown();
+				}
+			};
+			xhttp.open("GET", "SearchServlet?search=" + inputValue, true);
+			xhttp.send();
+		}
 
 	</script>
 
