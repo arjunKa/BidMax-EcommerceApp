@@ -96,7 +96,7 @@ function updateForwardRemainingTime() {
          if (auctionType.innerText.trim().toLowerCase() === "forward") {
             var remainingTime = parseFloat(remainingTimeCell.innerText);
 
-            remainingTime *= 0.15;
+            remainingTime *= 0.95;
 
             remainingTimeCell.innerText = remainingTime.toFixed(2);
 
