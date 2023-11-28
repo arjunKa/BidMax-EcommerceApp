@@ -45,6 +45,8 @@
 				Now</button>
 			<p id="errorMsg" style="color: red; display: none;">You are not
 				allowed to make this payment.</p>
+				
+				<input type="hidden" id="itemId" name="itemId" value="">
 
 		</form>
 	</div>
@@ -84,6 +86,8 @@
 				url: "http://localhost:8080/Bezos/api/item/" + itemId,
 				type: 'GET',
 				success: function (item) {
+					
+					document.getElementById("itemId").value = item.id;
 
 					document.getElementById("currentPrice").innerText = item.cost;
 					document.getElementById("bidder").innerText = item.bidderUsername;

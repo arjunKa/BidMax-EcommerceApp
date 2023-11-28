@@ -1,5 +1,6 @@
 package com.app;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,23 +25,21 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.app.Objects.Item;
 import com.app.Objects.ItemDAO;
 
-public class NewItemServlet extends HttpServlet {
+public class ShippingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	// JDBC URL, username, and password of SQLite database
 
-	private static List<Item> items;
+	private static Item item;
 	private ItemDAO itemDAO = new ItemDAO();
 
-	public NewItemServlet() {
+	public ShippingServlet() {
 		super();
 	}
 
@@ -55,19 +54,14 @@ public class NewItemServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		HttpSession session = request.getSession();
+		int id = Integer.valueOf(request.getParameter("itemId"));
 		String username = session.getAttribute("username").toString();
-		
-		String itemName = request.getParameter("itemName");
-		String price = request.getParameter("price");
-		String type = request.getParameter("auctionType");
-		double shipping = Double.valueOf(request.getParameter("shipping"));
-		String desc = request.getParameter("description");
-		double price_val = Double.valueOf(price);
-		
-		Item item = new Item(0, itemName, "", "", price_val, type, "", desc, shipping, 0);
-		itemDAO.create(item, username);
-		response.sendRedirect("Search.html");
+		String total = request.getParameter("totalPaid");
+		itemDAO.purchase(id, username, total);
+		response.sendRedirect("shipping.html?itemId=" + id);
+
 	}
 
 }

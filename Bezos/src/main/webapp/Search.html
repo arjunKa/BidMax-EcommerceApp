@@ -65,9 +65,6 @@
 				if (this.readyState == 4 && this.status == 200) {
 					// Update the table with the received HTML content
 					document.getElementById("myTable").innerHTML = this.responseText;
-
-					// Start the countdown timer for each item
-					startCountdown();
 				}
 			};
 			xhttp.open("GET", "SearchServlet?search=" + inputValue, true);
@@ -156,6 +153,17 @@
 
 		// Set up an interval to update every second (1000 milliseconds)
 		var intervalId = setInterval(updateRemainingTime, 1000);
+
+		function recalibrate() {
+			// Clear the previous interval to avoid multiple intervals running
+			clearInterval(intervalId);
+			
+			// Set up a new interval when the page is shown
+			intervalId = setInterval(updateRemainingTime, 1000);
+		};
+
+		window.addEventListener('pageshow', recalibrate);
+		window.addEventListener('popstate', recalibrate);
 
 	</script>
 

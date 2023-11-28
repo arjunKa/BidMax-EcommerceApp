@@ -91,6 +91,61 @@ public class UserDAO {
 		return user;
 	}
 
+	public User login(String username) {
+		// Retrieve user input params from the login form
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+
+			Connection connection = DatabaseConnection.connect();
+
+			String sql = "SELECT * FROM users WHERE username = ?";
+
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				user = new User();
+				// Set the properties of the user object
+				user.setId(rs.getInt("id"));
+				user.setFirstName(rs.getString("firstName"));
+				user.setLastName(rs.getString("lastName"));
+				user.setUsername("username");
+				user.setAddress(rs.getString("address"));
+				user.setUsername(rs.getString("username"));
+				user.setCountry(rs.getString("country"));
+				user.setPostalCode(rs.getString("postalCode"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// Handle exceptions (log, redirect, etc.)
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					/* Ignored */}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					/* Ignored */}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					/* Ignored */}
+			}
+
+		}
+		return user;
+	}
+
 	public String signUp(User u) {
 		Connection conn = null;
 		PreparedStatement ps = null;

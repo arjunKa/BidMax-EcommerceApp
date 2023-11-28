@@ -21,19 +21,22 @@ public class Item {
 	private String date;
 	private String description = "";
 	private double shipping = 0;
-	private double expeditedShipping = 0;
+	private double expeditedShipping = 35;
 	private int remainingTime;
 	private boolean sold = false;
+	private double purchaseAmount = 0;
 
 	public Item() {
 		super();
 	}
+
 	public Item(String date) {
 		setDate(date);
-		
+
 	}
 
-	public Item(int id, String name, String seller, String bidder, double price, String type, String date, String description, double shipping) {
+	public Item(int id, String name, String seller, String bidder, double price, String type, String date,
+			String description, double shipping, double purchaseAmount) {
 		setId(id);
 		setName(name);
 		setPrice(price);
@@ -43,9 +46,10 @@ public class Item {
 		setShipping(shipping);
 		setSellerUsername(seller);
 		setBidderUsername(bidder);
+		setPurchaseAmount(purchaseAmount);
 
 	}
-	
+
 	public Item(int id, String name, double price, String type, String string, String description, double shipping) {
 		setId(id);
 		setName(name);
@@ -75,9 +79,11 @@ public class Item {
 	public String getSellerUsername() {
 		return sellerUsername;
 	}
+
 	public String getBidderUsername() {
 		return bidderUsername;
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -107,10 +113,18 @@ public class Item {
 	public double getShipping() {
 		return shipping;
 	}
-	
+
+	public double getExpeditedShipping() {
+		return expeditedShipping;
+	}
+
 	public boolean getSold() {
 		return sold;
 
+	}
+
+	public double getPurchaseAmount() {
+		return purchaseAmount;
 	}
 
 	// Setters
@@ -121,9 +135,11 @@ public class Item {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public void setSellerUsername(String name) {
 		this.sellerUsername = name;
 	}
+
 	public void setBidderUsername(String name) {
 		this.bidderUsername = name;
 	}
@@ -160,7 +176,11 @@ public class Item {
 		this.sold = sold;
 
 	}
-	
+
+	public void setPurchaseAmount(double purchaseAmount) {
+		this.purchaseAmount = purchaseAmount;
+	}
+
 	public void calculateRemainingTime() {
 
 		// Define the date-time formatter with the pattern
@@ -171,16 +191,17 @@ public class Item {
 
 		// Convert LocalDateTime to Instant
 		Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
-		
-        LocalDateTime currentDateTime = LocalDateTime.now();
+
+		LocalDateTime currentDateTime = LocalDateTime.now();
 
 		// Extract the time in milliseconds since the epoch
 		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 60000L;
-		this.remainingTime = (int) difference/1000;
-		if(remainingTime <0 ) {
+		this.remainingTime = (int) difference / 1000;
+		if (remainingTime < 0) {
 			this.remainingTime = 0;
 		}
-		//remainingTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(difference), ZoneOffset.UTC).format(formatter);
+		// remainingTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(difference),
+		// ZoneOffset.UTC).format(formatter);
 
 	}
 

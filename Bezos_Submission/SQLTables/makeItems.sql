@@ -9,6 +9,7 @@ CREATE TABLE items (
     description TEXT,
     shipping DECIMAL(10,2) DEFAULT 0,
     expedited_shipping DECIMAL(10,2) DEFAULT 0,
-    sold BIT DEFAULT 0
+    sold BIT DEFAULT 0,
+    purchase_amount DECIMAL(10,2) DEFAULT 0
 );
     -- Add other columns as needed

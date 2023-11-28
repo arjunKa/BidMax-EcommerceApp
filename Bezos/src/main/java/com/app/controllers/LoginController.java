@@ -37,6 +37,13 @@ public class LoginController {
 	public User getUser(User user) {
 		return userDAO.login(user.getUsername(), user.getPassword());
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{username}")
+	public User getUser(@PathParam("username") String username) {
+		return userDAO.login(username);
+	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

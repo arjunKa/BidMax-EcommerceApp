@@ -92,7 +92,7 @@ public class ItemDAO {
 			while (rows.next()) {
 				i = (new Item(rows.getInt("id"), rows.getString("name"), rows.getString("seller_username"),
 						rows.getString("bidder_username"), rows.getDouble("price"), rows.getString("type"),
-						rows.getString("created_at"), rows.getString("description"), rows.getDouble("shipping")));
+						rows.getString("created_at"), rows.getString("description"), rows.getDouble("shipping"), rows.getDouble("purchase_amount")));
 			}
 
 			preparedStatement.close();
@@ -175,6 +175,28 @@ public class ItemDAO {
 		return false;
 
 	}
+	
+	public void purchase(int item_id, String username, String total) {
+
+
+		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
+
+			String sql = "UPDATE items SET purchase_amount = ? WHERE id = ?";
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+			preparedStatement.setString(1, total);
+			preparedStatement.setInt(2, item_id);
+
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return;
+	}
+
 
 	public void dutchAuction(String item_id, String username) {
 
@@ -195,15 +217,6 @@ public class ItemDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		//PrintWriter out = response.getWriter();
-		//out.println("<html><body><h2>You bought for " + amount + " .</h2></body></html>");
-
-		//response.sendRedirect("AuctionEnded.jsp?itemId=" + item_id);
-		// RequestDispatcher dispatcher =
-		// request.getRequestDispatcher("AuctionEndedServlet");
-		// dispatcher.forward(request, response);
-
 		return;
 	}
 
