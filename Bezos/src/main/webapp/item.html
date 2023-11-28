@@ -36,7 +36,7 @@
 
 			<form action="ItemServlet" method="post" autocomplete="off">
 				<label for="numberInput">Bid Amount:</label>
-				<input type="number" id="numberInput" name="amount" pattern="^\d*(\.\d{0,2})?$" step="any" min="0">
+				<input type="number" id="numberInput" name="amount" pattern="^\d*(\.\d{0,2})?$" step="any" min="0" required>
 				<input type="hidden" id="itemId" name="itemId" value="">
 				<input type="hidden" id="auctionTypeHidden" name="auctionTypeHidden" value="">
 				<input type="submit" value="Bid">

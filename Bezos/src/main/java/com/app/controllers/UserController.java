@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/users")
-public class LoginController {
+public class UserController {
 
 	private UserDAO userDAO = new UserDAO();
 
