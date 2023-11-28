@@ -22,15 +22,123 @@ import jakarta.servlet.http.HttpSession;
 
 public class ItemDAO {
 
-	private static List<Item> Items = new ArrayList<>();
+	private List<Item> items = new ArrayList<>();
 
 	public Item create(Item item) {
-		Items.add(item);
+		items.add(item);
 		return item;
 	}
 
-	public List<Item> readAll() {
-		return Items;
+	public Item update(Item item, int id) {
+
+		try (Connection conn = DatabaseConnection.connect()) {
+			String sql = "UPDATE items SET name = ?, description = ?, shipping = ?, price = ? WHERE id = ?";
+
+			try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+				preparedStatement.setString(1, item.getName());
+				preparedStatement.setString(2, item.getDescription());
+				preparedStatement.setDouble(3, item.getShipping());
+				preparedStatement.setDouble(4, item.getCost());
+				preparedStatement.setInt(5, id);
+
+				preparedStatement.executeUpdate();
+
+				preparedStatement.close();
+				conn.close();
+			}
+
+			// response.sendRedirect("Search.html");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return item;
+	}
+
+	public List<Item> readAll(String username) {
+
+		try (Connection conn = DatabaseConnection.connect()) {
+			String sql = "SELECT * FROM items WHERE seller_username = ?";
+			if (username.isBlank()) {
+				sql = "SELECT * FROM items";
+			}
+
+			try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+				if (!username.isBlank()) {
+					preparedStatement.setString(1, username);
+				}
+
+				ResultSet rows = preparedStatement.executeQuery();
+				Item i;
+				while (rows.next()) {
+					i = (new Item(rows.getInt("id"), rows.getString("name"), rows.getString("seller_username"),
+							rows.getString("bidder_username"), rows.getDouble("price"), rows.getString("type"),
+							rows.getString("created_at"), rows.getString("description"), rows.getDouble("shipping"),
+							rows.getDouble("purchase_amount")));
+					if (rows.getInt("sold") == 1) {
+						i.setSold(true);
+					} else {
+						i.setSold(false);
+					}
+
+					items.add(i);
+				}
+
+				preparedStatement.close();
+				conn.close();
+			}
+
+			// response.sendRedirect("Search.html");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return items;
+	}
+
+	public List<Item> readAllSearch(String searchText) {
+
+		try {
+			Connection conn = DatabaseConnection.connect();
+			String sql;
+			PreparedStatement preparedStatement;
+			if (searchText == null || searchText.trim().isEmpty()) {
+				sql = "SELECT * FROM items";
+				preparedStatement = conn.prepareStatement(sql);
+			} else {
+				System.out.println("good");
+				sql = "SELECT * FROM items WHERE name LIKE ?";
+				preparedStatement = conn.prepareStatement(sql);
+				preparedStatement.setString(1, "%" + searchText + "%");
+			}
+
+			// createItemsTable();
+
+			ResultSet rows = preparedStatement.executeQuery();
+
+			items = new ArrayList<>();
+
+			while (rows.next()) {
+
+				items.add(new Item(rows.getInt("id"), rows.getString("name"), rows.getString("seller_username"),
+						rows.getString("bidder_username"), rows.getDouble("price"), rows.getString("type"),
+						rows.getString("created_at"), rows.getString("description"), rows.getDouble("shipping"),
+						rows.getDouble("purchase_amount")));
+			}
+
+			preparedStatement.close();
+			conn.close();
+
+		} catch (
+
+		SQLException e) {
+			e.printStackTrace();
+		}
+		return items;
 	}
 
 	public Item create(Item item, String username) {
@@ -46,7 +154,7 @@ public class ItemDAO {
 			try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
 				preparedStatement.setString(1, itemName);
-				
+
 				preparedStatement.setString(2, username);
 				preparedStatement.setDouble(3, price_val);
 				preparedStatement.setString(4, type);
@@ -68,7 +176,7 @@ public class ItemDAO {
 				conn.close();
 			}
 
-			//response.sendRedirect("Search.html");
+			// response.sendRedirect("Search.html");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -92,7 +200,8 @@ public class ItemDAO {
 			while (rows.next()) {
 				i = (new Item(rows.getInt("id"), rows.getString("name"), rows.getString("seller_username"),
 						rows.getString("bidder_username"), rows.getDouble("price"), rows.getString("type"),
-						rows.getString("created_at"), rows.getString("description"), rows.getDouble("shipping"), rows.getDouble("purchase_amount")));
+						rows.getString("created_at"), rows.getString("description"), rows.getDouble("shipping"),
+						rows.getDouble("purchase_amount")));
 			}
 
 			preparedStatement.close();
@@ -113,12 +222,11 @@ public class ItemDAO {
 //	}
 
 	public void delete(int id) {
-		Items.removeIf(s -> s.getId() == id);
+		items.removeIf(s -> s.getId() == id);
 	}
 
 	public void forwardAuction(String item_id, String username, double amount) {
 
-		
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
 
 			System.out.println("ID" + item_id);
@@ -136,10 +244,10 @@ public class ItemDAO {
 			preparedStatement.setString(3, item_id);
 
 			preparedStatement.executeUpdate();
-			
+
 			preparedStatement.close();
 			conn.close();
-			//response.sendRedirect("Search.html");
+			// response.sendRedirect("Search.html");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -175,9 +283,8 @@ public class ItemDAO {
 		return false;
 
 	}
-	
-	public void purchase(int item_id, String username, String total) {
 
+	public void purchase(int item_id, String username, String total) {
 
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
 
@@ -197,9 +304,7 @@ public class ItemDAO {
 		return;
 	}
 
-
 	public void dutchAuction(String item_id, String username) {
-
 
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
 

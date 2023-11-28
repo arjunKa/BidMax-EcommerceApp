@@ -8,6 +8,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="stylesheet" href="styles/SearchStyle.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 
@@ -25,7 +26,7 @@
 			<label for="search">Search</label>
 			<input type="text" id="search" name="search" placeholder="Enter Search">
 
-			<button type="button" onclick="addRow()">Search</button>
+			<button type="button" onclick="getItems()">Search</button>
 		</form>
 
 
@@ -36,15 +37,24 @@
 
 		<div class="tableContainer">
 			<table id="myTable">
-				<tr>
-					<th>Item Name</th>
-					<th>Description</th>
-					<th>Current Price</th>
-					<th>Auction Type</th>
-					<th>Remaining Time</th>
-					<th>Shipping</th>
-					<th>Select</th>
-				</tr>
+				<thead>
+
+					<tr>
+						<th>Item Name</th>
+						<th>Current Price</th>
+						<th>Auction Type</th>
+						<th>Remaining Time</th>
+						<th>Description</th>
+						<th>Seller</th>
+						<th>Shipping</th>
+						<th>Select</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr id="defaultRow">
+						<td colspan="8">Loading...</td>
+					</tr>
+				</tbody>
 
 			</table>
 			<button class="bid-button" onclick="bid()">BID</button>
@@ -52,37 +62,52 @@
 	</div>
 
 
-
-
 	<script>
-		// ...
-
-		function addRow() {
+		function getItems() {
 			var inputValue = document.getElementById("search").value;
-			// Perform an AJAX request to the server to add a row
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function () {
-				if (this.readyState == 4 && this.status == 200) {
-					// Update the table with the received HTML content
-					document.getElementById("myTable").innerHTML = this.responseText;
+			var u = "http://localhost:8080/Bezos/api/item/getAllBids/" + inputValue;
+			if (inputValue == null || inputValue == "") {
+				u = "http://localhost:8080/Bezos/api/item/getAllBids";
+			}
+			$.ajax({
+				url: u,
+				type: 'GET',
+				success: function (result) {
+					var table = $("#myTable");
+					var tbody = table.find("tbody");
+					tbody.empty();
+					result.forEach(function (item) {
+						table.append()
+						var row = $("<tr></tr>");
+						row.append($("<td></td>").text(item.name));
+						row.append($("<td></td>").text(item.cost));
+						row.append($("<td></td>").text(item.type));
+						row.append($("<td id = \"remainingTime\"></td>").text(item.remainingTime));
+						row.append($("<td></td>").text(item.description));
+						row.append($("<td></td>").text(item.sellerUsername));
+						row.append($("<td></td>").text(item.shipping));
+						row.append($("<td><input type=\"radio\" id=\"" + item.id + "\" name=\"item\" value=\"" + item.id + "\"></td>"));
+						tbody.append(row);
+					});
+				},
+				error: function (error) {
+					console.log(error);
 				}
-			};
-			xhttp.open("GET", "SearchServlet?search=" + inputValue, true);
-			xhttp.send();
-		}
+			});
 
+		}
 	</script>
 
 	<script>
-		// Define your function to be executed on page load
-		function onPageLoad() {
-			console.log("Page loaded! Your function is executed.");
-			addRow();
-			// Add your JavaScript logic here
+
+		function addRow() {
+			getItems();
 		}
 
-		// Attach the function to the window.onload event
-		window.onload = onPageLoad;
+		$(document).ready(function () {
+			getItems();
+		});
+
 	</script>
 
 	<script>
@@ -120,15 +145,10 @@
 
 			if (selectedRow) {
 				// Get the data from the selected row
-				var id = selectedRow.cells[6].querySelector('input[type="radio"]').value;
+				var id = selectedRow.cells[7].querySelector('input[type="radio"]').value;
 				console.log(id);
 				window.location.href = 'http://localhost:8080/Bezos/ItemServlet?' + "itemId=" + id;
-				//var xhttp = new XMLHttpRequest();
-				//xhttp.open("GET", "ItemServlet?itemId=" + id, true);
-				//xhttp.send();
 
-				// Redirect to item.html with the selected row's information
-				//window.location.href = "item.html?id=" + encodeURIComponent(id);
 			} else {
 				alert("Please select a row before clicking BID.");
 			}
@@ -157,7 +177,7 @@
 		function recalibrate() {
 			// Clear the previous interval to avoid multiple intervals running
 			clearInterval(intervalId);
-			
+
 			// Set up a new interval when the page is shown
 			intervalId = setInterval(updateRemainingTime, 1000);
 		};

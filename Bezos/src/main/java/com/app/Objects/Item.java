@@ -195,7 +195,7 @@ public class Item {
 		LocalDateTime currentDateTime = LocalDateTime.now();
 
 		// Extract the time in milliseconds since the epoch
-		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 60000L;
+		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
 		this.remainingTime = (int) difference / 1000;
 		if (remainingTime < 0) {
 			this.remainingTime = 0;
