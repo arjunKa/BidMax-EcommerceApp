@@ -30,10 +30,12 @@ public class Item {
 		super();
 	}
 
-	public Item(String date) {
+	public Item(String date, String type, double price) {
 		setDate(date);
-
+		setType(type);
+		setPrice(price);
 	}
+	
 
 	public Item(int id, String name, String seller, String bidder, double price, String type, String date,
 			String description, double shipping, double purchaseAmount) {
@@ -100,11 +102,7 @@ public class Item {
 		return date;
 	}
 
-	public int getRemainingTime() {
-		calculateRemainingTime();
-		return remainingTime;
-	}
-
+	
 	public String getDescription() {
 		return description;
 
@@ -180,28 +178,38 @@ public class Item {
 	public void setPurchaseAmount(double purchaseAmount) {
 		this.purchaseAmount = purchaseAmount;
 	}
+	
+	public int getRemainingTime() {
+		if (this.type.equals("dutch") && this.price > 5) {
+			remainingTime = 120;
+		}else {
+			calculateRemainingTime();
+		}
+		return remainingTime;
+	}
+
 
 	public void calculateRemainingTime() {
+		
+		
+			// Define the date-time formatter with the pattern
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-		// Define the date-time formatter with the pattern
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			// Parse the string to obtain a LocalDateTime object
+			LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
 
-		// Parse the string to obtain a LocalDateTime object
-		LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
+			// Convert LocalDateTime to Instant
+			Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
 
-		// Convert LocalDateTime to Instant
-		Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
+			LocalDateTime currentDateTime = LocalDateTime.now();
 
-		LocalDateTime currentDateTime = LocalDateTime.now();
-
-		// Extract the time in milliseconds since the epoch
-		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
-		this.remainingTime = (int) difference / 1000;
-		if (remainingTime < 0) {
-			this.remainingTime = 0;
-		}
-		// remainingTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(difference),
-		// ZoneOffset.UTC).format(formatter);
+			// Extract the time in milliseconds since the epoch
+			long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
+			this.remainingTime = (int) difference / 1000;
+			if (remainingTime < 0) {
+				this.remainingTime = 0;
+			}
+			
 
 	}
 
