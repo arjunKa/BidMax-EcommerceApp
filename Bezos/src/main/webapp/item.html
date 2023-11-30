@@ -113,16 +113,31 @@
 	// Function to update remaining time
 	function updateRemainingTime() {
 		// Get all elements with the id starting with "remainingTime"
-		var remainingTimeElements = document.querySelectorAll('[id^="remainingTime"]');
-
-		remainingTimeElements.forEach(function (element) {
-			var remainingTime = parseInt(element.innerText, 10);
-
-			// Update the remaining time
-			if (remainingTime > 0) {
-				element.innerText = remainingTime - 1;
+		    var table = document.getElementById("myTable");
+		    var rows = table.getElementsByTagName("tr");
+		    
+		
+			for (i = 0; i < rows.length; i++) {
+			    
+			    var row = rows[i];
+			    var auctionType = row.cells[2];
+			    var currentPriceCell = row.cells[1];
+			    var element = row.cells[3];
+			    var remainingTime = parseInt(element.innerText, 10);
+			    
+			
+			    // Extract the actual current price value
+			    var currentPrice = parseInt(currentPriceCell.innerText, 10);
+			
+			    if (auctionType.innerText.trim().toLowerCase() === "forward" && remainingTime > 0) {
+			        element.innerText = remainingTime - 1;
+			    }else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice > 5) {
+			        element.innerText = "Now";
+			    }else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice <= 5) {
+			        element.innerText = remainingTime - 1;
+			    }
+			    
 			}
-		});
 	}
 
 	// Set up an interval to update every second (1000 milliseconds)
