@@ -46,6 +46,7 @@
 						<th>Remaining Time</th>
 						<th>Description</th>
 						<th>Seller</th>
+						<th>Bidder</th>
 						<th>Shipping</th>
 						<th>Select</th>
 					</tr>
@@ -85,6 +86,7 @@
 						row.append($("<td id = \"remainingTime\"></td>").text(item.remainingTime));
 						row.append($("<td></td>").text(item.description));
 						row.append($("<td></td>").text(item.sellerUsername));
+						row.append($("<td></td>").text(item.bidderUsername));
 						row.append($("<td></td>").text(item.shipping));
 						row.append($("<td><input type=\"radio\" id=\"" + item.id + "\" name=\"item\" value=\"" + item.id + "\"></td>"));
 						tbody.append(row);
@@ -145,7 +147,7 @@
 
 			if (selectedRow) {
 				// Get the data from the selected row
-				var id = selectedRow.cells[7].querySelector('input[type="radio"]').value;
+				var id = selectedRow.cells[8].querySelector('input[type="radio"]').value;
 				console.log(id);
 				window.location.href = 'http://localhost:8080/Bezos/ItemServlet?' + "itemId=" + id;
 
@@ -169,6 +171,7 @@
 			    var auctionType = row.cells[2];
 			    var currentPriceCell = row.cells[1];
 			    var element = row.cells[3];
+			    var bidder = row.cells[6];
 			    var remainingTime = parseInt(element.innerText, 10);
 			    
 			
@@ -178,9 +181,10 @@
 			    if (auctionType.innerText.trim().toLowerCase() === "forward" && remainingTime > 0) {
 					if (remainingTime > 0) {
 						element.innerText = remainingTime - 1;
-					}
-					
-			    }else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice > 5) {
+					}	
+				}else if (auctionType.innerText.trim().toLowerCase() === "dutch" && !(bidder.innerText.trim() === "")) {
+					element.innerText = "Sold";
+				}else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice > 5 ) {
 			        element.innerText = "Now";
 			    }else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice <= 5) {
 					if (remainingTime > 0) {
@@ -207,7 +211,9 @@
 
 		window.addEventListener('pageshow', recalibrate);
 		window.addEventListener('popstate', recalibrate);
-
+		
+		
+		
 	</script>
 
 
