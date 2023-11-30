@@ -32,7 +32,7 @@ public class ItemDAO {
 	public Item update(Item item, int id) {
 
 		try (Connection conn = DatabaseConnection.connect()) {
-			String sql = "UPDATE items SET name = ?, description = ?, shipping = ?, price = ? WHERE id = ?";
+			String sql = "UPDATE items SET name = ?, description = ?, shipping = ?, price = ?, created_at = ? WHERE id = ?";
 
 			try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
@@ -40,8 +40,21 @@ public class ItemDAO {
 				preparedStatement.setString(2, item.getDescription());
 				preparedStatement.setDouble(3, item.getShipping());
 				preparedStatement.setDouble(4, item.getCost());
-				preparedStatement.setInt(5, id);
+				
+				LocalDateTime currentDateTime = LocalDateTime.now();
 
+				// Define the desired date-time format
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+				// Format the current date and time
+				String formattedDateTime = currentDateTime.format(formatter);
+
+				preparedStatement.setString(5, formattedDateTime);
+
+				
+				preparedStatement.setInt(6, id);
+				
+				
 				preparedStatement.executeUpdate();
 
 				preparedStatement.close();
@@ -61,13 +74,13 @@ public class ItemDAO {
 
 		try (Connection conn = DatabaseConnection.connect()) {
 			String sql = "SELECT * FROM items WHERE seller_username = ?";
-			if (username.isBlank()) {
+			if (username.trim().isEmpty()) {
 				sql = "SELECT * FROM items";
 			}
 
 			try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
-				if (!username.isBlank()) {
+				if (!username.trim().isEmpty()) {
 					preparedStatement.setString(1, username);
 				}
 
@@ -256,6 +269,28 @@ public class ItemDAO {
 		return;
 
 	}
+	
+	public void dutchAuction(String item_id, String username) {
+
+		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
+
+			String sql = "UPDATE items SET bidder_username = ? WHERE id = ?";
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+			preparedStatement.setString(1, username);
+			preparedStatement.setInt(2, Integer.parseInt(item_id));
+
+			preparedStatement.executeUpdate();
+			setToSold(item_id, conn);
+			preparedStatement.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return;
+	}
+
 
 	private boolean isGreater(String item_id, double bid_amount, Connection conn) {
 		try (Statement statement = conn.createStatement()) {
@@ -304,27 +339,7 @@ public class ItemDAO {
 		return;
 	}
 
-	public void dutchAuction(String item_id, String username) {
-
-		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
-
-			String sql = "UPDATE items SET bidder_username = ? WHERE id = ?";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
-
-			preparedStatement.setString(1, username);
-			preparedStatement.setInt(2, Integer.parseInt(item_id));
-
-			preparedStatement.executeUpdate();
-			setToSold(item_id, conn);
-			preparedStatement.close();
-			conn.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return;
-	}
-
+	
 	public boolean isAuctionActive(String item_id) {
 
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
@@ -339,21 +354,51 @@ public class ItemDAO {
 			if (rows.next()) {
 
 				String createdAt = rows.getString("created_at");
+				String type = rows.getString("type");
+				double price = rows.getInt("price");
+				
+				
+				
 
-				Item item = new Item(createdAt);
+				Item item = new Item(createdAt, type, price);
+				
+				System.out.println(createdAt);
+				System.out.println(type);
+				System.out.println(price);
+				System.out.println(item.getRemainingTime());
+				System.out.println(item.getType());
+				System.out.println(item.getCost());
 
-				if (item.getRemainingTime() <= 0) {
+				
+				if(item.getType().equals("dutch") && item.getCost() > 5) {
+					System.out.println("done");
+					preparedStatement.close();
+					conn.close();
+
+					return true;
+				}else if (item.getRemainingTime() <= 0) {
 					setToSold(item_id, conn);
 					System.out.println(item_id + "good");
+					preparedStatement.close();
+					conn.close();
+
 					return false;
+				}else {
+					preparedStatement.close();
+					conn.close();
+
+					return true;
 				}
 
-				return true;
 			} else {
+				preparedStatement.close();
+				conn.close();
+
 				System.out.println("empty Row");
 			}
 
 		} catch (SQLException e) {
+			
 			e.printStackTrace();
 		}
 
@@ -369,6 +414,7 @@ public class ItemDAO {
 			preparedStatement.setString(1, item_id);
 			preparedStatement.executeUpdate();
 			System.out.println(item_id + "good");
+			preparedStatement.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
