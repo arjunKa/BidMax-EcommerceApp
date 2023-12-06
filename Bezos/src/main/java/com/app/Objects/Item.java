@@ -25,6 +25,7 @@ public class Item {
 	private int remainingTime;
 	private boolean sold = false;
 	private double purchaseAmount = 0;
+	private double origCost=0;
 
 	public Item() {
 		super();
@@ -34,8 +35,8 @@ public class Item {
 		setDate(date);
 		setType(type);
 		setPrice(price);
+		origCost=price;
 	}
-	
 
 	public Item(int id, String name, String seller, String bidder, double price, String type, String date,
 			String description, double shipping, double purchaseAmount) {
@@ -49,6 +50,7 @@ public class Item {
 		setSellerUsername(seller);
 		setBidderUsername(bidder);
 		setPurchaseAmount(purchaseAmount);
+		origCost=price;
 
 	}
 
@@ -60,6 +62,7 @@ public class Item {
 		setDate(string);
 		setDescription(description);
 		setShipping(shipping);
+		origCost=price;
 
 	}
 
@@ -71,6 +74,7 @@ public class Item {
 		setId(0);
 		setDescription(description);
 		setShipping(shipping);
+		origCost=price;
 	}
 
 	// Getters
@@ -102,7 +106,6 @@ public class Item {
 		return date;
 	}
 
-	
 	public String getDescription() {
 		return description;
 
@@ -178,38 +181,75 @@ public class Item {
 	public void setPurchaseAmount(double purchaseAmount) {
 		this.purchaseAmount = purchaseAmount;
 	}
-	
+
 	public int getRemainingTime() {
 		if (this.type.equals("dutch") && this.price > 5) {
 			remainingTime = 120;
-		}else {
+		} else {
 			calculateRemainingTime();
 		}
 		return remainingTime;
 	}
+	
+	public double getRemainingCost() {
+		if (this.type.equals("japanese")) {
 
+			calculateRemainingCost();
+
+		}
+		return this.price;
+	}
 
 	public void calculateRemainingTime() {
+
+		// Define the date-time formatter with the pattern
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		// Parse the string to obtain a LocalDateTime object
+		LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
+
+		// Convert LocalDateTime to Instant
+		Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
+
+		LocalDateTime currentDateTime = LocalDateTime.now();
+
+		// Extract the time in milliseconds since the epoch
+		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
+		this.remainingTime = (int) difference / 1000;
+		if (remainingTime < 0) {
+			this.remainingTime = 0;
+		}
+
+	}
+	
+	public void calculateRemainingCost() {
+		calculateRemainingTime();
+		// Define the date-time formatter with the pattern
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		// Parse the string to obtain a LocalDateTime object
+		LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
+
+		// Convert LocalDateTime to Instant
+		Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
+
+		LocalDateTime currentDateTime = LocalDateTime.now();
 		
-		
-			// Define the date-time formatter with the pattern
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-			// Parse the string to obtain a LocalDateTime object
-			LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
-
-			// Convert LocalDateTime to Instant
-			Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
-
-			LocalDateTime currentDateTime = LocalDateTime.now();
-
-			// Extract the time in milliseconds since the epoch
-			long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
-			this.remainingTime = (int) difference / 1000;
-			if (remainingTime < 0) {
-				this.remainingTime = 0;
-			}
-			
+		// Extract the time in milliseconds since the epoch
+		int difference = (int)(instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L)/1000;
+		if(difference <100) {
+			this.price = origCost + 50;
+		}else if(difference <80) {
+			this.price = origCost + 50;
+		}else if(difference <60) {
+			this.price = origCost + 50;
+		}else if(difference <40) {
+			this.price = origCost + 50;
+		}else if(difference <20) {
+			this.price = origCost + 50;
+		}else {
+			this.price = origCost + 50;
+		}
 
 	}
 

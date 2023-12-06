@@ -40,16 +40,16 @@ public class UserDAO {
 
 		try {
 
-			Connection connection = DatabaseConnection.connect();
+			conn = DatabaseConnection.connect();
 
 			// Check if the provided username and password exist in the 'users' table
-			if (!isLoginValid(connection, username, password)) {
+			if (!isLoginValid(conn, username, password)) {
 				return null;
 			}
 
 			String sql = "SELECT * FROM users WHERE username = ?";
 
-			ps = connection.prepareStatement(sql);
+			ps = conn.prepareStatement(sql);
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -63,31 +63,13 @@ public class UserDAO {
 				user.setCountry(rs.getString("city"));
 				user.setPostalCode(rs.getString("postalCode"));
 			}
-
+			rs.close();
+			ps.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// Handle exceptions (log, redirect, etc.)
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					/* Ignored */}
-			}
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					/* Ignored */}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					/* Ignored */}
-			}
-
-		}
+		} 
 		return user;
 	}
 
@@ -99,11 +81,11 @@ public class UserDAO {
 
 		try {
 
-			Connection connection = DatabaseConnection.connect();
+			conn = DatabaseConnection.connect();
 
 			String sql = "SELECT * FROM users WHERE username = ?";
 
-			ps = connection.prepareStatement(sql);
+			ps = conn.prepareStatement(sql);
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -118,31 +100,15 @@ public class UserDAO {
 				user.setCountry(rs.getString("country"));
 				user.setPostalCode(rs.getString("postalCode"));
 			}
+			rs.close();
+			ps.close();
+			conn.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// Handle exceptions (log, redirect, etc.)
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					/* Ignored */}
-			}
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					/* Ignored */}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					/* Ignored */}
-			}
-
 		}
+		
 		return user;
 	}
 

@@ -40,7 +40,7 @@ public class ItemDAO {
 				preparedStatement.setString(2, item.getDescription());
 				preparedStatement.setDouble(3, item.getShipping());
 				preparedStatement.setDouble(4, item.getCost());
-				
+
 				LocalDateTime currentDateTime = LocalDateTime.now();
 
 				// Define the desired date-time format
@@ -51,10 +51,8 @@ public class ItemDAO {
 
 				preparedStatement.setString(5, formattedDateTime);
 
-				
 				preparedStatement.setInt(6, id);
-				
-				
+
 				preparedStatement.executeUpdate();
 
 				preparedStatement.close();
@@ -239,15 +237,20 @@ public class ItemDAO {
 	}
 
 	public void forwardAuction(String item_id, String username, double amount) {
+		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
+			if (!isGreater(item_id, amount, conn)) {
+				System.out.println("nee");
+				return;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
 
 			System.out.println("ID" + item_id);
 
-			if (!isGreater(item_id, amount, conn)) {
-				System.out.println("nee");
-				return;
-			}
 			System.out.println("nee");
 			String sql = "UPDATE items SET bidder_username = ?, price = ? WHERE id = ?";
 			PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -269,7 +272,7 @@ public class ItemDAO {
 		return;
 
 	}
-	
+
 	public void dutchAuction(String item_id, String username) {
 
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
@@ -291,7 +294,6 @@ public class ItemDAO {
 		return;
 	}
 
-
 	private boolean isGreater(String item_id, double bid_amount, Connection conn) {
 		try (Statement statement = conn.createStatement()) {
 
@@ -304,10 +306,12 @@ public class ItemDAO {
 			if (rows.next()) {
 				double maxBid = rows.getDouble("price");
 				if (bid_amount > maxBid) {
-
+					preparedStatement.close();
+					conn.close();
 					return true;
 				}
-
+				preparedStatement.close();
+				conn.close();
 				return false;
 			}
 
@@ -339,7 +343,6 @@ public class ItemDAO {
 		return;
 	}
 
-	
 	public boolean isAuctionActive(String item_id) {
 
 		try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
@@ -356,12 +359,9 @@ public class ItemDAO {
 				String createdAt = rows.getString("created_at");
 				String type = rows.getString("type");
 				double price = rows.getInt("price");
-				
-				
-				
 
 				Item item = new Item(createdAt, type, price);
-				
+
 				System.out.println(createdAt);
 				System.out.println(type);
 				System.out.println(price);
@@ -369,21 +369,20 @@ public class ItemDAO {
 				System.out.println(item.getType());
 				System.out.println(item.getCost());
 
-				
-				if(item.getType().equals("dutch") && item.getCost() > 5) {
+				if (item.getType().equals("dutch") && item.getCost() > 5) {
 					System.out.println("done");
 					preparedStatement.close();
 					conn.close();
 
 					return true;
-				}else if (item.getRemainingTime() <= 0) {
+				} else if (item.getRemainingTime() <= 0) {
 					setToSold(item_id, conn);
 					System.out.println(item_id + "good");
 					preparedStatement.close();
 					conn.close();
 
 					return false;
-				}else {
+				} else {
 					preparedStatement.close();
 					conn.close();
 
@@ -398,7 +397,7 @@ public class ItemDAO {
 			}
 
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
 

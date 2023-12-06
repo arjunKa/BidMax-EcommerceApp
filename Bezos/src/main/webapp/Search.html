@@ -160,43 +160,53 @@
 	<script>
 		// Function to update remaining time
 		function updateRemainingTime() {
-		    // Get all elements with the id starting with "remainingTime"
-		    var table = document.getElementById("myTable");
-		    var rows = table.getElementsByTagName("tr");
-		    
-		
+			// Get all elements with the id starting with "remainingTime"
+			var table = document.getElementById("myTable");
+			var rows = table.getElementsByTagName("tr");
+
+
 			for (i = 0; i < rows.length; i++) {
-			    
-			    var row = rows[i];
-			    var auctionType = row.cells[2];
-			    var currentPriceCell = row.cells[1];
-			    var element = row.cells[3];
-			    var bidder = row.cells[6];
-			    var remainingTime = parseInt(element.innerText, 10);
-			    
-			
-			    // Extract the actual current price value
-			    var currentPrice = parseInt(currentPriceCell.innerText, 10);
-			
-			    if (auctionType.innerText.trim().toLowerCase() === "forward" && remainingTime > 0) {
-					if (remainingTime > 0) {
-						element.innerText = remainingTime - 1;
-					}	
-				}else if (auctionType.innerText.trim().toLowerCase() === "dutch" && !(bidder.innerText.trim() === "")) {
-					element.innerText = "Sold";
-				}else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice > 5 ) {
-			        element.innerText = "Now";
-			    }else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice <= 5) {
+
+				var row = rows[i];
+				var auctionType = row.cells[2];
+				var currentPriceCell = row.cells[1];
+				var element = row.cells[3];
+				var bidder = row.cells[6];
+				var id = row.getElementsByTagName("td").cells[8].querySelector('input[type="radio"]').value;
+				console.log(id);
+				var remainingTime = parseInt(element.innerText, 10);
+
+
+				// Extract the actual current price value
+				var currentPrice = parseInt(currentPriceCell.innerText, 10);
+
+				if (auctionType.innerText.trim().toLowerCase() === "forward" && remainingTime > 0) {
 					if (remainingTime > 0) {
 						element.innerText = remainingTime - 1;
 					}
-			    }
-			    
+				} else if (auctionType.innerText.trim().toLowerCase() === "japanese" && remainingTime > 0) {
+					
+					if (remainingTime > 0) {
+						element.innerText = remainingTime - 1;
+					}
+					currentPriceCell.innerText = getCost(id);
+
+
+				} else if (auctionType.innerText.trim().toLowerCase() === "dutch" && !(bidder.innerText.trim() === "")) {
+					element.innerText = "Sold";
+				} else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice > 5) {
+					element.innerText = "Now";
+				} else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice <= 5) {
+					if (remainingTime > 0) {
+						element.innerText = remainingTime - 1;
+					}
+				}
+
 			}
 
 		}
-		
-		
+
+
 
 		// Set up an interval to update every second (1000 milliseconds)
 		var intervalId = setInterval(updateRemainingTime, 1000);
@@ -211,9 +221,28 @@
 
 		window.addEventListener('pageshow', recalibrate);
 		window.addEventListener('popstate', recalibrate);
-		
-		
-		
+
+
+		function getCost(id) {
+			var u = "http://localhost:8080/Bezos/api/item/" + id;
+
+			var item;
+			$.ajax({
+				url: u,
+				type: 'GET',
+				success: function (result) {
+
+					item = result.cost
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+
+			return item;
+
+		}
+
 	</script>
 
 
