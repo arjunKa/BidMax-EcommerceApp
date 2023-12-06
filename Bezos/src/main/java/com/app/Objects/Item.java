@@ -23,17 +23,21 @@ public class Item {
 	private double shipping = 0;
 	private double expeditedShipping = 35;
 	private int remainingTime;
+	private int incrementalCost = (int) price;
 	private boolean sold = false;
 	private double purchaseAmount = 0;
 
 	public Item() {
 		super();
 	}
+	
+	
 
 	public Item(String date, String type, double price) {
 		setDate(date);
 		setType(type);
 		setPrice(price);
+		setIncrementalCost(price);
 	}
 	
 
@@ -169,6 +173,11 @@ public class Item {
 		this.remainingTime = remTime;
 
 	}
+	
+	public void setIncrementalCost(double price2) {
+		this.incrementalCost = (int) price2;
+
+	}
 
 	public void setSold(boolean sold) {
 		this.sold = sold;
@@ -188,6 +197,10 @@ public class Item {
 		return remainingTime;
 	}
 
+	public int getIncrementalCost() {
+		calculateCost();
+		return incrementalCost;
+	}
 
 	public void calculateRemainingTime() {
 		
@@ -210,6 +223,32 @@ public class Item {
 				this.remainingTime = 0;
 			}
 			
+
+	}
+	
+	public void calculateCost() {
+		
+		// Define the date-time formatter with the pattern
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		// Parse the string to obtain a LocalDateTime object
+		LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
+
+		// Convert LocalDateTime to Instant
+		Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
+
+		LocalDateTime currentDateTime = LocalDateTime.now();
+
+		// Extract the time in milliseconds since the epoch
+		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
+		this.remainingTime = (int) difference / 1000;
+		
+		this.incrementalCost =  Math.abs(this.remainingTime - 120) + (int) this.price;
+		
+		if (this.remainingTime < 0) {
+			this.remainingTime = 0;
+		}
+		
 
 	}
 
