@@ -290,6 +290,52 @@ public class ItemDAO {
 		}
 		return;
 	}
+	
+
+	public void japaneseAuction(String item_Id, String username, String current_Value) {
+	    try (Connection conn = DatabaseConnection.connect(); Statement statement = conn.createStatement()) {
+	        String sql = "SELECT * FROM items WHERE id = ? AND sold = 0";
+
+	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	        preparedStatement.setString(1, item_Id);
+
+	        ResultSet rows = preparedStatement.executeQuery();
+
+	        if (rows.next()) {
+	            String createdAt = rows.getString("created_at");
+	            String type = rows.getString("type");
+	            double price = rows.getInt("price");
+
+	            Item item = new Item(createdAt, type, price);
+
+
+	            System.out.println(createdAt);
+	            System.out.println(type);
+	            System.out.println(price);
+	            System.out.println("HELLO" + item.getIncrementalCost());
+	            System.out.println(item.getCost());
+
+	            String sql2 = "UPDATE items SET bidder_username = ?, price = ? WHERE id = ?";
+	            preparedStatement = conn.prepareStatement(sql2);
+
+	            preparedStatement.setString(1, username);
+	            preparedStatement.setInt(2, Integer.parseInt(current_Value));
+	            preparedStatement.setInt(3, Integer.parseInt(item_Id));
+
+	            preparedStatement.executeUpdate();
+	            setToSold(item_Id, conn);
+	            preparedStatement.close();
+	            conn.close();
+	        }
+	        
+	        preparedStatement.close();
+            conn.close();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return;
+	}
 
 
 	private boolean isGreater(String item_id, double bid_amount, Connection conn) {
@@ -325,13 +371,14 @@ public class ItemDAO {
 
 			String sql = "UPDATE items SET purchase_amount = ? WHERE id = ?";
 			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			
+
 
 			preparedStatement.setString(1, total);
 			preparedStatement.setInt(2, item_id);
 
 			preparedStatement.executeUpdate();
-			preparedStatement.close();
-			conn.close();
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -362,12 +409,7 @@ public class ItemDAO {
 
 				Item item = new Item(createdAt, type, price);
 				
-				System.out.println(createdAt);
-				System.out.println(type);
-				System.out.println(price);
-				System.out.println(item.getRemainingTime());
-				System.out.println(item.getType());
-				System.out.println(item.getCost());
+				
 
 				
 				if(item.getType().equals("dutch") && item.getCost() > 5) {
@@ -415,10 +457,15 @@ public class ItemDAO {
 			preparedStatement.executeUpdate();
 			System.out.println(item_id + "good");
 			preparedStatement.close();
+			statement.close();
+			conn.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 	}
+
+	
+
 }
