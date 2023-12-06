@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bezos - Receipt</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: 'Epilogue', sans-serif;
+			display: flex;
+			flex-direction: column;
+			height: 100vh;
+			background-color: #2B67F6;
+			color: white;
+		}
+
+		header {
+			background-color: #fff;
+			color: #000;
+			text-align: center;
+			font-size: 24px;
+			font-family: 'Jockey One', sans-serif;
+		}
+
+		header h1 {
+			margin: 0;
+			padding: 20px 0;
+		}
+
+		.back-button {
+			background-color: #000000;
+			color: white;
+			padding: 10px 15px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			position: absolute;
+			top: 7%;
+			left: 3%;
+		}
+
+		.container {
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			margin: auto;
+			padding: 40px;
+			background-color: #0056b3;
+			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			width: 80%;
+			max-width: 900px;
+		}
+
+		.section {
+			flex: 1;
+			margin: 0 20px;
+		}
+
+
+		.divider {
+			border-left: 2px solid rgb(0, 0, 0);
+			height: 100%;
+		}
+
+
+
+		input[type=text] {
+			width: calc(100% - 20px);
+			padding: 10px;
+			margin: 10px 0;
+			border: none;
+			border-radius: 5px;
+		}
+
+		.submit-btn-wrapper {
+			text-align: center;
+			/* Center the button wrapper horizontally */
+			margin-top: 200px;
+			/* Add some space above the button */
+			width: 100%;
+			/* Ensure the wrapper takes full width */
+		}
+
+		.submit-btn {
+			background-color: #000000;
+			color: white;
+			padding: 10px 15px;
+			/* Adjust padding as needed */
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			display: block;
+			/* Change to block to take the full width */
+			width: auto;
+			/* Set width to auto so it expands as needed based on text */
+			margin-top: 480px;
+			/* Adjust this value as needed to push the button down */
+			margin-bottom: 40px;
+			/* If you want to push it further down */
+			margin-left: auto;
+			/* Center button horizontally */
+			margin-right: auto;
+			/* Center button horizontally */
+		}
+
+		h2 {
+			font-size: 28px;
+			margin-bottom: 15px;
+		}
+
+		.submit-btn:hover {
+			background-color: #333333;
+		}
+
+		@media (max-width: 768px) {
+			.container {
+				flex-direction: column;
+				padding: 20px;
+			}
+
+			.divider {
+				border-left: none;
+				border-top: 2px solid rgb(0, 0, 0);
+				width: 100%;
+				height: auto;
+				margin: 20px 0;
+			}
+
+			.section {
+				margin: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1>BEZOS</h1>
+		<button onclick="window.location.href='Receipt.jsp'" class="back-button">BACK</button>
+	</header>
+
+	<div class="container">
+
+		<div class="section">
+			<h2>Receipt</h2>
+
+
+			<label for="fname">First Name:</label>
+			<input type="text" id="fname" name="fname" value="" readonly>
+			<label for="lname">Last Name:</label>
+			<input type="text" id="lname" name="lname" value="" readonly>
+			<label for="address">Street address:</label>
+			<input type="text" id="address" name="address" value="" readonly>
+			<label for="province">Province:</label>
+			<input type="text" id="province" name="province" value="" readonly>
+			<label for="country">Country:</label>
+			<input type="text" id="country" name="country" value="" readonly>
+			<label for="postal">Postal Code:</label>
+			<input type="text" id="postal" name="postal" value="" readonly>
+
+			<p>Item cost: <span id="cost">0</span></p>
+			<p>Standard shipping: <span id="shipping">0</span></p>
+			<p>Expedited Shipping: <span id="expeditedShipping">0</span></p>
+			<p>Total Paid: <span id="total">0</span></p>
+		</div>
+		<div class="divider"></div>
+		<div class="section">
+			<h2>Shipping Details</h2>
+			<p>The item will ship in: <span id="cost">0</span> days.</p>
+
+			<button type="button" class="submit-btn" onclick="window.location.href='Main.html'">Back to Main
+				Page</button>
+
+		</div>
+
+	</div>
+
+	<script>
+		function getQueryParam(param) {
+			var urlParams = new URLSearchParams(window.location.search);
+			return urlParams.get(param);
+		}
+		// Fetch the username from the server using AJAX
+		function fetchUsername() {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					// Update the username display element
+					//document.getElementById("usernameDisplay").innerText = "User Id: " + xhr.responseText;
+				}
+			};
+			xhr.open("GET", "GetUsernameServlet", true);
+			xhr.send();
+		}
+
+		window.onload = function () {
+			fetchUsername();
+		};
+
+	</script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			itemId = getQueryParam("itemId");
+
+			$.ajax({
+				url: "http://localhost:8080/Bezos/api/item/" + itemId,
+				type: 'GET',
+				success: function (item) {
+
+					currentTotal = item.cost;
+					X = item.expeditedShipping;
+					shipping = item.shipping;
+
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+
+
+			var bidder;
+
+			console.log(itemId);
+			var showNumberInput;
+			$.ajax({
+				url: "http://localhost:8080/Bezos/api/item/" + itemId,
+				type: 'GET',
+				success: function (item) {
+
+					bidder = item.bidderUsername;
+					console.log(bidder);
+
+					document.getElementById("total").innerText = item.purchaseAmount;
+					document.getElementById("cost").innerText = item.cost;
+					document.getElementById("shipping").innerText = item.shipping;
+					document.getElementById("expeditedShipping").innerText = item.expeditedShipping;
+
+					$.ajax({
+						url: "http://localhost:8080/Bezos/api/users/" + bidder,
+						type: 'GET',
+						success: function (user) {
+							console.log("ok" + bidder);
+							document.getElementById("fname").value = user.firstName;
+							document.getElementById("lname").value = user.lastName;
+							document.getElementById("address").value = user.address;
+							document.getElementById("country").value = user.country;
+							document.getElementById("province").value = user.province;
+							document.getElementById("postal").value = user.postalCode;
+
+
+						},
+						error: function (error) {
+							console.log(error);
+						}
+					});
+
+
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+
+
+
+
+		});
+	</script>
+</body>
+
+</html>
