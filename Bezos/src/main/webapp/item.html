@@ -117,9 +117,18 @@
 			url: "http://localhost:8080/Bezos/api/item/" + itemId,
 			type: 'GET',
 			success: function (item) {
-
+				
 				document.getElementById("itemName").innerText = item.name;
-				document.getElementById("currentPrice").innerText = item.incrementalCost;
+				if (((item.bidderUsername == null || item.bidderUsername === "") && item.remainingTime > 0)) {
+							if(item.type == "japanese"){
+								document.getElementById("currentPrice").innerText = item.incrementalCost;
+							}else if (item.type != "japanese"){
+								document.getElementById("currentPrice").innerText = item.cost;
+							}
+		                } else{
+		                    // If bidderUsername is not null or empty, use item.incrementalCost
+							document.getElementById("currentPrice").innerText = item.cost;
+		                }
 				document.getElementById("auctionType").innerText = item.type;
 
 				document.getElementById("auctionTypeHidden").value = item.type;
