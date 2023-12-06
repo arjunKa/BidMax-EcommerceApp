@@ -74,7 +74,8 @@ public class ItemServlet extends HttpServlet {
 		String username = session.getAttribute("username").toString();
 		String type = request.getParameter("auctionTypeHidden");
 		String itemId = request.getParameter("itemId");
-		System.out.print(type);
+		String currentPrice = request.getParameter("currentPriceHidden");
+		System.out.print(type + currentPrice);
 		
 		
 		if (!itemDAO.isAuctionActive(request.getParameter("itemId"))) {
@@ -86,11 +87,12 @@ public class ItemServlet extends HttpServlet {
 			double amount = Double.parseDouble(request.getParameter("amount"));
 			itemDAO.forwardAuction( itemId, username, amount);
 			response.sendRedirect("item.html?itemId=" + itemId);
-		} else {
+		} else if (type.equals("dutch")){
 			itemDAO.dutchAuction(itemId, username);
-			response.sendRedirect("AuctionEnd.html?itemId=" + itemId);
-
-			
+			response.sendRedirect("AuctionEnd.html?itemId=" + itemId);			
+		} else if (type.equals("japanese")){
+			itemDAO.japaneseAuction(itemId, username, currentPrice);
+			response.sendRedirect("AuctionEnd.html?itemId=" + itemId);			
 		}
 
 	}
