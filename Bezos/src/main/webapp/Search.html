@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -80,12 +80,13 @@
 		            result.forEach(function (item) {
 		                var row = $("<tr></tr>");
 		                row.append($("<td></td>").text(item.name));
-		                if ((item.bidderUsername == null || item.bidderUsername === "") && item.remainingTime > 0) {
-		                    // If bidderUsername is null or empty, use item.cost
-		                    row.append($("<td id=\"incrementalCost\"></td>").text(item.incrementalCost));
-		                } else if ((item.bidderUsername == null || item.bidderUsername === "") && item.remainingTime == 0){
-					        row.append($("<td id=\"incrementalCost\"></td>").text(item.cost));
-						} else{
+		                if (((item.bidderUsername == null || item.bidderUsername === "") && item.remainingTime > 0)) {
+							if(item.type == "japanese"){
+								row.append($("<td id=\"incrementalCost\"></td>").text(item.incrementalCost));
+							}else if (item.type != "japanese"){
+							    row.append($("<td id=\"incrementalCost\"></td>").text(item.cost));
+							}
+		                } else{
 		                    // If bidderUsername is not null or empty, use item.incrementalCost
 		                    row.append($("<td id=\"incrementalCost\"></td>").text(item.cost));
 		                }
