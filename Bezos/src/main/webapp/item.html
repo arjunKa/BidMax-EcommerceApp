@@ -1,255 +1,206 @@
-package com.app.Objects;
+<!DOCTYPE html>
+<html lang="en">
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles/ItemStyle.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<title>Item Details</title>
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+</head>
 
-public class Item {
 
-	private int id = 0;
-	private String name = "";
-	private String sellerUsername = "";
-	private String bidderUsername = "";
-	private String type = "";
-	private double price = 0;
-	// @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
-	private String date;
-	private String description = "";
-	private double shipping = 0;
-	private double expeditedShipping = 35;
-	private int remainingTime;
-	private int incrementalCost = (int) price;
-	private boolean sold = false;
-	private double purchaseAmount = 0;
+<body>
 
-	public Item() {
-		super();
+	<header>
+		<h1>BEZOS</h1>
+		<!-- Add an element to display the username -->
+		<p id="usernameDisplay"></p>
+		<button onclick="window.location.href='Search.html'" class="back-button">BACK</button>
+	</header>
+
+	<div class="flex-container">
+		<h1>Item Details</h1>
+	</div>
+	<div class="main">
+		<div class="item-details">
+			<p><strong>Item Name:</strong> <span id="itemName"></span></p>
+			<p><strong>Current Price:</strong> <span id="currentPrice"></span></p>
+			<p><strong>Auction Type:</strong> <span id="auctionType"></span></p>
+			<p><strong>Remaining Time:</strong> <span id="remainingTime"></span></p>
+			<p><strong>Description:</strong> <span id="description"></span></p>
+			<p><strong>Shipping Price:</strong> <span id="shippingPrice"></span></p>
+			<p><strong>Seller:</strong> <span id="seller"></span></p>
+			<p><strong>Current Bidder:</strong> <span id="currentBidder">None</span></p>
+
+			<form action="ItemServlet" method="post" autocomplete="off">
+				<label for="numberInput">Bid Amount:</label>
+				<input type="number" id="numberInput" name="amount" pattern="^\d*(\.\d{0,2})?$" step="any" min="0">
+				<input type="hidden" id="itemId" name="itemId" value="">
+				<input type="hidden" id="auctionTypeHidden" name="auctionTypeHidden" value="">
+				<input type="hidden" id="currentPriceHidden" name="currentPriceHidden" value="">
+				<input type="submit" value="Bid">
+			</form>
+
+		</div>
+	</div>
+
+
+</body>
+
+<script>
+	// Function to set the default value of bid amount to currentPrice
+    function setDefaultBidAmount() {
+        // Get the current price from the span element
+        var currentPrice = document.getElementById("currentPrice").innerText;
+
+        // Set the default value of the bid amount input field to currentPrice
+        document.getElementById("numberInput").value = currentPrice;
+    }
+
+    // Call setDefaultBidAmount when the page loads
+    window.addEventListener('load', setDefaultBidAmount);
+	
+	// Function to set the value of auctionTypeHidden based on the displayed auction type
+    function setAuctionTypeHidden() {
+        // Gets the auction type from the span element
+        var auctionType = document.getElementById("auctionType").innerText;
+
+        // Sets the value of the hidden field based on the auction type
+        document.getElementById("auctionTypeHidden").value = auctionType;
+    }
+    
+    function setCurrentValueHidden() {
+	    // Gets the current price from the span element
+	    var currentPrice = document.getElementById("currentPrice").innerText;
+	
+	    // Sets the value of the hidden field based on the current price
+	    document.getElementById("currentPriceHidden").value = currentPrice;
 	}
 	
+	document.querySelector('form').addEventListener('submit', function (event) {
+	    setAuctionTypeHidden();
+	    setCurrentValueHidden();
+	});
 	
-
-	public Item(String date, String type, double price) {
-		setDate(date);
-		setType(type);
-		setPrice(price);
-		setIncrementalCost(price);
+	function getQueryParam(param) {
+		var urlParams = new URLSearchParams(window.location.search);
+		return urlParams.get(param);
 	}
-	
-
-	public Item(int id, String name, String seller, String bidder, double price, String type, String date,
-			String description, double shipping, double purchaseAmount) {
-		setId(id);
-		setName(name);
-		setPrice(price);
-		setType(type);
-		setDate(date);
-		setDescription(description);
-		setShipping(shipping);
-		setSellerUsername(seller);
-		setBidderUsername(bidder);
-		setPurchaseAmount(purchaseAmount);
-
-	}
-
-	public Item(int id, String name, double price, String type, String string, String description, double shipping) {
-		setId(id);
-		setName(name);
-		setPrice(price);
-		setType(type);
-		setDate(string);
-		setDescription(description);
-		setShipping(shipping);
-
-	}
-
-	public Item(String name, double price, String type, String date, String description, double shipping) {
-		setName(name);
-		setPrice(price);
-		setType(type);
-		setDate(date);
-		setId(0);
-		setDescription(description);
-		setShipping(shipping);
-	}
-
-	// Getters
-	public int getId() {
-		return id;
-	}
-
-	public String getSellerUsername() {
-		return sellerUsername;
-	}
-
-	public String getBidderUsername() {
-		return bidderUsername;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public double getCost() {
-		return price;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	
-	public String getDescription() {
-		return description;
-
-	}
-
-	public double getShipping() {
-		return shipping;
-	}
-
-	public double getExpeditedShipping() {
-		return expeditedShipping;
-	}
-
-	public boolean getSold() {
-		return sold;
-
-	}
-
-	public double getPurchaseAmount() {
-		return purchaseAmount;
-	}
-
-	// Setters
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setSellerUsername(String name) {
-		this.sellerUsername = name;
-	}
-
-	public void setBidderUsername(String name) {
-		this.bidderUsername = name;
-	}
-
-	public void setPrice(double cost) {
-		this.price = cost;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-
-	}
-
-	public void setShipping(double shipping) {
-		this.shipping = shipping;
-
-	}
-
-	public void setRemainingTime(int remTime) {
-		this.remainingTime = remTime;
-
-	}
-	
-	public void setIncrementalCost(double price2) {
-		this.incrementalCost = (int) price2;
-
-	}
-
-	public void setSold(boolean sold) {
-		this.sold = sold;
-
-	}
-
-	public void setPurchaseAmount(double purchaseAmount) {
-		this.purchaseAmount = purchaseAmount;
-	}
-	
-	public int getRemainingTime() {
-		if (this.type.equals("dutch") && this.price > 5) {
-			remainingTime = 120;
-		}else {
-			calculateRemainingTime();
-		}
-		return remainingTime;
-	}
-
-	public int getIncrementalCost() {
-		calculateCost();
-		return incrementalCost;
-	}
-
-	public void calculateRemainingTime() {
-		
-		
-			// Define the date-time formatter with the pattern
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-			// Parse the string to obtain a LocalDateTime object
-			LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
-
-			// Convert LocalDateTime to Instant
-			Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
-
-			LocalDateTime currentDateTime = LocalDateTime.now();
-
-			// Extract the time in milliseconds since the epoch
-			long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
-			this.remainingTime = (int) difference / 1000;
-			if (remainingTime < 0) {
-				this.remainingTime = 0;
+	// Fetch the username from the server using AJAX
+	function fetchUsername() {
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				// Update the username display element
+				document.getElementById("usernameDisplay").innerText = "User Id: " + xhr.responseText;
 			}
-			
-
+		};
+		xhr.open("GET", "GetUsernameServlet", true);
+		xhr.send();
 	}
-	
-	public void calculateCost() {
+
+	window.onload = function () {
+		fetchUsername();
+	};
+
+</script>
+
+<script>
+
+	$(document).ready(function () {
+		itemId = getQueryParam("itemId");
+		console.log(itemId);
+		var showNumberInput;
+		$.ajax({
+			url: "http://localhost:8080/Bezos/api/item/" + itemId,
+			type: 'GET',
+			success: function (item) {
+				
+				document.getElementById("itemName").innerText = item.name;
+				if (((item.bidderUsername == null || item.bidderUsername === "") && item.remainingTime > 0)) {
+							if(item.type == "japanese"){
+								document.getElementById("currentPrice").innerText = item.incrementalCost;
+							}else if (item.type != "japanese"){
+								document.getElementById("currentPrice").innerText = item.cost;
+							}
+		                } else{
+		                    // If bidderUsername is not null or empty, use item.incrementalCost
+							document.getElementById("currentPrice").innerText = item.cost;
+		                }
+				document.getElementById("auctionType").innerText = item.type;
+
+				document.getElementById("auctionTypeHidden").value = item.type;
+				document.getElementById("itemId").value = item.id;
+				showNumberInput = item.type;
+				document.getElementById("description").innerText = item.description;
+				document.getElementById("shippingPrice").innerText = item.shipping;
+				document.getElementById("remainingTime").innerText = item.remainingTime;
+				document.getElementById("seller").innerText = item.sellerUsername;
+				if (item.bidderUsername != null) {
+					document.getElementById("currentBidder").innerText = item.bidderUsername;
+				}
+
+
+				var numberInput = document.getElementById('numberInput');
+				numberInput.style.display = showNumberInput.toLowerCase() === 'forward' ? 'block' : 'none';
+			},
+			error: function (error) {
+				console.log(error);
+			}
+		});
+	});
+</script>
+
+<script>
+	// Function to update remaining time
+	function updateRemainingTime() {
+		    // Get all elements with the id starting with "remainingTime"
+		    var table = document.getElementById("myTable");
+		    var rows = table.getElementsByTagName("tr");
+		    
 		
-		// Define the date-time formatter with the pattern
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			for (i = 0; i < rows.length; i++) {
+			    
+			    var row = rows[i];
+			    var auctionType = row.cells[2];
+			    var currentPriceCell = row.cells[1];
+			    var element = row.cells[3];
+			    var bidder = row.cells[6];
+			    var remainingTime = parseInt(element.innerText, 10);
+			    
+			
+			    // Extract the actual current price value
+			    var currentPrice = parseInt(currentPriceCell.innerText, 10);
+			
+			    if (auctionType.innerText.trim().toLowerCase() === "forward" && remainingTime > 0) {
+					if (remainingTime > 0) {
+						element.innerText = remainingTime - 1;
+					}	
+				}else if (auctionType.innerText.trim().toLowerCase() === "dutch" && !(bidder.innerText.trim() === "")) {
+					element.innerText = "Sold";
+				}else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice > 5 ) {
+			        element.innerText = "Now";
+			    }else if (auctionType.innerText.trim().toLowerCase() === "dutch" && currentPrice <= 5) {
+					if (remainingTime > 0) {
+						element.innerText = remainingTime - 1;
+					}
+			    }else if (auctionType.innerText.trim().toLowerCase() === "japanese") {
+					if (remainingTime > 0) {
+						element.innerText = remainingTime - 1;
+						currentPriceCell.innerText = currentPrice + 10;
+					}
+			    }
+			    
+			}
 
-		// Parse the string to obtain a LocalDateTime object
-		LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
-
-		// Convert LocalDateTime to Instant
-		Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
-
-		LocalDateTime currentDateTime = LocalDateTime.now();
-
-		// Extract the time in milliseconds since the epoch
-		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
-		this.remainingTime = (int) difference / 1000;
-		
-		this.incrementalCost =  Math.abs(this.remainingTime - 120) * 10 + (int) this.price;
-		
-		if (this.remainingTime < 0) {
-			this.remainingTime = 0;
 		}
 		
 
-	}
+	// Set up an interval to update every second (1000 milliseconds)
+	var intervalId = setInterval(updateRemainingTime, 1000);
 
-}
+</script>
+
+</html>
