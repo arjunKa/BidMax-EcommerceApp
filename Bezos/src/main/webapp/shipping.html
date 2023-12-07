@@ -160,12 +160,12 @@
 			<input type="text" id="lname" name="lname" value="" readonly>
 			<label for="address">Street address:</label>
 			<input type="text" id="address" name="address" value="" readonly>
-			<label for="province">Province:</label>
-			<input type="text" id="province" name="province" value="" readonly>
+			<label for="city">City:</label>
+			<input type="text" id="city" name="city" value="" readonly>
 			<label for="country">Country:</label>
 			<input type="text" id="country" name="country" value="" readonly>
-			<label for="postal">Postal Code:</label>
-			<input type="text" id="postal" name="postal" value="" readonly>
+			<label for="postalCode">Postal Code:</label>
+			<input type="text" id="postalCode" name="postalCode" value="" readonly>
 
 			<p>Item cost: <span id="cost">0</span></p>
 			<p>Standard shipping: <span id="shipping">0</span></p>
@@ -256,8 +256,8 @@
 							document.getElementById("lname").value = user.lastName;
 							document.getElementById("address").value = user.address;
 							document.getElementById("country").value = user.country;
-							document.getElementById("province").value = user.province;
-							document.getElementById("postal").value = user.postalCode;
+							document.getElementById("city").value = user.city;
+							document.getElementById("postalCode").value = user.postalCode;
 
 
 						},

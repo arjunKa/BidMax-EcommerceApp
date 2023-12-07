@@ -60,8 +60,9 @@ public class UserDAO {
 				user.setUsername("username");
 				user.setAddress(rs.getString("address"));
 				user.setLastName(rs.getString("lastName"));
-				user.setCountry(rs.getString("city"));
+				user.setCountry(rs.getString("country"));
 				user.setPostalCode(rs.getString("postalCode"));
+				user.setCity(rs.getString("city"));
 			}
 			rs.close();
 			ps.close();
@@ -99,6 +100,7 @@ public class UserDAO {
 				user.setUsername(rs.getString("username"));
 				user.setCountry(rs.getString("country"));
 				user.setPostalCode(rs.getString("postalCode"));
+				user.setCity(rs.getString("city"));
 			}
 			rs.close();
 			ps.close();
