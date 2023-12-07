@@ -45,8 +45,8 @@
 				Now</button>
 			<p id="errorMsg" style="color: red; display: none;">You are not
 				allowed to make this payment.</p>
-				
-				<input type="hidden" id="itemId" name="itemId" value="">
+
+			<input type="hidden" id="itemId" name="itemId" value="">
 
 		</form>
 	</div>
@@ -64,7 +64,7 @@
 		var out;
 		function fetchUsername() {
 			var xhr = new XMLHttpRequest();
-			
+
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4 && xhr.status == 200) {
 					// Update the username display element
@@ -73,10 +73,10 @@
 			};
 			xhr.open("GET", "GetUsernameServlet", true);
 			xhr.send();
-			
+
 		}
 	</script>
-	
+
 	<script type="text/javascript">
 		$(document).ready(function () {
 			fetchUsername();
@@ -86,21 +86,21 @@
 				url: "http://localhost:8080/Bezos/api/item/" + itemId,
 				type: 'GET',
 				success: function (item) {
-					
-					if(item.bidderUsername != out && (item.bidderUsername == null || item.bidderUsername == "")){
-						if(item.type == "japanese"){
+
+					if (item.bidderUsername != out && (item.bidderUsername == null || item.bidderUsername == "")) {
+						if (item.type == "japanese") {
 							document.getElementById("itemId").value = item.id;
-	
+
 							document.getElementById("currentPrice").innerText = item.cost + (120 * 10);
 							console.log(item.cost);
 							document.getElementById("bidder").innerText = item.bidderUsername;
 							console.log(item.bidderUsername);
-		
+
 							var table = $("#itemTable");
-		
+
 							var row = $("<tr></tr>");
-							
-							
+
+
 							console.log(fetchUsername());
 							var payButton = document.getElementById('payButton');
 							var errorMsg = document.getElementById('errorMsg');
@@ -110,19 +110,19 @@
 							payButton.innerText = 'Not Allowed';
 							// Display the error message
 							errorMsg.style.display = 'block';
-						}else{
+						} else {
 							document.getElementById("itemId").value = item.id;
 
 							document.getElementById("currentPrice").innerText = item.cost;
 							console.log(item.cost);
 							document.getElementById("bidder").innerText = item.bidderUsername;
 							console.log(item.bidderUsername);
-		
+
 							var table = $("#itemTable");
-		
+
 							var row = $("<tr></tr>");
-							
-							
+
+
 							console.log(fetchUsername());
 							var payButton = document.getElementById('payButton');
 							var errorMsg = document.getElementById('errorMsg');
@@ -133,19 +133,19 @@
 							// Display the error message
 							errorMsg.style.display = 'block';
 						}
-					}else if(item.bidderUsername != out && !(item.bidderUsername == null || item.bidderUsername == "")){
+					} else if (item.bidderUsername != out && !(item.bidderUsername == null || item.bidderUsername == "")) {
 						document.getElementById("itemId").value = item.id;
 
 						document.getElementById("currentPrice").innerText = item.cost;
 						console.log(item.cost);
 						document.getElementById("bidder").innerText = item.bidderUsername;
 						console.log(item.bidderUsername);
-	
+
 						var table = $("#itemTable");
-	
+
 						var row = $("<tr></tr>");
-						
-						
+
+
 						console.log(fetchUsername());
 						var payButton = document.getElementById('payButton');
 						var errorMsg = document.getElementById('errorMsg');
@@ -155,19 +155,19 @@
 						payButton.innerText = 'Not Allowed';
 						// Display the error message
 						errorMsg.style.display = 'block';
-					
 
-					}else{
-						
+
+					} else {
+
 						document.getElementById("itemId").value = item.id;
 
 						document.getElementById("currentPrice").innerText = item.cost;
 						console.log(item.cost);
 						document.getElementById("bidder").innerText = item.bidderUsername;
 						console.log(item.bidderUsername);
-	
+
 						var table = $("#itemTable");
-	
+
 						var row = $("<tr></tr>");
 						row.append($("<td></td>").text(item.name));
 						row.append($("<td></td>").text(item.cost));

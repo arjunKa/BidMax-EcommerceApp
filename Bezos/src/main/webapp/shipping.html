@@ -189,22 +189,6 @@
 			var urlParams = new URLSearchParams(window.location.search);
 			return urlParams.get(param);
 		}
-		// Fetch the username from the server using AJAX
-		function fetchUsername() {
-			var xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					// Update the username display element
-					//document.getElementById("usernameDisplay").innerText = "User Id: " + xhr.responseText;
-				}
-			};
-			xhr.open("GET", "GetUsernameServlet", true);
-			xhr.send();
-		}
-
-		window.onload = function () {
-			fetchUsername();
-		};
 
 	</script>
 
