@@ -22,7 +22,7 @@ public class Item {
 	private String description = "";
 	private double shipping = 0;
 	private double expeditedShipping = 35;
-	private int remainingTime;
+	private int remainingTime=0;
 	private int incrementalCost = (int) price;
 	private boolean sold = false;
 	private double purchaseAmount = 0;
@@ -207,18 +207,19 @@ public class Item {
 	public void calculateRemainingTime() {
 
 		// Define the date-time formatter with the pattern
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+	        LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
 
-		// Parse the string to obtain a LocalDateTime object
-		LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
+	        // Convert LocalDateTime to Instant
+	        Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
 
-		// Convert LocalDateTime to Instant
-		Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
+	        // Get the epoch milliseconds from Instant
+	        long epochMillis = instant.toEpochMilli();
 
 		LocalDateTime currentDateTime = LocalDateTime.now();
 
 		// Extract the time in milliseconds since the epoch
-		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
+		long difference = epochMillis - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
 		this.remainingTime = (int) difference / 1000;
 		if (remainingTime < 0) {
 			this.remainingTime = 0;
@@ -229,7 +230,7 @@ public class Item {
 	public void calculateRemainingCost() {
 		calculateRemainingTime();
 		// Define the date-time formatter with the pattern
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 
 		// Parse the string to obtain a LocalDateTime object
 		LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
@@ -260,7 +261,7 @@ public class Item {
 	public void calculateCost() {
 		
 		// Define the date-time formatter with the pattern
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 
 		// Parse the string to obtain a LocalDateTime object
 		LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
@@ -273,6 +274,7 @@ public class Item {
 		// Extract the time in milliseconds since the epoch
 		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
 		this.remainingTime = (int) difference / 1000;
+		
 		
 		this.incrementalCost =  Math.abs(this.remainingTime - 120) + (int) this.price;
 		

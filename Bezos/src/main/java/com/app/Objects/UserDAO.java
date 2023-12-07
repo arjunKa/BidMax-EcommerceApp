@@ -132,7 +132,6 @@ public class UserDAO {
 
 			// Create the 'users' table if it doesn't exist
 			conn = DatabaseConnection.connect();
-			createUsersTable(conn);
 
 			// Check if the username already exists
 			if (isUsernameExists(conn, username)) {
@@ -241,16 +240,6 @@ public class UserDAO {
 		return false;
 	}
 
-	private void createUsersTable(Connection connection) throws SQLException {
-		String createTableSQL = "CREATE TABLE IF NOT EXISTS users (" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "firstName TEXT NOT NULL," + "lastName TEXT NOT NULL," + "email TEXT NOT NULL,"
-				+ "address TEXT NOT NULL," + "postalCode TEXT NOT NULL," + "city TEXT NOT NULL,"
-				+ "country TEXT NOT NULL," + "username TEXT NOT NULL," + "password TEXT NOT NULL)";
-
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(createTableSQL);
-		}
-	}
 
 	public void delete(int id) {
 		users.removeIf(s -> s.getId() == id);
