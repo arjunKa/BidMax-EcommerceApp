@@ -57,7 +57,10 @@ public class UserDAO {
 				// Set the properties of the user object
 				user.setId(rs.getInt("id"));
 				user.setFirstName(rs.getString("firstName"));
-				user.setUsername("username");
+				user.setEmail(rs.getString("email"));
+				user.setCity(rs.getString("city"));
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
 				user.setAddress(rs.getString("address"));
 				user.setLastName(rs.getString("lastName"));
 				user.setCountry(rs.getString("city"));

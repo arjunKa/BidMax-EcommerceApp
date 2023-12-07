@@ -174,8 +174,8 @@ public class ItemDAO {
 
 				LocalDateTime currentDateTime = LocalDateTime.now();
 
-				// Define the desired date-time format
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				// Define the desired date-time forma
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 
 				// Format the current date and time
 				String formattedDateTime = currentDateTime.format(formatter);
@@ -225,12 +225,6 @@ public class ItemDAO {
 		return i;
 	}
 
-//	public Item update(int id, Item Item) {
-//		// Implement update logic
-//		// ...
-//		
-//		return updatedItem;
-//	}
 
 	public void delete(int id) {
 		items.removeIf(s -> s.getId() == id);

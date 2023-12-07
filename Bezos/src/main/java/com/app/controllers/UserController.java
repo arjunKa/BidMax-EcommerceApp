@@ -1,12 +1,10 @@
 package com.app.controllers;
 
-import com.app.*;
 import com.app.Objects.User;
 import com.app.Objects.UserDAO;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -50,6 +48,7 @@ public class UserController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signup")
 	public User addUser(User user) {
+		userDAO.signUp(user);
 		return userDAO.login(user.getUsername(), user.getPassword());
 	}
 

@@ -71,7 +71,7 @@
 				console.log(username);
 
 				$.ajax({
-					url: "http://localhost:8080/Bezos/api/item/getUserBids/" + username,
+					url: "http://localhost:8080/Bezos/api/item/getUserItems/" + username,
 					type: 'GET',
 					success: function (result) {
 						var table = $("#itemsTable");

@@ -66,9 +66,9 @@
 	<script>
 		function getItems() {
 			var inputValue = document.getElementById("search").value;
-			var u = "http://localhost:8080/Bezos/api/item/getAllBids/" + inputValue;
+			var u = "http://localhost:8080/Bezos/api/item/getAllItems/" + inputValue;
 			if (inputValue == null || inputValue == "") {
-				u = "http://localhost:8080/Bezos/api/item/getAllBids";
+				u = "http://localhost:8080/Bezos/api/item/getAllItems";
 			}
 			$.ajax({
 				url: u,

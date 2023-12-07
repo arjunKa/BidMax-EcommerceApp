@@ -18,7 +18,7 @@ public class Item {
 	private String type = "";
 	private double price = 0;
 	// @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
-	private String date;
+	private String date="2023-12-07 18:00:00.0";
 	private String description = "";
 	private double shipping = 0;
 	private double expeditedShipping = 35;

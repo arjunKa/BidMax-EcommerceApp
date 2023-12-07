@@ -54,24 +54,24 @@ public class ItemController {
 	}
 	
 	@GET
-	@Path("/getUserBids/{username}")
+	@Path("/getUserItems/{username}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Item> getItems(@PathParam("username") String username) {
+	public List<Item> getUserItems(@PathParam("username") String username) {
 		//List<Item> items = new ArrayList<>();
 		return itemDAO.readAll(username);
 	}
 	
 	@GET
-	@Path("/getAllBids/{keyword}")
+	@Path("/getAllItems/{keyword}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Item> getSearchItems(@PathParam("keyword") String keyword) {
+	public List<Item> getAllItems(@PathParam("keyword") String keyword) {
 		//List<Item> items = new ArrayList<>();
 		return itemDAO.readAllSearch(keyword);
 	}
 	
 	@GET
-	@Path("/getAllBids")
+	@Path("/getAllItems")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Item> getSearchItems() {
 		//List<Item> items = new ArrayList<>();
@@ -82,7 +82,7 @@ public class ItemController {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Item updateStudent(@PathParam("id") int id, Item item) {
+	public Item updateItem(@PathParam("id") int id, Item item) {
 		itemDAO.update(item, id);
 		return itemDAO.read(id);
 	}
