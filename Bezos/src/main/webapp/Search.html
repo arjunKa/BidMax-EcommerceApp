@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -86,7 +86,14 @@
 							}else if (item.type != "japanese"){
 							    row.append($("<td id=\"incrementalCost\"></td>").text(item.cost));
 							}
+						} else if(((item.bidderUsername == null || item.bidderUsername === "") && item.remainingTime <= 0)){
+							if(item.type == "japanese"){
+							    row.append($("<td id=\"incrementalCost\"></td>").text(item.cost + (120 * 10)));
+							}else{
+							    row.append($("<td id=\"incrementalCost\"></td>").text(item.cost));
+							}
 		                } else{
+						
 		                    // If bidderUsername is not null or empty, use item.incrementalCost
 		                    row.append($("<td id=\"incrementalCost\"></td>").text(item.cost));
 		                }
@@ -201,11 +208,11 @@
 			    }else if (auctionType.innerText.trim().toLowerCase() === "japanese" && (bidder.innerText.trim() === "")) {
 					if (remainingTime > 0) {
 						element.innerText = remainingTime - 1;
-						currentPriceCell.innerText = currentPrice + 1;
+						currentPriceCell.innerText = currentPrice + 10;
 					}
 			    }else if (auctionType.innerText.trim().toLowerCase() === "japanese" && !(bidder.innerText.trim() === "")) {
 					if (remainingTime > 0) {
-						remainingTime = 0;
+						element.innerText = 0;
 						currentPriceCell.innerText = currentPrice;
 					}
 				}
