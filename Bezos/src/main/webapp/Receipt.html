@@ -126,10 +126,9 @@
 <body>
 	<header>
 		<h1>BEZOS</h1>
-		<button onclick="window.location.href='AuctionEnded.jsp'" class="back-button">BACK</button>
+		<button onclick="redirectToAuctionEnd()" class="back-button">BACK</button>
 	</header>
 	<form action="ShippingServlet" method="post">
-
 		<div class="container">
 			<div class="section">
 				<h2>Winning Bidder</h2>
@@ -147,7 +146,7 @@
 				<input type="text" id="country" name="country" value="" readonly>
 				<label for="postalCode">Postal Code:</label>
 				<input type="text" id="postalCode" name="postalCode" value="" readonly>
-				
+
 				<input type="hidden" id="itemId" name="itemId" value="">
 				<input type="hidden" id="totalPaid" name="totalPaid" value="">
 
@@ -185,6 +184,17 @@
 
 
 	</form>
+
+	<script>
+		function redirectToAuctionEnd() {
+			itemId = getQueryParam("itemId");
+			// Construct the URL with the itemId parameter
+			var url = 'AuctionEnd.html?itemId=' + itemId;
+
+			// Redirect to the new URL
+			window.location.href = url;
+		}
+	</script>
 
 	<script>
 		// Function to fetch X from the API and update the total
