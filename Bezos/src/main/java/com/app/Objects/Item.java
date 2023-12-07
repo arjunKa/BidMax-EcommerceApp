@@ -243,7 +243,7 @@ public class Item {
 		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
 		this.remainingTime = (int) difference / 1000;
 		
-		this.incrementalCost =  Math.abs(this.remainingTime - 120) + (int) this.price;
+		this.incrementalCost =  Math.abs(this.remainingTime - 120) * 10 + (int) this.price;
 		
 		if (this.remainingTime < 0) {
 			this.remainingTime = 0;
