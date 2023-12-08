@@ -1,13 +1,9 @@
 package com.app.Objects;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Item {
 
@@ -18,21 +14,19 @@ public class Item {
 	private String type = "";
 	private double price = 0;
 	// @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
-	private String date="2023-12-07 18:00:00.0";
+	private String date = "2023-12-07 18:00:00.0";
 	private String description = "";
 	private double shipping = 0;
 	private double expeditedShipping = 35;
-	private int remainingTime=0;
+	private int remainingTime = 0;
 	private int incrementalCost = (int) price;
 	private boolean sold = false;
 	private double purchaseAmount = 0;
-	private double origCost=0;
+	private double origCost = 0;
 
 	public Item() {
 		super();
 	}
-	
-	
 
 	public Item(String date, String type, double price) {
 		setDate(date);
@@ -53,7 +47,7 @@ public class Item {
 		setSellerUsername(seller);
 		setBidderUsername(bidder);
 		setPurchaseAmount(purchaseAmount);
-		origCost=price;
+		origCost = price;
 
 	}
 
@@ -65,7 +59,7 @@ public class Item {
 		setDate(string);
 		setDescription(description);
 		setShipping(shipping);
-		origCost=price;
+		origCost = price;
 
 	}
 
@@ -77,7 +71,7 @@ public class Item {
 		setId(0);
 		setDescription(description);
 		setShipping(shipping);
-		origCost=price;
+		origCost = price;
 	}
 
 	// Getters
@@ -175,7 +169,7 @@ public class Item {
 		this.remainingTime = remTime;
 
 	}
-	
+
 	public void setIncrementalCost(double price2) {
 		this.incrementalCost = (int) price2;
 
@@ -198,7 +192,7 @@ public class Item {
 		}
 		return remainingTime;
 	}
-	
+
 	public int getIncrementalCost() {
 		calculateCost();
 		return incrementalCost;
@@ -207,14 +201,14 @@ public class Item {
 	public void calculateRemainingTime() {
 
 		// Define the date-time formatter with the pattern
-		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-	        LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+		LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
 
-	        // Convert LocalDateTime to Instant
-	        Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
+		// Convert LocalDateTime to Instant
+		Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
 
-	        // Get the epoch milliseconds from Instant
-	        long epochMillis = instant.toEpochMilli();
+		// Get the epoch milliseconds from Instant
+		long epochMillis = instant.toEpochMilli();
 
 		LocalDateTime currentDateTime = LocalDateTime.now();
 
@@ -226,7 +220,7 @@ public class Item {
 		}
 
 	}
-	
+
 	public void calculateRemainingCost() {
 		calculateRemainingTime();
 		// Define the date-time formatter with the pattern
@@ -239,27 +233,28 @@ public class Item {
 		Instant instant = parsedDateTime.toInstant(ZoneOffset.UTC);
 
 		LocalDateTime currentDateTime = LocalDateTime.now();
-		
+
 		// Extract the time in milliseconds since the epoch
-		int difference = (int)(instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L)/1000;
-		if(difference <100) {
+		int difference = (int) (instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli()
+				+ 120000L) / 1000;
+		if (difference < 100) {
 			this.price = origCost + 50;
-		}else if(difference <80) {
+		} else if (difference < 80) {
 			this.price = origCost + 50;
-		}else if(difference <60) {
+		} else if (difference < 60) {
 			this.price = origCost + 50;
-		}else if(difference <40) {
+		} else if (difference < 40) {
 			this.price = origCost + 50;
-		}else if(difference <20) {
+		} else if (difference < 20) {
 			this.price = origCost + 50;
-		}else {
+		} else {
 			this.price = origCost + 50;
 		}
 
 	}
-	
+
 	public void calculateCost() {
-		
+
 		// Define the date-time formatter with the pattern
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 
@@ -274,13 +269,12 @@ public class Item {
 		// Extract the time in milliseconds since the epoch
 		long difference = instant.toEpochMilli() - currentDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() + 120000L;
 		this.remainingTime = (int) difference / 1000;
-		
-		this.incrementalCost =  Math.abs(this.remainingTime - 120) * 10 + (int) this.price;
-		
+
+		this.incrementalCost = Math.abs(this.remainingTime - 120) * 10 + (int) this.price;
+
 		if (this.remainingTime < 0) {
 			this.remainingTime = 0;
 		}
-		
 
 	}
 

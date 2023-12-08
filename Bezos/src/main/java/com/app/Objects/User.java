@@ -1,7 +1,5 @@
 package com.app.Objects;
 
-import jakarta.servlet.http.HttpServletResponse;
-
 public class User {
 	private int id;
 	private String firstName;

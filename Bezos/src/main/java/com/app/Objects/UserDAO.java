@@ -1,21 +1,13 @@
 package com.app.Objects;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.app.DatabaseConnection;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 public class UserDAO {
 
@@ -73,7 +65,7 @@ public class UserDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// Handle exceptions (log, redirect, etc.)
-		} 
+		}
 		return user;
 	}
 
@@ -113,7 +105,7 @@ public class UserDAO {
 			e.printStackTrace();
 			// Handle exceptions (log, redirect, etc.)
 		}
-		
+
 		return user;
 	}
 
@@ -244,7 +236,6 @@ public class UserDAO {
 		}
 		return false;
 	}
-
 
 	public void delete(int id) {
 		users.removeIf(s -> s.getId() == id);
