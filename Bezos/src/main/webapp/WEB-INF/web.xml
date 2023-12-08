@@ -30,7 +30,7 @@
 		<description></description>
 		<display-name>LoginServlet</display-name>
 		<servlet-name>LoginServlet</servlet-name>
-		<servlet-class>com.app.LoginServlet</servlet-class>
+		<servlet-class>com.app.LoginService.LoginServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
@@ -40,7 +40,7 @@
 		<description></description>
 		<display-name>SearchServlet</display-name>
 		<servlet-name>SearchServlet</servlet-name>
-		<servlet-class>com.app.SearchServlet</servlet-class>
+		<servlet-class>com.app.ItemService.SearchServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SearchServlet</servlet-name>
@@ -50,7 +50,7 @@
 		<description></description>
 		<display-name>SigninServlet</display-name>
 		<servlet-name>SigninServlet</servlet-name>
-		<servlet-class>com.app.SigninServlet</servlet-class>
+		<servlet-class>com.app.LoginService.SigninServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SigninServlet</servlet-name>
@@ -60,7 +60,7 @@
 		<description></description>
 		<display-name>ItemServlet</display-name>
 		<servlet-name>ItemServlet</servlet-name>
-		<servlet-class>com.app.ItemServlet</servlet-class>
+		<servlet-class>com.app.ItemService.ItemServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ItemServlet</servlet-name>
@@ -70,7 +70,7 @@
 		<description></description>
 		<display-name>NewItemServlet</display-name>
 		<servlet-name>NewItemServlet</servlet-name>
-		<servlet-class>com.app.NewItemServlet</servlet-class>
+		<servlet-class>com.app.ItemService.NewItemServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>NewItemServlet</servlet-name>
@@ -88,16 +88,6 @@
 	</servlet-mapping>
 	<servlet>
 		<description></description>
-		<display-name>mainServelet</display-name>
-		<servlet-name>mainServelet</servlet-name>
-		<servlet-class>com.app.mainServelet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>mainServelet</servlet-name>
-		<url-pattern>/mainServelet</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<description></description>
 		<display-name>GetUsernameServlet</display-name>
 		<servlet-name>GetUsernameServlet</servlet-name>
 		<servlet-class>com.app.GetUsernameServlet</servlet-class>
@@ -110,7 +100,7 @@
 		<description></description>
 		<display-name>LogoutServlet</display-name>
 		<servlet-name>LogoutServlet</servlet-name>
-		<servlet-class>com.app.LogoutServlet</servlet-class>
+		<servlet-class>com.app.LoginService.LogoutServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>LogoutServlet</servlet-name>
@@ -120,7 +110,7 @@
 		<description></description>
 		<display-name>PaymentProcessingServlet</display-name>
 		<servlet-name>PaymentProcessingServlet</servlet-name>
-		<servlet-class>com.app.PaymentProcessingServlet</servlet-class>
+		<servlet-class>com.app.PaymentService.PaymentProcessingServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>PaymentProcessingServlet</servlet-name>
@@ -130,20 +120,10 @@
 		<description></description>
 		<display-name>ShippingServlet</display-name>
 		<servlet-name>ShippingServlet</servlet-name>
-		<servlet-class>com.app.ShippingServlet</servlet-class>
+		<servlet-class>com.app.PaymentService.ShippingServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ShippingServlet</servlet-name>
 		<url-pattern>/ShippingServlet</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<description></description>
-		<display-name>AuctionEndedServlet</display-name>
-		<servlet-name>AuctionEndedServlet</servlet-name>
-		<servlet-class>com.app.AuctionEndedServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AuctionEndedServlet</servlet-name>
-		<url-pattern>/AuctionEndedServlet</url-pattern>
 	</servlet-mapping>
 </web-app>

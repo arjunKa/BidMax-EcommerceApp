@@ -1,4 +1,4 @@
-package com.app;
+package com.app.PaymentService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

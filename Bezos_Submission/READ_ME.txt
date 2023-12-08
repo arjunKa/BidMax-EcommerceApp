@@ -1,6 +1,6 @@
 Docker:
 ---------------------------------------------------------------------------
-Docker image is on my hub: https://hub.docker.com/r/arjunka/bezos-app/tags
+Docker image is on my hub: https://hub.docker.com/r/arjunka/bezos-app
 Use the latest image.
 You can run my build using: docker run --rm -it -p 8080:8080 --name bezos-app arjunka/bezos-app
 When running the image in a container, make sure you go to the url: http://localhost:8080/Bezos/

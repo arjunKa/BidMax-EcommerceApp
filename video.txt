@@ -1,0 +1,59 @@
+go to docker hub
+go to azure show
+pull from docker
+run
+
+
+signup
+-existing username
+-enter mismatch pasword
+fix one at a time
+
+sign in
+as new user
+
+logout
+
+failed login
+successful login
+
+search all item
+search for "game"
+
+add new item:
+forward
+
+make bid on forward - lower one, then bigger bid
+
+sign in as a
+bid bigger amount
+
+add new item:
+forward (no one bids)
+
+sign back in as correct, and pay or the forward one
+sign in as other user and click on paid for item
+
+---
+dutch:
+make a dutch auction item (stays over 5)
+make another dutch auction item (edit to lower than 5)
+make another dutch auction item (edit to lower than 5, no one bids)
+
+go to search
+
+bid and pay for dutch item that counts down (2nd one)
+bid and then pay for 1st one
+
+
+---------
+Japanese
+---------
+make 2 items
+i pay for one of them
+
+try to click on missed japanese auction
+
+-------------------
+
+
