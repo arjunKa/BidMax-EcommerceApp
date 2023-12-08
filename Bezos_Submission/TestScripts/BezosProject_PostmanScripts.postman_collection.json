@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "ce57171b-e720-4df4-acaa-6e8279c7dfad",
+		"name": "BezosProject_PostmanScripts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30703258"
+	},
+	"item": [
+		{
+			"name": "Searching for items with keyword",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/item/getAllItems/game",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"item",
+						"getAllItems",
+						"game"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"arjun\", \"password\":\"pass\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signup for account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"David\",\r\n  \"lastName\": \"Doe\",\r\n  \"email\": \"dave.doe@example.com\",\r\n  \"address\": \"123 Main St\",\r\n  \"postalCode\": \"12345\",\r\n  \"city\": \"Anytown\",\r\n  \"country\": \"Country\",\r\n  \"username\": \"david11\",\r\n  \"password\": \"pass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/users/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"users",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a user's items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/item/getUserItems/a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"item",
+						"getUserItems",
+						"a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/item/getAllItems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"item",
+						"getAllItems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add auction item to store",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Game Console (PS5)\",\r\n  \"type\": \"dutch\",\r\n  \"price\": 400.5,\r\n  \"sellerUsername\": \"arjun\",\r\n  \"description\": \"Game console for PS gamers.\",\r\n  \"shipping\": 7.5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/item/arjun",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"item",
+						"arjun"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bid on any item",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"a\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/bid/18/40",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"bid",
+						"18",
+						"40"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "purchase item",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/bid/purchase/18/40",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"bid",
+						"purchase",
+						"18",
+						"40"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update item's details",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"Game Console - PS5\", \"description\": \"A great game console\", \"shipping\": 99.5, \"price\": 600}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Bezos/api/item/39",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Bezos",
+						"api",
+						"item",
+						"39"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
