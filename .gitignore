@@ -1,7 +1,4 @@
 *.db
-*.db
 archive/
-register.db
-Bezos_Submission.zip
 Bezos_Submission/
 Bezos/src/main/webapp/META-INF/
