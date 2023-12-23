@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bezos - Payment</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: 'Epilogue', sans-serif;
+			display: flex;
+			flex-direction: column;
+			height: 100vh;
+			background-color: #2B67F6;
+			color: white;
+		}
+
+		header {
+			background-color: #fff;
+			color: #000;
+			text-align: center;
+			font-size: 24px;
+			font-family: 'Jockey One', sans-serif;
+		}
+
+		header h1 {
+			margin: 0;
+			padding: 20px 0;
+		}
+
+		.back-button {
+			background-color: #000000;
+			color: white;
+			padding: 10px 15px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			position: absolute;
+			top: 7%;
+			left: 3%;
+		}
+
+		.container {
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			margin: auto;
+			padding: 40px;
+			background-color: #0056b3;
+			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			width: 80%;
+			max-width: 900px;
+		}
+
+		.section {
+			flex: 1;
+			margin: 0 20px;
+		}
+
+		.divider {
+			border-left: 2px solid rgb(0, 0, 0);
+			height: 100%;
+		}
+
+
+
+		input[type=text] {
+			width: calc(100% - 20px);
+			padding: 10px;
+			margin: 10px 0;
+			border: none;
+			border-radius: 5px;
+		}
+
+		.submit-btn {
+			background-color: #000000;
+			color: white;
+			padding: 10px 30px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			display: block;
+			width: 100px;
+			margin: 20px auto;
+		}
+
+
+		h2 {
+			font-size: 28px;
+			margin-bottom: 15px;
+		}
+
+		.submit-btn:hover {
+			background-color: #333333;
+		}
+
+		@media (max-width: 768px) {
+			.container {
+				flex-direction: column;
+				padding: 20px;
+			}
+
+			.divider {
+				border-left: none;
+				border-top: 2px solid rgb(0, 0, 0);
+				width: 100%;
+				height: auto;
+				margin: 20px 0;
+			}
+
+			.section {
+				margin: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1>BEZOS</h1>
+		<button onclick="redirectToAuctionEnd()" class="back-button">BACK</button>
+	</header>
+	<form action="ShippingServlet" method="post">
+		<div class="container">
+			<div class="section">
+				<h2>Winning Bidder</h2>
+
+
+				<label for="fname">First Name:</label>
+				<input type="text" id="fname" name="fname" value="" readonly>
+				<label for="lname">Last Name:</label>
+				<input type="text" id="lname" name="lname" value="" readonly>
+				<label for="address">Street address:</label>
+				<input type="text" id="address" name="address" value="" readonly>
+				<label for="city">City:</label>
+				<input type="text" id="city" name="city" value="" readonly>
+				<label for="country">Country:</label>
+				<input type="text" id="country" name="country" value="" readonly>
+				<label for="postalCode">Postal Code:</label>
+				<input type="text" id="postalCode" name="postalCode" value="" readonly>
+
+				<input type="hidden" id="itemId" name="itemId" value="">
+				<input type="hidden" id="totalPaid" name="totalPaid" value="">
+
+				<label>
+					<input type="radio" name="expShipping" value="standShipping" onchange="updateTotal()">
+					Standard Shipping
+				</label>
+
+				<label for="expShipping">
+					<input type="radio" name="expShipping" value="expShipping" onchange="updateTotal()">
+					Expedited Shipping
+				</label>
+
+				<p>Item cost: <span id="cost">0</span></p>
+				<p>Standard shipping: <span id="shipping">0</span></p>
+				<p>Expedited Shipping: <span id="expeditedShipping">0</span></p>
+				<p>Total: <span id="total">0</span></p>
+			</div>
+
+			<div class="divider"></div>
+			<div class="section">
+				<h2>Credit Card</h2>
+				<label for="cardnum">Card #:</label>
+				<input type="text" id="cardnum" name="cardnum" required>
+				<label for="cardname">Name on card:</label>
+				<input type="text" id="cardname" name="cardname" required>
+				<label for="expdate">Expiry Date:</label>
+				<input type="text" id="expdate" name="expdate" required>
+				<label for="cvv">Security Code:</label>
+				<input type="text" id="cvv" name="cvv" required>
+				<button type="submit" id="payButton" class="submit-btn">Submit</button>
+			</div>
+		</div>
+
+
+
+	</form>
+
+	<script>
+		function redirectToAuctionEnd() {
+			itemId = getQueryParam("itemId");
+			// Construct the URL with the itemId parameter
+			var url = 'AuctionEnd.html?itemId=' + itemId;
+
+			// Redirect to the new URL
+			window.location.href = url;
+		}
+	</script>
+
+	<script>
+		// Function to fetch X from the API and update the total
+		var X;
+		var currentTotal;
+		var shipping;
+		function updateTotal() {
+			// Get the selected radio button value
+			var selectedOption = document.querySelector('input[name="expShipping"]:checked');
+			var totalElement = document.getElementById('total');
+
+			if (selectedOption && selectedOption.value === 'expShipping') {
+				totalElement.innerText = currentTotal + X + shipping;
+				document.getElementById("totalPaid").value = currentTotal + X + shipping;
+
+
+			} else {
+
+				totalElement.innerText = currentTotal + shipping;
+				document.getElementById("totalPaid").value = currentTotal + shipping;
+			}
+		}
+	</script>
+
+	<script type="text/javascript">
+
+		function getQueryParam(param) {
+			var urlParams = new URLSearchParams(window.location.search);
+			return urlParams.get(param);
+		}
+	</script>
+
+
+	<script>
+
+		$(document).ready(function () {
+
+			itemId = getQueryParam("itemId");
+
+			$.ajax({
+				url: "http://localhost:8080/Bezos/api/item/" + itemId,
+				type: 'GET',
+				success: function (item) {
+
+					currentTotal = item.cost;
+					X = item.expeditedShipping;
+					shipping = item.shipping;
+
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+
+
+			var bidder;
+
+			console.log(itemId);
+			document.getElementById("itemId").value = itemId;
+			var showNumberInput;
+			$.ajax({
+				url: "http://localhost:8080/Bezos/api/item/" + itemId,
+				type: 'GET',
+				success: function (item) {
+
+					bidder = item.bidderUsername;
+					console.log(bidder);
+
+					document.getElementById("total").innerText = item.cost + item.shipping;
+					document.getElementById("totalPaid").value = item.cost + item.shipping;
+					document.getElementById("cost").innerText = item.cost;
+					document.getElementById("shipping").innerText = item.shipping;
+					document.getElementById("expeditedShipping").innerText = item.expeditedShipping;
+
+					$.ajax({
+						url: "http://localhost:8080/Bezos/api/users/" + bidder,
+						type: 'GET',
+						success: function (user) {
+							console.log("ok" + bidder);
+							document.getElementById("fname").value = user.firstName;
+							document.getElementById("lname").value = user.lastName;
+							document.getElementById("address").value = user.address;
+							document.getElementById("country").value = user.country;
+							document.getElementById("city").value = user.city;
+							document.getElementById("postalCode").value = user.postalCode;
+
+
+						},
+						error: function (error) {
+							console.log(error);
+						}
+					});
+
+
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+
+
+
+
+		});
+	</script>
+
+
+</body>
+
+</html>
