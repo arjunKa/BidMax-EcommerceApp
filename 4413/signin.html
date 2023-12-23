@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header and Flex Container Example</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400&display=swap" rel="stylesheet">
+    <title>Welcome</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            background-color: #ffffff; /* Changed background color */
+            color: rgb(0, 0, 0); /* Changed text color */
+            text-align: center;
+            font-size: 20px;
+            font-family: 'Jockey One', sans-serif;
+        }
+
+        .flex-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .left {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #2B67F6;
+        }
+
+        .back-button {
+        background-color: #000000;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: absolute;
+        top: 40px;
+        left: 5%;
+    }
+
+        .left h1 { /* Changed to h1 for consistency with the HTML */
+            white-space: pre-line;
+            font-size: 30px;
+            font-family: 'Epilogue';
+            padding-bottom: 20px; /* Adjusted padding */
+            color: white;
+        }
+
+        h2{
+            font-size: 30px;
+            font-family: 'Jockey One', sans-serif;
+            position: absolute;
+            top: 8px;
+            right: 5%;
+            color: rgb(0, 0, 0); /* Changed text color */
+        }
+
+        .left p {
+            color: white;
+            font-size: 30px;
+            font-family: 'Epilogue';
+        }
+
+        .right {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            padding-top: 115px;
+            background-color: #2B67F6;
+            align-items: center;
+        }
+
+        form {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        label {
+            display: block;
+            color: #ffffff; /* Changed label color */
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #000000;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #000000;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>BEZOS</h1>
+        <button class="back-button">BACK</button>
+
+    </header>
+    <h2>REGISTRATION</h2>
+    <div class="flex-container">
+        <div class="left">
+            <h1>New Account Information</h1>
+            <form class="account">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Enter your Last name" required>
+
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="Enter your email" required>
+
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="Enter your address" required>
+
+                <label for="pcode">Postal Code</label>
+                <input type="text" id="pcode" name="pcode" placeholder="Enter your postal code" required>
+
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" placeholder="Enter your City" required>
+
+                <label for="country">Country</label>
+                <input type="text" id="country" name="country" placeholder="Enter your Country" required>
+            </form>
+        </div>
+        <div class="right">
+            <form>
+                <label for="username">Create A Username*</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                
+                <label for="password">Create a Password*</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+                <label for="password">Confirm a Password*</label>
+                <input type="password" id="password" name="password" placeholder="Confirm your password" required>
+                
+                <input type="submit" value="Sign In">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
