@@ -1,9 +1,7 @@
 *.db
 *.db
-/archive
-/oldFiles
+archive/
 register.db
 Bezos_Submission.zip
-/Bezos_Submission
-/archive
-/Bezos/src/main/webapp/META-INF/
+Bezos_Submission/
+Bezos/src/main/webapp/META-INF/
