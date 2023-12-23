@@ -1,6 +1,4 @@
 *.db
-*.db
-/archive
-/oldFiles
-register.db
-Bezos_Submission.zip
+archive/
+Bezos_Submission/
+Bezos/src/main/webapp/META-INF/
